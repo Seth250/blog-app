@@ -3,3 +3,11 @@
 	width: 55vw;
 	/*height: 50vh;*/
 }
+
+.form-header{
+	text-align: center;
+}
+
+.form-container{
+	border: 1px solid black;
+}

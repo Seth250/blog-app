@@ -1,10 +1,39 @@
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import ugettext_lazy as _
 
 
 class UserSignUpForm(UserCreationForm):
+	username = forms.CharField(
+		max_length = 25,
+		widget=forms.TextInput(
+			attrs={}
+		)
+	)
 
-	class Meta(UserCreationForm.Meta):
+	email = forms.EmailField(
+		label=_('Email Address'), 
+		required=True
+	)
+
+	password1 = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(
+        	attrs={'autocomplete': 'new-password'}
+        ),
+	)
+
+	password2 = forms.CharField(
+	    label=_('Confirm Password'),
+	    strip=False,
+	    widget=forms.PasswordInput(
+	    	attrs={'autocomplete': 'new-password'}
+	    )
+	)
+
+	class Meta():
 		model = get_user_model()
 		fields = ('username', 'email', )
 
