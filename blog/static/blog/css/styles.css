@@ -46,6 +46,16 @@ a{
 }
 
 .page-footer{
+	border: 1px solid red;
 	padding: 1.5rem 0;
 	text-align: center;
+}
+
+.main-content{
+	border: 1px solid green;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	padding: 2rem 0;
+	align-items: center;
 }

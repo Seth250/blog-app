@@ -9,6 +9,8 @@
 		<title>{% block title %}{% endblock title %}</title>
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
 		<link href="{% static 'blog/css/styles.css' %}" rel="stylesheet" />
+		{% block styles %}
+		{% endblock styles %}
 	</head>
 	<body>
 		<div class="page-wrapper">

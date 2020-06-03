@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+{% block title %}Login Page{% endblock title %}
+
+{% block styles %}
+	<link href="{% static 'accounts/css/styles.css' %}" rel="stylesheet" />
+{% endblock styles %}
+
+{% block content %}
+	<div class="container">
+		<div class="form-header">
+			<h2>Welcome!</h2>
+			<p>Create an Account to Continue!</p>
+		</div>
+		<div class="form-container">
+			<form method="POST">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<button type="submit">SignUp</button>
+			</form>
+		</div>
+	</div>
+{% endblock content %}
