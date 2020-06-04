@@ -23,14 +23,14 @@
 								<a href="#">Profile</a>
 							</li>
 							<li>
-								<a href="#">Logout</a>
+								<a href="{% url 'accounts:logout' %}">Logout</a>
 							</li>
 						{% else %}
 							<li>
-								<a href="#">Login</a>
+								<a href="{% url 'accounts:login' %}">Login</a>
 							</li>
 							<li>
-								<a href="#">SignUp</a>
+								<a href="{% url 'accounts:signup' %}">SignUp</a>
 							</li>
 						{% endif %}
 					</ul>

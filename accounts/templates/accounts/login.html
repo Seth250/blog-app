@@ -9,6 +9,13 @@
 {% endblock styles %}
 
 {% block content %}
+	{% if messages %}
+		{% for message in messages %}
+			<div>
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endif %}
 	<div class="container">
 		<form method="POST">
 			{% csrf_token %}
