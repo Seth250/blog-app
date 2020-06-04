@@ -8,28 +8,45 @@ class UserSignUpForm(UserCreationForm):
 	username = forms.CharField(
 		max_length = 25,
 		widget=forms.TextInput(
-			attrs={}
-		)
+			attrs={
+				'class': 'text-input standard-input'
+			}
+		),
+		label_suffix=""
 	)
 
 	email = forms.EmailField(
 		label=_('Email Address'), 
-		required=True
+		label_suffix="",
+		required=True,
+		widget=forms.TextInput(
+			attrs={
+				'class': 'text-input standard-input'
+			}
+		),
 	)
 
 	password1 = forms.CharField(
         label=_("Password"),
+        label_suffix="",
         strip=False,
         widget=forms.PasswordInput(
-        	attrs={'autocomplete': 'new-password'}
+        	attrs={
+        		'autocomplete': 'new-password',
+        		'class': 'text-input password-input'
+        	}
         ),
 	)
 
 	password2 = forms.CharField(
 	    label=_('Confirm Password'),
+	    label_suffix="",
 	    strip=False,
 	    widget=forms.PasswordInput(
-	    	attrs={'autocomplete': 'new-password'}
+	    	attrs={
+	    		'autocomplete': 'new-password',
+	    		'class': 'text-input password-input'
+	    	}
 	    )
 	)
 

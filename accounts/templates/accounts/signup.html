@@ -10,22 +10,44 @@
 
 {% block content %}
 	<div class="container">
-		<div class="form-header">
+<!-- 		<div class="form-header">
 			<h2>Welcome!</h2>
 			<p>Create an Account to Continue!</p>
-		</div>
-		<div class="form-container">
+		</div> -->
+<!-- 		<div class="form-container">
 			<form method="POST">
 				{% csrf_token %}
-				<!-- {{ form.as_p }} -->
+				<fieldset>
+					<legend class="form-legend">Create An Account</legend>
+					{% for field in form %}
+						{{ field.errors }}
+						<div>
+							{{ field.label_tag }}
+							{{ field }}
+						</div>
+				{% endfor %}
+				</fieldset>
+				<button type="submit">SignUp</button>
+			</form>
+		</div> -->
+		<div class="form-container">
+			<form>
+				{% csrf_token %}
 				{% for field in form %}
 					{{ field.errors }}
-					<div>
+					<div class="form-row">
 						{{ field.label_tag }}
-						{{ field }}
+						<div class="input-box">
+							<i class="far fa-user"></i>
+							{{ field }}
+							{% if 'password' in field.name %}
+								<a class="password-toggler">
+									<i class="far fa-eye-slash"></i>
+								</a>
+							{% endif %}
+						</div>
 					</div>
 				{% endfor %}
-				<button type="submit">SignUp</button>
 			</form>
 		</div>
 	</div>

@@ -1,13 +1,78 @@
 .container{
-	border: 1px solid lightgrey;
-	width: 55vw;
+	/*border: 2px solid orange;*/
+	/*width: 55vw;*/
 	/*height: 50vh;*/
 }
 
-.form-header{
+/*.form-header{
 	text-align: center;
-}
+}*/
 
 .form-container{
 	border: 1px solid black;
+	padding: 2rem; 
+	width: 50vw;
+	/*align-items: center;*/
+}
+
+.form-row{
+	border: 1px solid green;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	/*align-items: center;*/
+	padding: 0.5rem;
+}
+
+.form-row label{
+	border: 1px solid black;
+	width: 100%;
+	font-weight: bold;
+}
+
+.input-box{
+	border: 1px solid grey;
+	border-radius: 0.3rem;
+	padding: 0.1rem 0;
+	width: 90%;
+}
+
+.input-box:focus-within{
+	outline: none;
+	box-shadow: 0.02rem 0.02rem 0.2rem 0 rgba(18, 97, 160, 0.7),
+				-0.02rem -0.02rem 0.2rem 0 rgba(18, 97, 160, 0.7);
+}
+
+.input-box i{
+	border: 1px solid blue;
+	font-size: 108%;
+	text-align: center;
+}
+
+.input-box > i:nth-child(1){
+	width: 7%;
+}
+
+.password-toggler > i{
+	font-size: 100%;
+	width: 6%;
+}
+
+.text-input{
+	font: 1.08em var(--primary-font-family);
+	border: 0;
+	padding: 0.5rem 0;
+	/*height: 100%;*/
+}
+
+.text-input:focus{
+	outline: none;
+}
+
+.password-input{
+	width: 85%;
+}
+
+.standard-input{
+	width: 92%;
 }
