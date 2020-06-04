@@ -9,7 +9,8 @@ class UserSignUpForm(UserCreationForm):
 		max_length = 25,
 		widget=forms.TextInput(
 			attrs={
-				'class': 'text-input standard-input'
+				'class': 'text-input standard-input',
+				'placeholder': 'Enter Your Username'
 			}
 		),
 		label_suffix=""
@@ -21,7 +22,8 @@ class UserSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 			attrs={
-				'class': 'text-input standard-input'
+				'class': 'text-input standard-input',
+				'placeholder': 'Enter Your Email'
 			}
 		),
 	)
@@ -33,7 +35,8 @@ class UserSignUpForm(UserCreationForm):
         widget=forms.PasswordInput(
         	attrs={
         		'autocomplete': 'new-password',
-        		'class': 'text-input password-input'
+        		'class': 'text-input password-input',
+				'placeholder': 'Enter Your Password'
         	}
         ),
 	)
@@ -45,7 +48,8 @@ class UserSignUpForm(UserCreationForm):
 	    widget=forms.PasswordInput(
 	    	attrs={
 	    		'autocomplete': 'new-password',
-	    		'class': 'text-input password-input'
+	    		'class': 'text-input password-input',
+				'placeholder': 'Confirm Your Password'
 	    	}
 	    )
 	)

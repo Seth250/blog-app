@@ -31,23 +31,36 @@
 			</form>
 		</div> -->
 		<div class="form-container">
+			<div class="form-header">
+				<h2>Create Account</h2>
+			</div>
 			<form>
 				{% csrf_token %}
 				{% for field in form %}
 					{{ field.errors }}
 					<div class="form-row">
 						{{ field.label_tag }}
-						<div class="input-box">
-							<i class="far fa-user"></i>
+						<div class="input-container">
+							<i class="{% if 'username' in field.name %}
+													far fa-user
+												{% elif 'email' in field.name %}
+													far fa-envelope
+												{% else %}
+													fa fa-lock
+												{% endif %}">	
+							</i>
 							{{ field }}
 							{% if 'password' in field.name %}
 								<a class="password-toggler">
-									<i class="far fa-eye-slash"></i>
+									<i class="far fa-eye"></i>
 								</a>
 							{% endif %}
 						</div>
 					</div>
 				{% endfor %}
+				<div class="form-row">
+					<button type="submit" class="submit-button">Sign Up</button>
+				</div>
 			</form>
 		</div>
 	</div>

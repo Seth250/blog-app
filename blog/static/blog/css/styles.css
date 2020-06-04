@@ -10,7 +10,7 @@ a{
 
 :root{
 	scroll-behavior: smooth;
-	font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 	--primary-font-family: 'Roboto', sans-serif;
 }
 
