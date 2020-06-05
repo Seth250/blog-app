@@ -29,7 +29,7 @@
 .form-row{
 	--box-width: 92%;
 	--box-height: 3.2rem;
-	/*border: 1px solid green;*/
+	border: 1px solid green;
 	display: flex;
 	flex-flow: column;
 	justify-content: center;

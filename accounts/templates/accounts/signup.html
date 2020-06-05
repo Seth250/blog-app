@@ -10,10 +10,6 @@
 
 {% block content %}
 	<div class="container">
-<!-- 		<div class="form-header">
-			<h2>Welcome!</h2>
-			<p>Create an Account to Continue!</p>
-		</div> -->
 <!-- 		<div class="form-container">
 			<form method="POST">
 				{% csrf_token %}
@@ -40,20 +36,26 @@
 					{{ field.errors }}
 					<div class="form-row">
 						{{ field.label_tag }}
-						<div class="input-container">
-							<i class="{% if 'username' in field.name %}
-													far fa-user
-												{% elif 'email' in field.name %}
-													far fa-envelope
-												{% else %}
-													fa fa-lock
-												{% endif %}">	
+<!-- 						<div class="input-container">
+							<i class="{% if 'password' in field.name %}fa fa-lock{% else %}{% cycle 'far fa-user' 'far fa-envelope' %}{% endif %}">
 							</i>
 							{{ field }}
 							{% if 'password' in field.name %}
 								<a class="password-toggler">
-									<i class="far fa-eye"></i>
+									<i class="far fa-eye" id=""></i>
 								</a>
+							{% endif %}
+						</div> -->
+						<div class="input-container">
+							{% if 'password' in field.name %}
+								<i class="fa fa-lock"></i>
+								{{ field }}
+								<a class="password-toggler" id="toggler-{{ field.name }}">
+									<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
+								</a>
+							{% else %}
+								<i class="{% cycle 'far fa-user' 'far fa-envelope' %}"></i>
+								{{ field }}
 							{% endif %}
 						</div>
 					</div>
@@ -62,6 +64,11 @@
 					<button type="submit" class="submit-button">Sign Up</button>
 				</div>
 			</form>
+
 		</div>
 	</div>
 {% endblock content %}
+
+{% block script %}
+	<script src="{% static 'accounts/js/main.js' %}"></script>
+{% endblock script %}
