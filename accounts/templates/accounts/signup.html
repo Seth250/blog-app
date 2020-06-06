@@ -27,8 +27,8 @@
 			</form>
 		</div> -->
 		<div class="form-container">
-			<div class="form-header">
-				<h2>Create Account</h2>
+			<div class="form-top">
+				<h2>Registration Info</h2>
 			</div>
 			<form>
 				{% csrf_token %}
@@ -36,17 +36,7 @@
 					{{ field.errors }}
 					<div class="form-row">
 						{{ field.label_tag }}
-<!-- 						<div class="input-container">
-							<i class="{% if 'password' in field.name %}fa fa-lock{% else %}{% cycle 'far fa-user' 'far fa-envelope' %}{% endif %}">
-							</i>
-							{{ field }}
-							{% if 'password' in field.name %}
-								<a class="password-toggler">
-									<i class="far fa-eye" id=""></i>
-								</a>
-							{% endif %}
-						</div> -->
-						<div class="input-container">
+						<div class="input-container" tab-index="0">
 							{% if 'password' in field.name %}
 								<i class="fa fa-lock"></i>
 								{{ field }}
@@ -64,7 +54,11 @@
 					<button type="submit" class="submit-button">Sign Up</button>
 				</div>
 			</form>
-
+			<div class="form-bottom">
+				<p>
+					Already Have An Account? <a href="{% url 'accounts:login' %}">Login Now!</a>
+				</p>
+			</div>
 		</div>
 	</div>
 {% endblock content %}
