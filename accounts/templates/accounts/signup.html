@@ -28,13 +28,13 @@
 		</div> -->
 		<div class="form-container">
 			<div class="form-top">
-				<h2>Registration Info</h2>
+				<h2>Create Account</h2>
 			</div>
-			<form>
+			<form method="POST">
 				{% csrf_token %}
 				{% for field in form %}
-					{{ field.errors }}
 					<div class="form-row">
+						{{ field.errors }}
 						{{ field.label_tag }}
 						<div class="input-container" tab-index="0">
 							{% if 'password' in field.name %}
@@ -51,7 +51,7 @@
 					</div>
 				{% endfor %}
 				<div class="form-row">
-					<button type="submit" class="submit-button">Sign Up</button>
+					<button type="submit" class="submit-button">Register</button>
 				</div>
 			</form>
 			<div class="form-bottom">

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -54,7 +54,7 @@ class UserSignUpForm(UserCreationForm):
 	    )
 	)
 
-	class Meta():
+	class Meta:
 		model = get_user_model()
 		fields = ('username', 'email', )
 
@@ -65,3 +65,29 @@ class UserSignUpForm(UserCreationForm):
 		# 		self.add_error('username', 'This Username already exists')
 
 		# 	return username 
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+	username = forms.CharField(
+		max_length = 25,
+		widget=forms.TextInput(
+			attrs={
+				'class': 'text-input standard-input',
+				'placeholder': 'Enter Your Username'
+			}
+		),
+		label_suffix=""	
+	)
+
+	password = forms.CharField(
+		# label=_("Password"),
+        label_suffix="",
+        strip=False,
+        widget=forms.PasswordInput(
+        	attrs={
+        		'autocomplete': 'new-password',
+        		'class': 'text-input password-input',
+				'placeholder': 'Enter Your Password'
+        	}
+        ),
+	)

@@ -9,18 +9,48 @@
 {% endblock styles %}
 
 {% block content %}
-	{% if messages %}
-		{% for message in messages %}
-			<div>
-				{{ message }}
-			</div>
-		{% endfor %}
-	{% endif %}
 	<div class="container">
-		<form method="POST">
-			{% csrf_token %}
-			{{ form.as_p }}
-			<button type="submit">Login</button>
-		</form>
+		{% if messages %}
+			{% for message in messages %}
+				<div class="message message-{{ message.tags }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<div class="form-container">
+			<div class="form-top">
+				<h2>Login</h2>
+			</div>
+			<form method="POST">
+				{% csrf_token %}
+				{% for field in form %}
+					<div class="form-row">
+						{{ field.errors }}
+						{{ field.label_tag }}
+						<div class="input-container" tab-index="0">
+							{% if 'password' in field.name %}
+								<i class="fa fa-lock"></i>
+								{{ field }}
+								<a class="password-toggler" id="toggler-{{ field.name }}">
+									<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
+								</a>
+							{% else %}
+								<i class="far fa-user"></i>
+								{{ field }}
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+				<!-- {{ form.as_p }} -->
+				<div class="form-row">
+					<button type="submit" class="submit-button">Login</button>
+				</div>
+				<!-- <button type="submit">Login</button> -->
+			</form>
+		</div>
 	</div>
 {% endblock content %}
+
+{% block script %}
+	<script src="{% static 'accounts/js/main.js' %}"></script>
+{% endblock script %}
