@@ -12,9 +12,9 @@
 }
 
 .col-1{
-	border-top-left-radius: inherit;
-	border-bottom-left-radius: inherit;	
-	/* border: 1px solid green; */
+	/* border-top-left-radius: inherit;
+	border-bottom-left-radius: inherit;	 */
+	border: 1px solid green;
 	/* border-right: 1px solid lightgrey; */
 	width: 30vw;
 	/* background: #f9f9f9; */
@@ -38,7 +38,14 @@
 	/* border: 1px solid red; */
 }
 
-.login-message{
+.login-svg{
+	width: 65%;
+	height: 100%;
+	margin-right: 7%;
+}
+
+.login-message,
+.register-message{
 	/* border: 1px solid black; */
 	text-align: center;
 	width: 100%;
@@ -46,11 +53,19 @@
 	font-weight: 500;
 }
 
-.login-message a{
+.register-message{
+	padding-top: 1.5em;
+}
+
+.login-message a,
+.register-message a{
 	color: navy;
 }
 
 .col-2{
+	border: 1px solid blue;
+	/* border-top-right-radius: inherit;
+	border-bottom-right-radius: inherit;	 */
 	padding: 1.5em; 
 	/* width: 45vw; */
 	width: 35vw;
@@ -83,7 +98,7 @@
 }
 
 .col-2__heading {
-	/* border: 1px solid lightgrey; */
+	border: 1px solid lightgrey;
 	text-align: center;
 	padding: 0.5em;
 }
@@ -108,7 +123,7 @@
 }
 
 .form-container{
-	/* border: 1px solid black; */
+	border: 1px solid black;
 	padding: 0.5em 0;
 }
 

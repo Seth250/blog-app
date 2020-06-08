@@ -73,21 +73,20 @@ class CustomAuthenticationForm(AuthenticationForm):
 		widget=forms.TextInput(
 			attrs={
 				'class': 'text-input standard-input',
-				'placeholder': 'Enter Your Username'
+				# 'placeholder': 'Enter Your Username'
 			}
 		),
 		label_suffix=""	
 	)
 
 	password = forms.CharField(
-		# label=_("Password"),
         label_suffix="",
         strip=False,
         widget=forms.PasswordInput(
         	attrs={
         		'autocomplete': 'new-password',
         		'class': 'text-input password-input',
-				'placeholder': 'Enter Your Password'
+				# 'placeholder': 'Enter Your Password'
         	}
         ),
 	)
