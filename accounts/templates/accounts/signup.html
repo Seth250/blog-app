@@ -10,54 +10,46 @@
 
 {% block content %}
 	<div class="container">
-<!-- 		<div class="form-container">
-			<form method="POST">
-				{% csrf_token %}
-				<fieldset>
-					<legend class="form-legend">Create An Account</legend>
-					{% for field in form %}
-						{{ field.errors }}
-						<div>
-							{{ field.label_tag }}
-							{{ field }}
-						</div>
-				{% endfor %}
-				</fieldset>
-				<button type="submit">SignUp</button>
-			</form>
-		</div> -->
-		<div class="form-container">
-			<div class="form-top">
-				<h2>Create Account</h2>
+		<div class="col-1">			
+			<div class="image-container">
+				<img src="{% static 'accounts/img/signup.svg' %}" alt="signup svg" class="signup-svg">
 			</div>
-			<form method="POST">
-				{% csrf_token %}
-				{% for field in form %}
-					<div class="form-row">
-						{{ field.errors }}
-						{{ field.label_tag }}
-						<div class="input-container" tab-index="0">
-							{% if 'password' in field.name %}
-								<i class="fa fa-lock"></i>
-								{{ field }}
-								<a class="password-toggler" id="toggler-{{ field.name }}">
-									<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
-								</a>
-							{% else %}
-								<i class="{% cycle 'far fa-user' 'far fa-envelope' %}"></i>
-								{{ field }}
-							{% endif %}
-						</div>
-					</div>
-				{% endfor %}
-				<div class="form-row">
-					<button type="submit" class="submit-button">Register</button>
-				</div>
-			</form>
-			<div class="form-bottom">
+			<div class="login-message">
 				<p>
-					Already Have An Account? <a href="{% url 'accounts:login' %}">Login Now!</a>
+					Already Have An Account? 
+					<a href="{% url 'accounts:login' %}">Login Now!</a>
 				</p>
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="col-2__heading">
+				<h2>Sign up</h2>
+			</div>
+			<div class="form-container">
+				<form method="POST">
+					{% csrf_token %}
+					{% for field in form %}
+						<div class="form-row">
+							{{ field.label_tag }}
+							<div class="input-container" tab-index="0">
+								{% if 'password' in field.name %}
+									<i class="fa fa-lock"></i>
+									{{ field }}
+									<a class="password-toggler" id="toggler-{{ field.name }}">
+										<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
+									</a>
+								{% else %}
+									<i class="{% cycle 'far fa-user' 'far fa-envelope' %}"></i>
+									{{ field }}
+								{% endif %}
+							</div>
+							{{ field.errors }}
+						</div>
+					{% endfor %}
+					<div class="form-row">
+						<button type="submit" class="submit-button">Register</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

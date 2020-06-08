@@ -45,8 +45,12 @@
 				<div class="form-row">
 					<button type="submit" class="submit-button">Login</button>
 				</div>
-				<!-- <button type="submit">Login</button> -->
 			</form>
+			<div class="form-bottom">
+				<p>
+					Don't Have an Account? <a href="{% url 'accounts:login' %}">Signup Now!</a>
+				</p>
+			</div>
 		</div>
 	</div>
 {% endblock content %}
