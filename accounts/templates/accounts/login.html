@@ -16,11 +16,16 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	<div class="container">
+	<div class="container container-login">
 		<div class="col-2">
 			<div class="col-2__heading">
 				<h2>Login</h2>
 			</div>
+			{% if form.errors %}
+				<div class="login-error">
+					<p>Invalid Username or Password.</p>
+				</div>
+			{% endif %}
 			<div class="form-container">
 				<form method="POST">
 					{% csrf_token %}
@@ -39,23 +44,27 @@
 									{{ field }}
 								{% endif %}
 							</div>
-							{{ field.errors }}
 						</div>
 					{% endfor %}
 					<div class="form-row">
-						<button type="submit" class="submit-button">Login</button>
+						<p>
+							<a href="#">Forgot Password?</a>
+						</p>
+					</div>
+					<div class="form-row">
+						<button type="submit" class="submit-button login-button">Login</button>
 					</div>
 				</form>
 			</div>
 		</div>
-		<div class="col-1">			
+		<div class="col-1 col-1-login">			
 			<div class="image-container">
-				<img src="{% static 'accounts/img/login.svg' %}" alt="login svg" class="login-svg">
+				<img src="{% static 'accounts/img/login.svg' %}" alt="login svg" class="col-1__svg login-svg">
 			</div>
-			<div class="register-message">
+			<div class="col-1__message register-message">
 				<p>
 					Don't Have an Account?  
-					<a href="{% url 'accounts:login' %}">Signup Now!</a>
+					<a href="{% url 'accounts:signup' %}">Signup here</a>
 				</p>
 			</div>
 		</div>
@@ -82,9 +91,8 @@
 							{% endif %}
 						</div>
 					</div>
-				{% endfor %} -->
-				<!-- {{ form.as_p }} -->
-				<!-- <div class="form-row">
+				{% endfor %}
+				<div class="form-row">
 					<button type="submit" class="submit-button">Login</button>
 				</div>
 			</form>
@@ -93,8 +101,7 @@
 					Don't Have an Account? <a href="{% url 'accounts:login' %}">Signup Now!</a>
 				</p>
 			</div>
-		</div>
-	</div> -->
+		</div> -->
 	</div>
 {% endblock content %}
 

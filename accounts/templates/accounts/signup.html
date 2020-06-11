@@ -9,15 +9,15 @@
 {% endblock styles %}
 
 {% block content %}
-	<div class="container">
-		<div class="col-1">			
+	<div class="container container-signup">
+		<div class="col-1 col-1-signup">			
 			<div class="image-container">
-				<img src="{% static 'accounts/img/signup.svg' %}" alt="signup svg" class="signup-svg">
+				<img src="{% static 'accounts/img/signup.svg' %}" alt="signup svg" class="col-1__svg signup-svg">
 			</div>
-			<div class="login-message">
+			<div class="col-1__message">
 				<p>
 					Already Have An Account? 
-					<a href="{% url 'accounts:login' %}">Login Now!</a>
+					<a href="{% url 'accounts:login' %}">Go to Login</a>
 				</p>
 			</div>
 		</div>
@@ -47,7 +47,7 @@
 						</div>
 					{% endfor %}
 					<div class="form-row">
-						<button type="submit" class="submit-button">Register</button>
+						<button type="submit" class="submit-button signup-button">Sign Up</button>
 					</div>
 				</form>
 			</div>

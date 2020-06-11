@@ -11,6 +11,7 @@ function togglePasswordVisibility(togglerId){
 		toggleIcon.className = 'far fa-eye-slash';
 		passwordElement.type = 'password';
 	}
+	console.log(toggleIcon);
 }
 
 const initialize = () => {
