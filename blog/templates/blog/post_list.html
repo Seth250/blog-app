@@ -4,6 +4,12 @@
 
 {% block content %}
 	<div>
-		<h2>Blog Home Page</h2>
+		{% for instance in object_list %}
+			<div>{{ instance.title }}</div>
+			<div>{{ instance.content }}</div>
+			<div>By {{ instance.author }}</div>
+		{% empty %}
+			<div>No posts yet!</div>
+		{% endfor %}
 	</div>
 {% endblock content %}

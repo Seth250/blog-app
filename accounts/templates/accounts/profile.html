@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message message-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <div>
+    <img src="{{ request.user.profile_image.url }}" alt="profile image" />
+  </div>
+  <div>
+    {{ request.user.username }} 
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Update</button>
+    </form>
+  </div>
+{% endblock content %}

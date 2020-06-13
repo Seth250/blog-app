@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.utils.translation import ugettext_lazy as _
+from PIL import Image
 
 
 class UserSignUpForm(UserCreationForm):
@@ -90,3 +91,62 @@ class CustomAuthenticationForm(AuthenticationForm):
         	}
         ),
 	)
+
+
+class UserUpdateForm(UserChangeForm):
+	password = None
+
+	class Meta:
+		model = get_user_model()
+		fields = ('username', 'email', 'first_name', 'last_name', 'date_joined', 'last_login', 'date_of_birth', 'profile_image')
+		widgets = {
+			'username': forms.TextInput(attrs={
+				'readonly': 'readonly',
+				'class': 'read-only'
+			}),
+			'email': forms.TextInput(attrs={
+				# 'readonly': 'readonly',
+				'class': 'read-only'
+			}),
+			'date_joined': forms.DateInput(attrs={
+				'readonly': 'readonly',
+				'class': 'read-only'
+			}),
+			'last_login': forms.DateTimeInput(attrs={
+				'readonly': 'readonly',
+				'class': 'read-only'
+			}),
+			'date_of_birth': forms.DateInput(attrs={
+				'type': 'date',
+				'class': 'date-input'
+			})
+
+		}
+
+	def clean_profile_image(self):
+		cleaned_data = super(UserUpdateForm, self).clean()
+		profile_image = cleaned_data['profile_image']
+		if not profile_image:
+			return profile_image
+
+		img = Image.open(profile_image.file)
+		if img.height > 250 or img.width > 250:
+			output_size = (250, 250)
+			extension = img.format.lower()
+			img.thumbnail(output_size)
+			# Resetting io.BytesIO object, otherwise resized image bytes will get appended to the original image
+			profile_image.file = type(profile_image.file)()
+			img.save(profile_image.file, extension)
+
+		return profile_image
+
+	# def save(self):
+	# 	user = super(UserUpdateForm, self).save()
+	# 	img = Image.open(user.profile_image.path)
+	# 	if img.height > 250 or img.width > 250:
+	# 		output_size = (250, 250)
+	# 		img.thumbnail(output_size)
+	# 		img.save(user.profile_image.path)
+
+	# 	# return user
+		
