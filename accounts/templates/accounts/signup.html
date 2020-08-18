@@ -2,52 +2,69 @@
 
 {% load static %}
 
-{% block title %}SignUp Page{% endblock title %}
-
-{% block styles %}
-	<link href="{% static 'accounts/css/styles.css' %}" rel="stylesheet" />
-{% endblock styles %}
+{% block title %} SignUp Page {% endblock title %}
 
 {% block content %}
-	<div class="container container-signup">
-		<div class="col-1 col-1-signup">			
-			<div class="image-container">
-				<img src="{% static 'accounts/img/signup.svg' %}" alt="signup svg" class="col-1__svg signup-svg">
+	<div class="container-acc">
+		<div class="img-col">			
+			<div class="img-col__svg-container">
+				<img src="{% static 'accounts/img/signup.svg' %}" alt="signup svg" class="img-col__svg">
 			</div>
-			<div class="col-1__message">
+			<div class="img-col__message">
 				<p>
-					Already Have An Account? 
-					<a href="{% url 'accounts:login' %}">Go to Login</a>
+          Already Have An Account? <a href="{% url 'accounts:login' %}">Go to Login</a>
 				</p>
 			</div>
 		</div>
-		<div class="col-2">
-			<div class="col-2__heading">
-				<h2>Sign up</h2>
+		<div class="fm-col">
+			<div class="fm-col__heading">
+				<h2>Sign Up</h2>
 			</div>
-			<div class="form-container">
+			<div class="fm-col__form-container">
 				<form method="POST">
 					{% csrf_token %}
-					{% for field in form %}
-						<div class="form-row">
-							{{ field.label_tag }}
-							<div class="input-container" tab-index="0">
-								{% if 'password' in field.name %}
-									<i class="fa fa-lock"></i>
-									{{ field }}
-									<a class="password-toggler" id="toggler-{{ field.name }}">
-										<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
-									</a>
-								{% else %}
-									<i class="{% cycle 'far fa-user' 'far fa-envelope' %}"></i>
-									{{ field }}
-								{% endif %}
-							</div>
-							{{ field.errors }}
-						</div>
-					{% endfor %}
+          <div class="form-row">
+            {{ form.username.label_tag }}
+            <div class="input-container">
+              <i class="far fa-user"></i>
+              {{ form.username }}
+            </div>
+            {{ form.username.errors }}
+          </div>
+          <div class="form-row">
+            {{ form.email.label_tag }}
+            <div class="input-container">
+              <i class="far fa-envelope"></i>
+              {{ form.email }}
+            </div>
+            {{ form.email.errors }}
+          </div>
+          <div class="form-row">
+            {{ form.password1.label_tag }}
+            <div class="input-container">
+              <i class="fas fa-lock"></i>
+              {{ form.password1 }}
+              <a class="password-toggler">
+                <i class="far fa-eye-slash"></i>
+                <i class="far fa-eye"></i>
+              </a>
+            </div>
+            {{ form.password1.errors }}
+          </div>
+          <div class="form-row">
+            {{ form.password2.label_tag }}
+            <div class="input-container">
+              <i class="fas fa-lock"></i>
+              {{ form.password2 }}
+              <a class="password-toggler">
+                <i class="far fa-eye-slash"></i>
+                <i class="far fa-eye"></i>
+              </a>
+            </div>
+            {{ form.password2.errors }}
+          </div>
 					<div class="form-row">
-						<button type="submit" class="submit-button signup-button">Sign Up</button>
+						<button type="submit" class="submit-button">Sign Up</button>
 					</div>
 				</form>
 			</div>

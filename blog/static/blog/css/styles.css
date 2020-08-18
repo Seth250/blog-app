@@ -52,7 +52,7 @@ a{
 }
 
 .main-content{
-	border: 1px solid green;
+	border: 2px solid green;
 	display: flex;
 	flex-flow: column;
 	justify-content: center;

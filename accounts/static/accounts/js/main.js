@@ -1,28 +1,11 @@
-
-function togglePasswordVisibility(togglerId){
-	const [, passwordElementName] = togglerId.split("-");
-	const passwordElement = document.getElementById(`id_${passwordElementName}`);
-	const toggleIcon = document.getElementById(`toggler-icon-${passwordElementName}`);
-	
-	if (passwordElement.type === 'password'){
-		toggleIcon.className = 'far fa-eye';
-		passwordElement.type = 'text';
-	}else {
-		toggleIcon.className = 'far fa-eye-slash';
-		passwordElement.type = 'password';
-	}
-	console.log(toggleIcon);
-}
-
-const initialize = () => {
-	const togglerElements = document.getElementsByClassName("password-toggler");
-
-	for (let i=0; i < togglerElements.length; i++){
-		togglerElements[i].addEventListener('click', function(){
-			togglePasswordVisibility(this.id);
-		}, false)
-	}
-}
-
-
-window.addEventListener('load', initialize, false);
+const togglers = document.querySelectorAll('.password-toggler');
+togglers.forEach((toggler) => {
+    toggler.addEventListener('click', () => {
+        const hide = toggler.querySelector('.fa-eye-slash');
+        const show = toggler.querySelector('.fa-eye');
+        hide.classList.toggle('eye-slash-hide');
+        show.classList.toggle('eye-show');
+        const passwordInput = toggler.previousElementSibling;
+        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    })
+})

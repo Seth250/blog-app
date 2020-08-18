@@ -22,10 +22,6 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 	def get_success_url(self):
 		return reverse("accounts:login")
 
-	def form_valid(self, form):
-		return super().form_valid(form)
-
-
 # def profile(request):
 # 	if request.method == 'POST':
 # 		form = UserUpdateForm(data=request.POST, files=request.FILES, instance=request.user)

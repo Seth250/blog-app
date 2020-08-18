@@ -32,7 +32,7 @@
 					{% for field in form %}
 						<div class="form-row">
 							{{ field.label_tag }}
-							<div class="input-container" tab-index="0">
+							<div class="input-container">
 								{% if 'password' in field.name %}
 									<i class="fa fa-lock"></i>
 									{{ field }}
@@ -58,7 +58,7 @@
 			</div>
 		</div>
 		<div class="col-1 col-1-login">			
-			<div class="image-container">
+			<div class="col-1__image-container">
 				<img src="{% static 'accounts/img/login.svg' %}" alt="login svg" class="col-1__svg login-svg">
 			</div>
 			<div class="col-1__message register-message">

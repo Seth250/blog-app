@@ -11,9 +11,6 @@ from django.views.generic import (
 
 # Create your views here.
 
-# def home(request):
-# 	return render(request, 'blog/post_list.html', {})
-
 
 class PostListView(ListView):
 	model = Post
