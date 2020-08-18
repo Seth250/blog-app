@@ -2,11 +2,7 @@
 
 {% load static %}
 
-{% block title %}Login Page{% endblock title %}
-
-{% block styles %}
-	<link href="{% static 'accounts/css/styles.css' %}" rel="stylesheet" />
-{% endblock styles %}
+{% block title %} Login Page {% endblock title %}
 
 {% block content %}
 	{% if messages %}
@@ -16,9 +12,9 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	<div class="container container-login">
-		<div class="col-2">
-			<div class="col-2__heading">
+	<div class="container-acc">
+		<div class="fm-col">
+			<div class="fm-col__heading">
 				<h2>Login</h2>
 			</div>
 			{% if form.errors %}
@@ -26,82 +22,46 @@
 					<p>Invalid Username or Password.</p>
 				</div>
 			{% endif %}
-			<div class="form-container">
+			<div class="fm-col__form-container">
 				<form method="POST">
 					{% csrf_token %}
-					{% for field in form %}
-						<div class="form-row">
-							{{ field.label_tag }}
-							<div class="input-container">
-								{% if 'password' in field.name %}
-									<i class="fa fa-lock"></i>
-									{{ field }}
-									<a class="password-toggler" id="toggler-{{ field.name }}">
-										<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
-									</a>
-								{% else %}
-									<i class="far fa-user"></i>
-									{{ field }}
-								{% endif %}
-							</div>
-						</div>
-					{% endfor %}
 					<div class="form-row">
+						{{ form.username.label_tag }}
+						<div class="input-container">
+							<i class="far fa-user"></i>
+							{{ form.username }}
+						</div>
+					</div>
+					<div class="form-row">
+						{{ form.password.label_tag }}
+						<div class="input-container">
+							<i class="fas fa-lock"></i>
+							{{ form.password }}
+							<a class="password-toggler">
+								<i class="far fa-eye-slash"></i>
+								<i class="far fa-eye"></i>
+							</a>
+						</div>
 						<p>
 							<a href="#">Forgot Password?</a>
 						</p>
 					</div>
 					<div class="form-row">
-						<button type="submit" class="submit-button login-button">Login</button>
+						<button type="submit" class="submit-button ">Login</button>
 					</div>
 				</form>
 			</div>
 		</div>
-		<div class="col-1 col-1-login">			
-			<div class="col-1__image-container">
-				<img src="{% static 'accounts/img/login.svg' %}" alt="login svg" class="col-1__svg login-svg">
+		<div class="img-col col-login">			
+			<div class="img-col__svg-container">
+				<img src="{% static 'accounts/img/login.svg' %}" alt="login svg" class="img-col__svg">
 			</div>
-			<div class="col-1__message register-message">
+			<div class="img-col__message">
 				<p>
-					Don't Have an Account?  
-					<a href="{% url 'accounts:signup' %}">Signup here</a>
+					Don't Have an Account? <a href="{% url 'accounts:signup' %}">Signup here</a>
 				</p>
 			</div>
 		</div>
-		<!-- <div class="form-container">
-			<div class="form-top">
-				<h2>Login</h2>
-			</div>
-			<form method="POST">
-				{% csrf_token %}
-				{% for field in form %}
-					<div class="form-row">
-						{{ field.errors }}
-						{{ field.label_tag }}
-						<div class="input-container" tab-index="0">
-							{% if 'password' in field.name %}
-								<i class="fa fa-lock"></i>
-								{{ field }}
-								<a class="password-toggler" id="toggler-{{ field.name }}">
-									<i class="far fa-eye-slash" id="toggler-icon-{{ field.name }}"></i>
-								</a>
-							{% else %}
-								<i class="far fa-user"></i>
-								{{ field }}
-							{% endif %}
-						</div>
-					</div>
-				{% endfor %}
-				<div class="form-row">
-					<button type="submit" class="submit-button">Login</button>
-				</div>
-			</form>
-			<div class="form-bottom">
-				<p>
-					Don't Have an Account? <a href="{% url 'accounts:login' %}">Signup Now!</a>
-				</p>
-			</div>
-		</div> -->
 	</div>
 {% endblock content %}
 

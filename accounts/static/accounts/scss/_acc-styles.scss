@@ -24,8 +24,8 @@
 
   &__svg{
     // border: 1px solid black;
-    width: 85%;
     height: 100%;
+    width: 80%;
   }
 
   &__message{
@@ -40,6 +40,11 @@
       color: $primary-color;
     }
   }
+}
+
+.col-login{
+  width: 24vw;
+  padding: 0.4em;
 }
 
 .fm-col{
@@ -68,9 +73,11 @@
 
   p{
     font-size: 105%;
+    padding: 0.4em 0;
 
     a{
-      font-weight: 500;  
+      font-weight: 500;
+      color: $primary-color;
     }
   }
 
@@ -93,7 +100,7 @@
   margin-top: 0.2em;
   
   &:focus-within{
-    box-shadow: 0 0 0.3rem 0 rgba(18, 97, 160, 0.7);
+    box-shadow: 0 0 0.35rem 0 rgba(19, 83, 134, 0.7);
   }
 
   .fa-user{
@@ -102,7 +109,7 @@
 
   > i{
     font-size: 104%;
-    width: 11%;    
+    width: 12%;    
     // border: 1px solid red;
     text-align: center;
   }
@@ -115,7 +122,7 @@
 .password-toggler{
   // border: 1px solid red;
   position: relative;
-	width: 9.5%;
+	width: 10%;
   cursor: pointer;
   @include default-flex-styles;
   
@@ -165,11 +172,11 @@
 }
 
 .standard-input{
-  width: 90.5%;
+  width: 87.5%;
 }
 
 .password-input{
-  width: 79%;
+  width: 77.5%;
 }
 
 .fa-lock{
