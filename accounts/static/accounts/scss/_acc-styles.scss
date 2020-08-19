@@ -18,7 +18,7 @@
   &__svg-container{
     // border: 1px solid green;
     width: 100%;
-    height: 70%;
+    height: 65%;
     text-align: center;
   }
 
@@ -31,9 +31,9 @@
   &__message{
     // border: 1px solid black;
     text-align: center;
-    width: 85%;
-    font-size: 107%;
+    width: 100%;
     min-height: 15%;
+    font-size: 105%;
 
     a{
       font-weight: 500;
@@ -43,15 +43,16 @@
 }
 
 .col-login{
+  // border: 1px solid red;
   width: 24vw;
-  padding: 0.4em;
+  padding: 0.5em;
 }
 
 .fm-col{
   // border: 1px solid red;
   width: 28vw;
 
-  &__heading{
+  &__header{
     text-align: center;
     padding: 0.5em 0;
     letter-spacing: 0.02em;
@@ -60,6 +61,14 @@
   &__form-container{
     padding: 1em 0;
   }
+}
+
+.login-error{
+  padding: 0.5em 0;
+	text-align: center;
+	color: firebrick;
+	font-size: 105%;
+  font-weight: 500;
 }
 
 .form-row{
@@ -72,7 +81,7 @@
   }
 
   p{
-    font-size: 105%;
+    font-size: 103%;
     padding: 0.4em 0;
 
     a{
@@ -86,7 +95,7 @@
     color: firebrick;
     padding-top: 0.1em;
     font-weight: 500;
-    font-size: 102%;
+    font-size: 103%;
   }
 }
 
@@ -203,3 +212,5 @@
     box-shadow: 0 0 0 0.1rem rgb(0, 0, 0);
   }
 }
+
+@import '_acc-responsive'

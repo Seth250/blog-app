@@ -1,0 +1,107 @@
+@media only screen and (max-width: 1024px){
+  .img-col{
+    width: 32vw;
+  }
+  .fm-col{
+    width: 36vw;
+  }
+}
+
+@media only screen and (max-width: 768px){
+  .img-col{
+    width: 40vw;
+
+    &__message{
+      width: 75%;
+      padding-left: 0.75em;
+    }
+  }
+  .fm-col{
+    width: 45vw;
+
+    &__header{
+      font-size: 90%;
+    }
+  }
+  .form-row{
+    letter-spacing: 0.015em;
+  }
+  .text-input-acc{
+    font-size: 98%;
+  }
+}
+
+@media only screen and (max-width: 720px){
+  .container-acc{
+    flex-direction: column;
+    width: 70vw;
+    padding: 1.5em 1em;
+  }
+  .img-col{
+    order: 2;
+    width: 100%;
+
+    &__svg-container{
+      display: none;
+    }
+
+    &__message{
+      // border: 1px solid black;
+      width: inherit;
+      padding: 0.5em;
+      font-size: 102%;
+    }
+  }
+  .fm-col{
+    order: 1;
+    width: 100%;
+
+    &__form-container{
+      padding: 0;
+    }
+  }
+  .login-error{
+    font-size: 102%;
+  }
+}
+
+@media only screen and (max-width: 480px){
+  .container-acc{
+    width: 90vw;
+    padding: 1.25em 0.5em;
+  }
+  .form-row{
+    font-size: 98%;
+    letter-spacing: 0.01em;
+  }
+  .input-container > i{
+    width: 13.5%;
+  }
+  .standard-input{
+    width: 86%;
+  }
+  .password-input{
+    width: 76%;
+  }
+  .text-input-acc{
+    font-size: 96%;
+  }
+}
+
+@media only screen and (min-width: 1600px){
+  .img-col{
+    width: 22vw;
+  }
+  .fm-col{
+    width: 24vw;
+  }
+}
+
+@media only screen and (min-width: 1920px){
+  .img-col{
+    width: 19vw;
+  }
+  .fm-col{
+    width: 20vw;
+  }
+}

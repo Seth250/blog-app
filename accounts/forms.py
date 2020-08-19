@@ -59,13 +59,16 @@ class UserSignUpForm(UserCreationForm):
 		model = get_user_model()
 		fields = ('username', 'email', )
 
-		# def clean_username(self):
-		# 	cleaned_data = super().clean()
-		# 	username = cleaned_data.get("username")
-		# 	if username and self.model.objects.filter(username__iexact=username).exists():
-		# 		self.add_error('username', 'This Username already exists')
+		def clean_username(self):
+			cleaned_data = super(UserSignUpForm, self).clean()
+			username = cleaned_data.get("username")
+			if len(username) < 4:
+				self.add_error('username', 'Username cannot be less than 4 characters')
 
-		# 	return username 
+			elif self.model.objects.filter(username__iexact=username).exists():
+				self.add_error('username', 'This Username already exists')
+
+			return username 
 
 
 class CustomAuthenticationForm(AuthenticationForm):
