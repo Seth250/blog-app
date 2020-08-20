@@ -104,7 +104,7 @@
 .input-container{
   display: flex;
   align-items: center;
-	border-radius: $sd-border-radius;
+	border-radius: $box-border-radius;
   height: $box-height;
   background: #e6e6e6;
   padding: 0 0.2em;
@@ -120,7 +120,7 @@
 
   > i{
     font-size: 104%;
-    width: 12%;    
+    width: 11%;    
     // border: 1px solid red;
     text-align: center;
   }
@@ -183,28 +183,28 @@
 }
 
 .standard-input{
-  width: 87.5%;
+  width: 88.5%;
 }
 
 .password-input{
-  width: 77.5%;
+  width: 78.5%;
 }
 
 .fa-lock{
 	color: transparent;
 	-webkit-text-stroke-width: 0.1rem;
-  -webkit-text-stroke-color: #57b846;
+  -webkit-text-stroke-color: $primary-color;
 }
 
 .submit-button{
   border: 1px solid transparent;
   width: 100%;
-  border-radius: $sd-border-radius;
+  border-radius: $box-border-radius;
   letter-spacing: 0.015em; 
   font-size: 1rem;
 	height: $box-height;
   background: $primary-color;
-	color: white;
+	color: $secondary-color;
 	box-shadow: 0.05rem 0.05rem 0.1rem 0 rgba(0, 0, 0, 0.6);
   cursor: pointer;
 
@@ -212,6 +212,60 @@
     outline: none;
     box-shadow: 0 0 0 0.1rem rgb(0, 0, 0);
   }
+}
+
+// Profile
+.pfl-col{
+  flex-direction: column;
+  width: 40vw;
+
+  &__header{
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid black;
+  }
+
+  &__img-container{
+    border-radius: 50%;
+  }
+
+  &__img{
+    display: block;
+    border-radius: inherit;
+  }
+
+  &__info{
+    border: 1px solid blue;
+
+    .username{
+      border: 1px solid red;
+    }
+    .email{
+    }
+  }
+
+  &__form-container{
+  }
+
+  &__row{
+    display: flex;
+    flex-direction: column;
+    // border: 1px solid grey;
+  }
+
+  &__input-box{
+    border: 1px solid lightgrey;
+    padding: 0.6em;
+    font-size: 1rem;
+    border-radius: $box-border-radius;
+    background: #f5f5f5;
+    margin-top: 0.2em;
+  }
+}
+
+.read-only{
+  pointer-events: none;
+  color: rgb(100, 100, 100);
 }
 
 @import '_acc-responsive'

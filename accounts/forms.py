@@ -95,27 +95,32 @@ class UserUpdateForm(UserChangeForm):
 
 	class Meta:
 		model = get_user_model()
-		fields = ('username', 'email', 'first_name', 'last_name', 'date_joined', 'last_login', 'date_of_birth', 'profile_image')
+		fields = ('username', 'email', 'first_name', 'last_name', 'date_joined', 'date_of_birth', 'profile_image')
 		widgets = {
 			'username': forms.TextInput(attrs={
 				'readonly': 'readonly',
-				'class': 'read-only'
+				'class': 'read-only pfl-col__input-box'
 			}),
-			'email': forms.TextInput(attrs={
-				# 'readonly': 'readonly',
-				'class': 'read-only'
+			'email': forms.EmailInput(attrs={
+				'class': 'pfl-col__input-box'
+			}),
+			'first_name': forms.TextInput(attrs={
+				'class': 'pfl-col__input-box'
+			}),
+			'last_name': forms.TextInput(attrs={
+				'class': 'pfl-col__input-box'
 			}),
 			'date_joined': forms.DateInput(attrs={
 				'readonly': 'readonly',
-				'class': 'read-only'
+				'class': 'read-only pfl-col__input-box'
 			}),
-			'last_login': forms.DateTimeInput(attrs={
-				'readonly': 'readonly',
-				'class': 'read-only'
-			}),
+			# 'last_login': forms.DateTimeInput(attrs={
+			# 	'readonly': 'readonly',
+			# 	'class': 'read-only text-input-acc'
+			# }),
 			'date_of_birth': forms.DateInput(attrs={
 				'type': 'date',
-				'class': 'date-input'
+				'class': 'date-input pfl-col__input-box'
 			})
 
 		}
@@ -127,8 +132,8 @@ class UserUpdateForm(UserChangeForm):
 			return profile_image
 
 		img = Image.open(profile_image.file)
-		if img.height > 250 or img.width > 250:
-			output_size = (250, 250)
+		if img.height > 175 or img.width > 175:
+			output_size = (175, 175)
 			extension = img.format.lower()
 			img.thumbnail(output_size)
 			# Resetting io.BytesIO object, otherwise resized image bytes will get appended to the original image

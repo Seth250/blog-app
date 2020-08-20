@@ -3,28 +3,29 @@
 .page-wrapper{
   position: relative;
   min-height: 100vh;
-  background: $secondary-background;
+  background: $secondary-color;
 }
 
 .page-header{
-	border: 1px solid blue;
+	// border: 1px solid blue;
 	display: flex;
 	align-items: center;
   justify-content: space-around;
-  padding: 0.35em;
-  
-  h1{
-    border: 1px solid green;
+  padding: 0.4em;
+  background: $primary-background;
+
+  a{
+    color: $secondary-color;
   }
 }
 
 .nav-bar{
-	border: 1px solid red;
-	width: 55vw;
+	// border: 1px solid red;
+	width: 40vw;
   text-align: center;
   
   li{
-    border: 1px solid black;
+    // border: 1px solid black;
     display: inline-block;
     list-style: none;
     padding: 0.5rem;
@@ -34,7 +35,7 @@
 
 .main-content{
   position: relative;
-  border: 1px solid green;
+  // border: 1px solid green;
   @include default-flex-styles;
   flex-direction: column;
   padding-top: 3rem;
@@ -72,12 +73,14 @@
 
 
 .page-footer{
-  border: 1px solid red;
+  // border: 1px solid red;
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 4.2rem;
   @include default-flex-styles;
+  background: $primary-background;
+  color: $secondary-color;
 }
 
 @import '_blog-responsive'
