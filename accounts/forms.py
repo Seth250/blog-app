@@ -10,8 +10,7 @@ class UserSignUpForm(UserCreationForm):
 		max_length = 25,
 		widget=forms.TextInput(
 			attrs={
-				'class': 'text-input-acc standard-input',
-				# 'placeholder': 'Enter Your Username'
+				'class': 'text-input-acc standard-input'
 			}
 		),
 		label_suffix=""
@@ -23,8 +22,7 @@ class UserSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.EmailInput(
 			attrs={
-				'class': 'text-input-acc standard-input',
-				# 'placeholder': 'Enter Your Email'
+				'class': 'text-input-acc standard-input'
 			}
 		),
 	)
@@ -36,8 +34,7 @@ class UserSignUpForm(UserCreationForm):
         widget=forms.PasswordInput(
         	attrs={
         		'autocomplete': 'new-password',
-        		'class': 'text-input-acc password-input',
-				# 'placeholder': 'Enter Your Password'
+        		'class': 'text-input-acc password-input'
         	}
         ),
 	)
@@ -49,8 +46,7 @@ class UserSignUpForm(UserCreationForm):
 	    widget=forms.PasswordInput(
 	    	attrs={
 	    		'autocomplete': 'new-password',
-	    		'class': 'text-input-acc password-input',
-				# 'placeholder': 'Confirm Your Password'
+	    		'class': 'text-input-acc password-input'
 	    	}
 	    )
 	)
@@ -74,13 +70,12 @@ class UserSignUpForm(UserCreationForm):
 class CustomAuthenticationForm(AuthenticationForm):
 	username = forms.CharField(
 		max_length = 25,
+		label_suffix="",
 		widget=forms.TextInput(
 			attrs={
-				'class': 'text-input-acc standard-input',
-				# 'placeholder': 'Enter Your Username'
+				'class': 'text-input-acc standard-input'
 			}
-		),
-		label_suffix=""	
+		)
 	)
 
 	password = forms.CharField(
@@ -89,8 +84,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         widget=forms.PasswordInput(
         	attrs={
         		'autocomplete': 'new-password',
-        		'class': 'text-input-acc password-input',
-				# 'placeholder': 'Enter Your Password'
+        		'class': 'text-input-acc password-input'
         	}
         ),
 	)

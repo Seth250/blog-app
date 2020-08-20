@@ -13,6 +13,15 @@ from django.views.generic import (
 
 # Create your views here.
 
+class RedirectView(View):
+
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			return redirect('accounts:profile')
+		else:
+			return redirect('accounts:login')
+
+
 class UserCreateView(SuccessMessageMixin, CreateView):
 	model = get_user_model()
 	form_class = UserSignUpForm
@@ -21,6 +30,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 	def get_success_url(self):
 		return reverse("accounts:login")
+
 
 # def profile(request):
 # 	if request.method == 'POST':

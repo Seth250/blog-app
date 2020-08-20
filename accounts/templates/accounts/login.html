@@ -10,6 +10,7 @@
 			<div class="message message-{{ message.tags}}">
 				{{ message }}
 			</div>
+			<div class="dummy-space"></div>
 		{% endfor %}
 	{% endif %}
 	<div class="container-acc">
@@ -43,11 +44,11 @@
 							</a>
 						</div>
 						<p>
-							<a href="#">Forgot Password?</a>
+							<a href="{% url 'accounts:password_reset' %}">Forgot Password?</a>
 						</p>
 					</div>
 					<div class="form-row">
-						<button type="submit" class="submit-button ">Login</button>
+						<button type="submit" class="submit-button ">LOGIN</button>
 					</div>
 				</form>
 			</div>

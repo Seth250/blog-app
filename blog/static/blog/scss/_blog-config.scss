@@ -1,0 +1,7 @@
+$secondary-background: #fafafa;
+
+@mixin default-flex-styles{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
