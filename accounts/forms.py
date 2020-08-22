@@ -99,20 +99,20 @@ class UserUpdateForm(UserChangeForm):
 		widgets = {
 			'username': forms.TextInput(attrs={
 				'readonly': 'readonly',
-				'class': 'read-only pfl-col__input-box'
+				'class': 'read-only text-input-acc pfl-col__input-box'
 			}),
 			'email': forms.EmailInput(attrs={
-				'class': 'pfl-col__input-box'
+				'class': 'text-input-acc pfl-col__input-box'
 			}),
 			'first_name': forms.TextInput(attrs={
-				'class': 'pfl-col__input-box'
+				'class': 'text-input-acc pfl-col__input-box'
 			}),
 			'last_name': forms.TextInput(attrs={
-				'class': 'pfl-col__input-box'
+				'class': 'text-input-acc pfl-col__input-box'
 			}),
 			'date_joined': forms.DateInput(attrs={
 				'readonly': 'readonly',
-				'class': 'read-only pfl-col__input-box'
+				'class': 'text-input-acc read-only pfl-col__input-box'
 			}),
 			# 'last_login': forms.DateTimeInput(attrs={
 			# 	'readonly': 'readonly',
@@ -120,7 +120,7 @@ class UserUpdateForm(UserChangeForm):
 			# }),
 			'date_of_birth': forms.DateInput(attrs={
 				'type': 'date',
-				'class': 'date-input pfl-col__input-box'
+				'class': 'text-input-acc pfl-col__input-box'
 			})
 
 		}

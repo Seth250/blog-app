@@ -16,30 +16,28 @@
       <div class="pfl-col__img-container">
         <img src="{{ request.user.profile_image.url }}" alt="profile image" class="pfl-col__img" />
       </div>
-      <div class="user-info">
-        <h2 class="username">{{ request.user.username }}</h2>
+      <div class="pfl-col__user">
+        <p class="username">{{ request.user.username }}</p>
         <p class="email">{{ request.user.email }}</p>
       </div>
     </div>
     <div class="pfl-col__info">
-      <div class="form-row">
-        <h2>Profile Info</h2>
+      <div class="info-heading">
+        <p>Profile Information</p>
       </div>
       <hr />
-      <div>
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% for field in form %}
-            <div class="form-row pfl-col__row">
-              {{ field.label_tag }}
-              {{ field }}
-            </div>
-          {% endfor %}
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
           <div class="form-row">
-            <button type="submit" class="submit-button">Update</button>
+            <label id="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
           </div>
-        </form>
-      </div>
+        {% endfor %}
+        <div class="form-row">
+          <button type="submit" class="submit-button">Update Profile</button>
+        </div>
+      </form>
     </div>
   </div>
 {% endblock content %}

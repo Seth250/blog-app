@@ -5,9 +5,16 @@
   .fm-col{
     width: 36vw;
   }
+  .pfl-col{
+    width: 52vw;    
+  }
 }
 
 @media only screen and (max-width: 768px){
+  .container-acc{
+    font-size: 98%;
+    letter-spacing: 0.015em;
+  }
   .img-col{
     width: 40vw;
 
@@ -18,16 +25,15 @@
   }
   .fm-col{
     width: 45vw;
-
-    &__header{
-      font-size: 90%;
-    }
   }
-  .form-row{
-    letter-spacing: 0.015em;
+  .text-input-acc,
+  .submit-button{
+    font-size: inherit;
+    letter-spacing: inherit;
   }
-  .text-input-acc{
-    font-size: 98%;
+  .pfl-col{
+    font-size: 96%;
+    width: 70vw;
   }
 }
 
@@ -35,7 +41,7 @@
   .container-acc{
     flex-direction: column;
     width: 70vw;
-    padding: 1.5em 1em;
+    padding: 1.25em 2%;
   }
   .img-col{
     order: 2;
@@ -57,22 +63,22 @@
     width: 100%;
 
     &__form-container{
-      padding: 0;
+      padding: 0.5em 0;
     }
   }
-  .login-error{
-    font-size: 102%;
+  .pfl-col__header{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pfl-col__user{
+    align-items: center;
   }
 }
 
 @media only screen and (max-width: 480px){
   .container-acc{
     width: 90vw;
-    padding: 1.25em 0.5em;
-  }
-  .form-row{
-    font-size: 98%;
-    letter-spacing: 0.01em;
   }
   .input-container > i{
     width: 13%;
@@ -82,9 +88,6 @@
   }
   .password-input{
     width: 76.5%;
-  }
-  .text-input-acc{
-    font-size: 96%;
   }
 }
 
@@ -103,5 +106,8 @@
   }
   .fm-col{
     width: 20vw;
+  }
+  .pfl-col{
+    width: 32vw;
   }
 }

@@ -49,18 +49,15 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 # 	return render(request, 'accounts/profile.html', context)
 
 
-class UserUpdateView(View):
-	form_class = UserUpdateForm
-	template_name = 'accounts/profile.html'
-	success_message = 'Your Profile has been Updated Successfully!'
+class UserProfileView(View):
 
 	def get(self, request, *args, **kwargs):
-		form = self.form_class(instance=request.user)
-		return render(request, self.template_name, {'form': form})
+		form = UserUpdateForm(instance=request.user)
+		return render(request, 'accounts/profile.html', {'form': form})
 
 	def post(self, request, *args, **kwargs):
-		form = self.form_class(data=request.POST, files=request.FILES, instance=request.user)
+		form = UserUpdateForm(data=request.POST, files=request.FILES, instance=request.user)
 		if form.is_valid():
 			form.save()
-			messages.success(request, self.success_message)
+			messages.success(request, 'Your Profile has been Updated Successfully!')
 			return redirect('accounts:profile')
