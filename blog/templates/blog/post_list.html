@@ -3,13 +3,28 @@
 {% block title %}Blog{% endblock title %}
 
 {% block content %}
-	<div>
-		{% for instance in object_list %}
-			<div>{{ instance.title }}</div>
-			<div>{{ instance.content }}</div>
-			<div>By {{ instance.author }}</div>
-		{% empty %}
-			<div>No posts yet!</div>
-		{% endfor %}
+{% for instance in object_list %}
+	<div class="post-item">
+		<div class="post-item__author">
+			<div class="author-img-container">
+				<img src="{{ instance.author.profile_image.url }}" class="author-img" />
+			</div>
+			<div class="author-info">
+				<h4><a href="#">{{ instance.author }}</a></h4>
+				<small>{{ instance.date_posted }}</small>
+			</div>
+		</div>
+		<div class="post-item__thumbnail">
+			<img src="{{ instance.thumbnail.url }}" />
+		</div>
+		<div class="post-item__title">
+			<h2><a href="{% url 'blog:post_detail' pk=instance.pk %}">{{ instance.title }}</a></h2>
+		</div>
+		<div class="post-item__content">
+			{{ instance.content | truncatewords:20 | safe }}
+		</div>	
 	</div>
+{% empty %}
+	<div>No posts yet!</div>
+{% endfor %}
 {% endblock content %}

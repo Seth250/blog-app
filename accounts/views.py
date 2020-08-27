@@ -6,14 +6,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.views.generic import (
 	View,
-	CreateView,
-	UpdateView,
+	CreateView
 )
-
 
 # Create your views here.
 
-class RedirectView(View):
+class UserRedirectView(View):
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
@@ -30,23 +28,6 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 	def get_success_url(self):
 		return reverse("accounts:login")
-
-
-# def profile(request):
-# 	if request.method == 'POST':
-# 		form = UserUpdateForm(data=request.POST, files=request.FILES, instance=request.user)
-# 		if form.is_valid():
-# 			form.save()
-# 			return redirect('accounts:profile')
-
-# 	else:
-# 		form = UserUpdateForm(instance=request.user)
-
-# 	context = {
-# 		'form': form,
-# 	}
-
-# 	return render(request, 'accounts/profile.html', context)
 
 
 class UserProfileView(View):

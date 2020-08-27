@@ -1,13 +1,13 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import RedirectView, UserCreateView, UserProfileView #profile
+from .views import UserRedirectView, UserCreateView, UserProfileView
 from .forms import CustomAuthenticationForm
 from django.urls import reverse_lazy
 
 app_name = 'accounts'
 
 urlpatterns = [
-	path('', RedirectView.as_view(), name='redirect'),
+	path('', UserRedirectView.as_view(), name='redirect'),
 	path('signup/', UserCreateView.as_view(), name='signup'),
 	path('login/', auth_views.LoginView.as_view(
 			template_name='accounts/login.html',
@@ -30,6 +30,5 @@ urlpatterns = [
 	path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(
 			template_name='accounts/password_reset_complete.html'    
 			), name='password_reset_complete'),
-	# path('profile/', profile, name='profile'),
 	path('profile/', UserProfileView.as_view(), name='profile'),
 ]

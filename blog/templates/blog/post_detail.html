@@ -5,6 +5,7 @@
 {% block content %}
   <div>{{ object.title }}</div>
   <div>
-    {{ object.content }}
+    {{ object.content | safe }}
+    {{ object.num_comments }} Comments
   </div>
 {% endblock content %}

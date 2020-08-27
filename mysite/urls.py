@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('blog-admin/', admin.site.urls),
     path('', include('accounts.urls')),
-    path('blog/', include('blog.urls'))
+    path('blog/', include('blog.urls')),
+    path('tinymce/', include('tinymce.urls'))
 ]
 
 if settings.DEBUG:

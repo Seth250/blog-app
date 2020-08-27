@@ -1,7 +1,7 @@
 .container-acc{
   display: flex;
   border: 1px solid lightgrey;
-  background: #fff;
+  background: $container-color;
   border-radius: $box-border-radius;
   box-shadow: 0.05rem 0.06rem 0.2rem 0 rgba(0, 0, 0, 0.6);
   padding: 1em;
