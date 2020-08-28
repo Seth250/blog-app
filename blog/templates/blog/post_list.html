@@ -1,13 +1,14 @@
 {% extends "blog/base.html" %}
 
-{% block title %}Blog{% endblock title %}
+{% block title %} Blog {% endblock title %}
 
 {% block content %}
-{% for instance in object_list %}
+<div class="container-blog">
+	{% for instance in object_list %}
 	<div class="post-item">
 		<div class="post-item__author">
 			<div class="author-img-container">
-				<img src="{{ instance.author.profile_image.url }}" class="author-img" />
+				<img src="{{ instance.author.profile_image.url }}" alt="{ instance.author }} image" class="author-img" />
 			</div>
 			<div class="author-info">
 				<h4><a href="#">{{ instance.author }}</a></h4>
@@ -15,16 +16,23 @@
 			</div>
 		</div>
 		<div class="post-item__thumbnail">
-			<img src="{{ instance.thumbnail.url }}" />
+			<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
 		</div>
 		<div class="post-item__title">
 			<h2><a href="{% url 'blog:post_detail' pk=instance.pk %}">{{ instance.title }}</a></h2>
 		</div>
-		<div class="post-item__content">
-			{{ instance.content | truncatewords:20 | safe }}
-		</div>	
+		<div class="post-item__category">
+			<p>
+				<i class="fas fa-tags"></i> 
+				<a href="#">{{ instance.category }}</a>
+			</p>
+		</div>
+		<div>
+			<p>{{ instance.content | truncatewords:20 | safe }}</p>
+		</div>
 	</div>
-{% empty %}
-	<div>No posts yet!</div>
-{% endfor %}
+	{% empty %}
+		<div>NOTHING TO DISPLAY!</div>
+	{% endfor %}
+</div>
 {% endblock content %}

@@ -3,9 +3,25 @@
 {% block title %}{{ object.title }}{% endblock title %}
 
 {% block content %}
-  <div>{{ object.title }}</div>
-  <div>
+<div class="post-detail">
+  <div class="post-detail__title">
+    <h1>{{ object.title }}</h1>
+  </div>
+  <div class="post-item__author">
+    <div class="author-img-container">
+      <img src="{{ object.author.profile_image.url }}" alt="{{ object.author }}" class="author-img" />
+    </div>
+    <div class="author-info">
+      <h4><a href="#">{{ object.author }}</a></h4>
+      <small>Published on <span>{{ object.date_posted }}</span></small>
+    </div>
+  </div>
+  <div class="post-detail__thumbnail">
+    <img src="{{ object.thumbnail.url }}" alt="{{ instance.title }} image" />
+  </div>
+  <div class="post-detail__content">
     {{ object.content | safe }}
     {{ object.num_comments }} Comments
   </div>
+</div>
 {% endblock content %}
