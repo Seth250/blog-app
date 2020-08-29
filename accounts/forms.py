@@ -92,13 +92,18 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class UserUpdateForm(UserChangeForm):
 	password = None
+	readonly_fields = ('username', 'date_joined')
 
+	def __init__(self, *args, **kwargs):
+		super(UserUpdateForm, self).__init__(*args, **kwargs)
+		for field in self.readonly_fields:
+			self.fields[field].disabled = True
+			
 	class Meta:
 		model = get_user_model()
 		fields = ('username', 'email', 'first_name', 'last_name', 'date_joined', 'date_of_birth', 'profile_image')
 		widgets = {
 			'username': forms.TextInput(attrs={
-				'readonly': 'readonly',
 				'class': 'read-only text-input-acc pfl-col__input-box'
 			}),
 			'email': forms.EmailInput(attrs={
@@ -111,7 +116,6 @@ class UserUpdateForm(UserChangeForm):
 				'class': 'text-input-acc pfl-col__input-box'
 			}),
 			'date_joined': forms.DateInput(attrs={
-				'readonly': 'readonly',
 				'class': 'text-input-acc read-only pfl-col__input-box'
 			}),
 			# 'last_login': forms.DateTimeInput(attrs={
@@ -132,8 +136,8 @@ class UserUpdateForm(UserChangeForm):
 			return profile_image
 
 		img = Image.open(profile_image.file)
-		if img.height > 175 or img.width > 175:
-			output_size = (175, 175)
+		if img.height > 150 or img.width > 150:
+			output_size = (150, 150)
 			extension = img.format.lower()
 			img.thumbnail(output_size)
 			# Resetting io.BytesIO object, otherwise resized image bytes will get appended to the original image
