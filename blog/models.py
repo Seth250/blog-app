@@ -18,15 +18,26 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+	DRAFT = 'dt'
+	PUBLISHED = 'pd'
+
+	STATUS_CHOICES = (
+		(DRAFT, 'Draft'),
+		(PUBLISHED, 'Published')
+	)
+
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, 
 								related_name='posts', related_query_name='post')
 	title = models.CharField(max_length=120)
 	# content = models.TextField()
 	content = HTMLField()
 	# slug = models.SlugField()
+	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=DRAFT)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', 
 								related_query_name='post', default=1)
 	thumbnail = models.ImageField(default="default_tb.png", upload_to='post_thumbnails')
+	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
+	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_dislikes', blank=True)
 	date_published = models.DateField(blank=True, null=True)
 	date_created = models.DateField(auto_now_add=True)
 	date_updated = models.DateField(auto_now=True)
@@ -43,6 +54,12 @@ class Post(models.Model):
 	def num_comments(self):
 		return self.comments.count()
 
+	def num_likes(self):
+		return self.likes.count()
+
+	def num_dislikes(self):
+		return self.dislikes.count()
+
 
 class Comment(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
@@ -50,8 +67,16 @@ class Comment(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', 
 							 related_query_name='comment')
 	content = models.TextField()
+	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_likes', blank=True)
+	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_dislikes', blank=True)
 	date_created = models.DateField(auto_now_add=True)
 	date_updated = models.DateField(auto_now=True)
 
 	class Meta:
 		ordering = ['-date_created']
+
+	def num_likes(self):
+		return self.likes.count()
+
+	def num_dislikes(self):
+		return self.dislikes.count()

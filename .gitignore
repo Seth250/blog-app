@@ -12,3 +12,6 @@ env/
 venv/
 
 .vscode/
+
+media/post_thumbnails
+media/profile_pictures

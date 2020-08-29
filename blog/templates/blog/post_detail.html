@@ -23,7 +23,16 @@
     {{ object.content | safe }}
   </div>
   <div>
-    <p>Load Comments({{ object.num_comments }})</p>
+    <p>Likes: {{ object.num_likes }}</p>
+    <p>Dislikes: {{ object.num_dislikes }}</p>
   </div>
+</div>
+
+<div>
+  <p>Load Comments({{ object.num_comments }})</p>
+</div>
+
+<div>
+
 </div>
 {% endblock content %}

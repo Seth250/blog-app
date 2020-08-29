@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
 from .forms import PostForm
 from django.contrib.auth import get_user_model
 from django.views.generic import (
+	View,
 	ListView,
 	DetailView,
 	CreateView,
@@ -46,3 +47,52 @@ class PostUpdateView(UpdateView):
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
+
+
+class ObjectLikeToggleView(View):
+
+	def get(self, request, *args, **kwargs):
+		if request.user in self.obj.likes.all():
+			self.obj.likes.remove(request.user)
+
+		elif request.user in self.obj.dislikes.all():
+			self.obj.dislikes.remove(request.user)
+			self.obj.likes.add(request.user)
+
+		else:
+			self.obj.likes.add(request.user)
+
+		return redirect('blog:post_detail', pk=self.pk)
+
+
+class ObjectDislikeToggleView(View):
+
+	def get(self, request, *args, **kwargs):
+		if request.user in self.obj.dislikes.all():
+			self.obj.dislikes.remove(request.user)
+
+		elif request.user in self.obj.likes.all():
+			self.obj.likes.remove(request.user)
+			self.obj.dislikes.add(request.user)
+
+		else:
+			self.obj.dislikes.add(request.user)
+
+		return redirect('blog:post_detail', pk=self.pk)
+
+
+class UserPostLikeToggleView(ObjectLikeToggleView):
+
+	def get(self, request, *args, **kwargs):
+		self.pk = self.kwargs.get('pk')
+		self.obj = get_object_or_404(Post, pk=self.pk)
+		return super(UserPostLikeToggleView, self).get(request, *args, **kwargs)
+
+
+# you can reduce this even further 
+class UserPostDislikeToggleView(ObjectDislikeToggleView):
+
+	def get(self, request, *args, **kwargs):
+		self.pk = self.kwargs.get('pk')
+		self.obj = get_object_or_404(Post, pk=self.pk)
+		return super(UserPostDislikeToggleView, self).get(request, *args, **kwargs)
