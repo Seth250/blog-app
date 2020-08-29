@@ -21,7 +21,9 @@
   </div>
   <div class="post-detail__content">
     {{ object.content | safe }}
-    {{ object.num_comments }} Comments
+  </div>
+  <div>
+    <p>Load Comments({{ object.num_comments }})</p>
   </div>
 </div>
 {% endblock content %}

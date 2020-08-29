@@ -32,7 +32,38 @@
 		</div>
 	</div>
 	{% empty %}
-		<div>NOTHING TO DISPLAY!</div>
+	<div>NOTHING TO DISPLAY!</div>
 	{% endfor %}
+</div>
+<div class = "pagination">
+	{% if page_obj.has_previous %}
+		<a class="pagination-action" href="?page=1" title="First Page">
+			<i class="fas fa-angle-double-left fa-2x"></i>
+		</a>
+		<a class="pagination-action" href="?page={{ page_obj.previous_page_number }}" title="Previous Page">
+			<i class="fas fa-angle-left fa-2x"></i>
+		</a>
+	{% endif %}
+
+	{% for pg in page_obj.paginator.page_range %}
+		{% if page_obj.number == pg %}
+			<a class="pagination-number pagination-current">{{ pg }}</a>
+		{% elif pg > page_obj.number|add:'-3' and pg < page_obj.number|add:'3' %}
+			<a class="pagination-number" href="?page={{ pg }}">{{ pg }}</a>
+		{% endif %}
+	{% endfor %}
+
+	{% if page_obj.has_next %}
+		<a class="pagination-action" href="?page={{ page_obj.next_page_number }}" title="Next Page">
+			<i class="fas fa-angle-right fa-2x"></i>
+		</a>
+		<a class="pagination-action" href="?page={{ page_obj.paginator.num_pages }}" title="Last Page">
+			<i class="fas fa-angle-double-right fa-2x"></i>
+		</a>
+	{% endif %}
+</div>
+
+<div class="logs-length">
+	<p> {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} posts. </p>
 </div>
 {% endblock content %}
