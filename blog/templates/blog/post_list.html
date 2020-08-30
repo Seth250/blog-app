@@ -11,7 +11,7 @@
 				<img src="{{ instance.author.profile_image.url }}" alt="{ instance.author }} image" class="author-img" />
 			</div>
 			<div class="author-info">
-				<h4><a href="#">{{ instance.author }}</a></h4>
+				<h4><a href="{% url 'blog:user_posts' username=instance.author %}">{{ instance.author }}</a></h4>
 				<small>{{ instance.date_created }}</small>
 			</div>
 		</div>
@@ -19,7 +19,7 @@
 			<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
 		</div>
 		<div class="post-item__title">
-			<h2><a href="{% url 'blog:post_detail' pk=instance.pk %}">{{ instance.title }}</a></h2>
+			<h2><a href="{% url 'blog:post_detail' slug=instance.slug pk=instance.pk %}">{{ instance.title }}</a></h2>
 		</div>
 		<div class="post-item__category">
 			<p>

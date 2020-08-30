@@ -12,7 +12,7 @@
       <img src="{{ object.author.profile_image.url }}" alt="{{ object.author }}" class="author-img" />
     </div>
     <div class="author-info">
-      <h4><a href="#">{{ object.author }}</a></h4>
+      <h4><a href="{% url 'blog:user_posts' username=object.author %}">{{ object.author }}</a></h4>
       <small>Published on <span>{{ object.date_created }}</span></small>
     </div>
   </div>
@@ -23,16 +23,23 @@
     {{ object.content | safe }}
   </div>
   <div>
-    <p>Likes: {{ object.num_likes }}</p>
-    <p>Dislikes: {{ object.num_dislikes }}</p>
+    <p>Likes: {{ object.num_likes }} || Dislikes: {{ object.num_dislikes }}</p>
   </div>
-</div>
-
-<div>
-  <p>Load Comments({{ object.num_comments }})</p>
-</div>
-
-<div>
-
+  <div>
+    <form method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Save Comment</button>
+    </form>
+  </div>
+  <div>
+    {% for comment in object.comments.all %}
+      <div>
+        <h4>{{ comment.author }}</h4>
+        <p>{{ comment.content }}</p>
+        <p>Likes: {{ comment.num_likes }} || Dislikes: {{ comment.num_dislikes }}</p>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock content %}

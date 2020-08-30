@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
-from .forms import PostForm
-from django.contrib.auth import get_user_model
+from .forms import PostForm, CommentForm
+from django.views.generic.detail import SingleObjectMixin
+from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.views.generic import (
 	View,
 	ListView,
@@ -23,12 +25,33 @@ class UserPostListView(ListView):
 	paginate_by = 2
 
 	def get_queryset(self):
-		user = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
-		return user.posts.all()
+		return Post.objects.filter(author__username=self.kwargs.get('username'))
 
 
-class PostDetailView(DetailView):
+class PostDetailView(SingleObjectMixin, View):
 	model = Post
+	query_pk_and_slug = True
+
+	def get(self, request, *args, **kwargs):
+		obj = self.get_object()
+		form = CommentForm()
+		context = {
+			'object': obj,
+			'comment_form': form
+		}
+		return render(request, 'blog/post_detail.html', context)
+
+	def post(self, request, *args, **kwargs):
+		form = CommentForm(data=request.POST)
+		if form.is_valid():
+			with transaction.atomic():
+				obj = self.get_object()
+				instance = form.save(commit=False)
+				instance.post = obj
+				instance.author = request.user
+				instance.save()
+
+		return redirect('blog:post_detail', pk=obj.pk, slug=obj.slug)
 
 
 class PostCreateView(CreateView):
@@ -49,50 +72,50 @@ class PostUpdateView(UpdateView):
 		return super().form_valid(form)
 
 
-class ObjectLikeToggleView(View):
+class ActionManagerMixin(SingleObjectMixin):
+
+	def get_object_action_managers(self):
+		obj = self.get_object()
+		return [obj.likes, obj.dislikes] if self.action == 'like_toggle' else [obj.dislikes, obj.likes]
+
+
+class ObjectActionToggleView(ActionManagerMixin, View):
 
 	def get(self, request, *args, **kwargs):
-		if request.user in self.obj.likes.all():
-			self.obj.likes.remove(request.user)
+		main_obj_manager, opp_obj_manager = self.get_object_action_managers()
 
-		elif request.user in self.obj.dislikes.all():
-			self.obj.dislikes.remove(request.user)
-			self.obj.likes.add(request.user)
+		if request.user in main_obj_manager.all():
+			main_obj_manager.remove(request.user)
+
+		elif request.user in opp_obj_manager.all():
+			opp_obj_manager.remove(request.user)
+			main_obj_manager.add(request.user)
 
 		else:
-			self.obj.likes.add(request.user)
+			main_obj_manager.add(request.user)
 
-		return redirect('blog:post_detail', pk=self.pk)
-
-
-class ObjectDislikeToggleView(View):
-
-	def get(self, request, *args, **kwargs):
-		if request.user in self.obj.dislikes.all():
-			self.obj.dislikes.remove(request.user)
-
-		elif request.user in self.obj.likes.all():
-			self.obj.likes.remove(request.user)
-			self.obj.dislikes.add(request.user)
-
-		else:
-			self.obj.dislikes.add(request.user)
-
-		return redirect('blog:post_detail', pk=self.pk)
+		return redirect('blog:post_detail', pk=self.kwargs.get('pk'), slug=self.kwargs.get('slug'))
 
 
-class UserPostLikeToggleView(ObjectLikeToggleView):
-
-	def get(self, request, *args, **kwargs):
-		self.pk = self.kwargs.get('pk')
-		self.obj = get_object_or_404(Post, pk=self.pk)
-		return super(UserPostLikeToggleView, self).get(request, *args, **kwargs)
+class UserPostLikeToggleView(ObjectActionToggleView):
+	model = Post
+	query_pk_and_slug = True
+	action = 'like_toggle'
 
 
-# you can reduce this even further 
-class UserPostDislikeToggleView(ObjectDislikeToggleView):
+class UserPostDislikeToggleView(ObjectActionToggleView):
+	model = Post
+	query_pk_and_slug = True
+	action = 'dislike_toggle'
 
-	def get(self, request, *args, **kwargs):
-		self.pk = self.kwargs.get('pk')
-		self.obj = get_object_or_404(Post, pk=self.pk)
-		return super(UserPostDislikeToggleView, self).get(request, *args, **kwargs)
+
+class UserCommentLikeToggleView(ObjectActionToggleView):
+	model = Comment
+	pk_url_kwarg = 'comment_pk'
+	action = 'like_toggle'
+
+
+class UserCommentDislikeToggleView(ObjectActionToggleView):
+	model = Comment
+	pk_url_kwarg = 'comment_pk'
+	action = 'dislike_toggle'
