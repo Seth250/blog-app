@@ -3,6 +3,8 @@ from django.conf import settings
 from django.urls import reverse
 from PIL import Image
 from django.utils.text import slugify
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
@@ -16,6 +18,12 @@ class Category(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+class PublishedManager(models.Manager):
+
+	def get_queryset(self):
+		return super(PublishedManager, self).get_queryset().filter(status='pd')
 
 
 class Post(models.Model):
@@ -38,12 +46,13 @@ class Post(models.Model):
 	thumbnail = models.ImageField(default="default_tb.png", upload_to='post_thumbnails')
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_dislikes', blank=True)
+	published = PublishedManager()
 	date_published = models.DateField(blank=True, null=True)
 	date_created = models.DateField(auto_now_add=True)
 	date_updated = models.DateField(auto_now=True)
 
-	class Meta:
-		ordering = ['-date_published']
+	# class Meta:
+	# 	ordering = ['-date_published']
 
 	def __str__(self):
 		return self.title
@@ -61,6 +70,10 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		return reverse('blog:post_detail', kwargs={'pk': self.pk, 'slug': self.slug})
 
+	def publish(self):
+		self.status = self.PUBLISHED
+		self.date_published = timezone.now()
+
 	def num_comments(self):
 		return self.comments.count()
 
@@ -76,7 +89,7 @@ class Comment(models.Model):
 							   related_name='comments', related_query_name='comment')
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', 
 							 related_query_name='comment')
-	content = models.TextField()
+	content = models.TextField(_('Comment'))
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_dislikes', blank=True)
 	date_created = models.DateField(auto_now_add=True)

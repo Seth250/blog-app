@@ -17,15 +17,18 @@ from django.views.generic import (
 
 
 class PostListView(ListView):
-	model = Post
+	# model = Post
 	paginate_by = 2
+
+	def get_queryset(self):
+		return Post.published.all()
 
 
 class UserPostListView(ListView):
 	paginate_by = 2
 
 	def get_queryset(self):
-		return Post.objects.filter(author__username=self.kwargs.get('username'))
+		return Post.published.filter(author__username=self.kwargs.get('username'))
 
 
 class PostDetailView(SingleObjectMixin, View):
@@ -59,8 +62,14 @@ class PostCreateView(CreateView):
 	form_class = PostForm
 
 	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super().form_valid(form)
+		with transaction.atomic():			
+			form.instance.author = self.request.user
+			form.instance.publish()
+			return super().form_valid(form)
+
+
+class PostPublishView(View):
+	pass
 
 
 class PostUpdateView(UpdateView):

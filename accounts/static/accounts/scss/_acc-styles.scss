@@ -250,12 +250,13 @@
 
   &__info{
     overflow: hidden;
+  }
 
-    .info-heading{
-      padding: 0.5em;
-      font-size: 130%;
-      font-weight: 500;
-    }
+  .info-heading{
+    border: 1px solid red;
+    padding: 0.5em;
+    font-size: 130%;
+    font-weight: 500;
   }
 
   &__input-box{

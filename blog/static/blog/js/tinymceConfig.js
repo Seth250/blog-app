@@ -1,12 +1,13 @@
 tinymce.init({
     height: 480,
     width: 960,
+    theme: 'silver',
     selector: 'textarea',
     plugins: [
-        'emoticons template textcolor save link image media preview codesample contextmenu',
+        'emoticons template save link image media preview codesample',
         'advlist table code lists fullscreen insertdatetime nonbreaking textpattern',
-        'contextmenu directionality searchreplace wordcount visualblocks textcolor toc',
-        'visualchars paste fullscreen autolink imagetools charmap print hr anchor pagebreak'
+        'directionality searchreplace wordcount visualblocks toc print',
+        'visualchars paste fullscreen autolink imagetools charmap hr anchor pagebreak'
     ],
     toolbar1: 
         `fullscreen preview bold italic underline | fontselect fontsizeselect  | forecolor backcolor | 

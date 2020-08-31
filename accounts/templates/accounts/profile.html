@@ -30,7 +30,7 @@
         {% csrf_token %}
         {% for field in form %}
           <div class="form-row">
-            <label id="{{ field.id_for_label }}">{{ field.label }}</label>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
           </div>
         {% endfor %}
@@ -38,6 +38,27 @@
           <button type="submit" class="submit-button">Update Profile</button>
         </div>
       </form>
+    </div>
+  </div>
+  <div class="container-acc pfl-col">
+    <div class="info-heading">
+      <p>User Activity</p>
+    </div>
+    <hr />
+    <div class="form-row">
+      <p>
+        Drafted Posts: <a href="#">{ Click to view all }(3)</a>
+      </p>
+    </div>
+    <div class="form-row">
+      <p>
+        Published Posts: <a href="#">{ Click to view all }(3)</a>
+      </p>
+    </div>
+    <div class="form-row">
+      <p>
+        Liked Posts: <a href="#">{ Click to View all }(2)</a>
+      </p>
     </div>
   </div>
 {% endblock content %}

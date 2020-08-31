@@ -1,6 +1,5 @@
 from django import forms
 from .models import Post, Comment
-from tinymce.widgets import TinyMCE
 
 class PostForm(forms.ModelForm):
 
@@ -8,7 +7,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'content', 'category', 'thumbnail')
         widgets = {
-            'content': TinyMCE(
+            'content': forms.Textarea(
                 attrs={'class': 'form-content'}
             )
         }

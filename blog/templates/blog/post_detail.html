@@ -14,6 +14,10 @@
     <div class="author-info">
       <h4><a href="{% url 'blog:user_posts' username=object.author %}">{{ object.author }}</a></h4>
       <small>Published on <span>{{ object.date_created }}</span></small>
+      <small>
+        <i class="fas fa-tags"></i> 
+        <a href="#">{{ object.category }}</a>
+      </small>
     </div>
   </div>
   <div class="post-detail__thumbnail">
