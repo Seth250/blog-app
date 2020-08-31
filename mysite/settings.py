@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
-    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +145,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
-
-
-# TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'

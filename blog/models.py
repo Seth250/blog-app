@@ -3,7 +3,6 @@ from django.conf import settings
 from django.urls import reverse
 from PIL import Image
 from django.utils.text import slugify
-from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -31,8 +30,7 @@ class Post(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, 
 								related_name='posts', related_query_name='post')
 	title = models.CharField(max_length=120)
-	# content = models.TextField()
-	content = HTMLField()
+	content = models.TextField()
 	slug = models.SlugField(default='', max_length=120, editable=False)
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=DRAFT)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', 
@@ -55,18 +53,10 @@ class Post(models.Model):
 		super().save(*args, **kwargs)
 
 		img = Image.open(self.thumbnail.path)
-		if img.height > 375 or img.width > 500:
-			output_size = (500, 375)
-        #   extension = img.format.lower()
+		if img.width > 640 or img.height > 640:
+			output_size = (640, 640)
 			img.thumbnail(output_size, Image.ANTIALIAS)
-        #   thumbnail.file = type(thumbnail.file)()
-			img.save(self.thumbnail.path, quality=100, optimize=True)
-
-
-		# if img.height > 375 or img.width > 500:
-		# 	output_size = (500, 375)
-		# 	new_img = img.resize(output_size, Image.ANTIALIAS)
-		# 	new_img.save(self.thumbnail.path)
+			img.save(self.thumbnail.path, optimize=True)
 
 	def get_absolute_url(self):
 		return reverse('blog:post_detail', kwargs={'pk': self.pk, 'slug': self.slug})

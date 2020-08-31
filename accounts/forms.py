@@ -118,15 +118,10 @@ class UserUpdateForm(UserChangeForm):
 			'date_joined': forms.DateInput(attrs={
 				'class': 'text-input-acc read-only pfl-col__input-box'
 			}),
-			# 'last_login': forms.DateTimeInput(attrs={
-			# 	'readonly': 'readonly',
-			# 	'class': 'read-only text-input-acc'
-			# }),
 			'date_of_birth': forms.DateInput(attrs={
 				'type': 'date',
 				'class': 'text-input-acc pfl-col__input-box'
 			})
-
 		}
 
 	def clean_profile_image(self):
@@ -139,20 +134,9 @@ class UserUpdateForm(UserChangeForm):
 		if img.height > 150 or img.width > 150:
 			output_size = (150, 150)
 			extension = img.format.lower()
-			img.thumbnail(output_size)
-			# Resetting io.BytesIO object, otherwise resized image bytes will get appended to the original image
+			img = img.resize(output_size, Image.LANCZOS)
 			profile_image.file = type(profile_image.file)()
-			img.save(profile_image.file, extension)
+			img.save(profile_image.file, extension, optimize=True)
 
 		return profile_image
-
-	# def save(self):
-	# 	user = super(UserUpdateForm, self).save()
-	# 	img = Image.open(user.profile_image.path)
-	# 	if img.height > 250 or img.width > 250:
-	# 		output_size = (250, 250)
-	# 		img.thumbnail(output_size)
-	# 		img.save(user.profile_image.path)
-
-	# 	# return user
 		
