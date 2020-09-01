@@ -9,8 +9,9 @@
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
-      <a href="{% url 'blog:post_draft' %}">Draft</a>
-      <button type="submit">Publish</button>
+      <button type="submit">
+        {% if action == 'create' %} Draft Post {% else %} Update {% endif %}
+      </button>
     </form>
   </div>
 {% endblock content %}

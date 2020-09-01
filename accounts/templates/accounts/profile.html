@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="pfl-col__info">
-      <div class="info-heading">
+      <div class="pfl-col__info-heading">
         <p>Profile Information</p>
       </div>
       <hr />
@@ -39,26 +39,20 @@
         </div>
       </form>
     </div>
-  </div>
-  <div class="container-acc pfl-col">
-    <div class="info-heading">
-      <p>User Activity</p>
-    </div>
-    <hr />
-    <div class="form-row">
-      <p>
-        Drafted Posts: <a href="#">{ Click to view all }(3)</a>
-      </p>
-    </div>
-    <div class="form-row">
-      <p>
-        Published Posts: <a href="#">{ Click to view all }(3)</a>
-      </p>
-    </div>
-    <div class="form-row">
-      <p>
-        Liked Posts: <a href="#">{ Click to View all }(2)</a>
-      </p>
+    <div class="pfl-col__activity">
+      <div class="pfl-col__info-heading">
+        <p>Activity Information</p>
+      </div>
+      <hr />
+      <div class="form-row">
+        <span>Drafted Posts:</span> <a href="{% blog:user_drafted_posts %}">{{ request.user.posts.drafted.count }} Post(s)</a>
+      </div>
+      <div class="form-row">
+        Published Posts: <a href="#">{{ request.user.posts.published.count }} Post(s)</a>
+      </div>
+      <div class="form-row">
+        Liked Posts: <a href="#">{{ request.user.post_likes.count }} Post(s)</a>
+      </div>
     </div>
   </div>
 {% endblock content %}

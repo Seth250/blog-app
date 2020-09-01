@@ -252,8 +252,8 @@
     overflow: hidden;
   }
 
-  .info-heading{
-    border: 1px solid red;
+  &__info-heading{
+    // border: 1px solid red;
     padding: 0.5em;
     font-size: 130%;
     font-weight: 500;
@@ -270,6 +270,10 @@
     &:focus{
       box-shadow: 0 0 0.35rem 0 rgba(19, 83, 134, 0.7);
     }
+  }
+
+  &__activity{
+    margin-top: 1.5em;
   }
 }
 

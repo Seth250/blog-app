@@ -20,10 +20,16 @@ class Category(models.Model):
 		return self.name
 
 
-class PublishedManager(models.Manager):
+class PostQuerySet(models.QuerySet):
 
-	def get_queryset(self):
-		return super(PublishedManager, self).get_queryset().filter(status='pd')
+	def published(self):
+		return self.filter(status='pd').order_by('-date_published')
+
+	def drafted(self):
+		return self.filter(status='dt').order_by('-date_updated')
+
+	# def get_queryset(self):
+	# 	return super(PublishedManager, self).get_queryset().filter(status='pd')
 
 
 class Post(models.Model):
@@ -46,13 +52,10 @@ class Post(models.Model):
 	thumbnail = models.ImageField(default="default_tb.png", upload_to='post_thumbnails')
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_dislikes', blank=True)
-	published = PublishedManager()
+	objects = PostQuerySet.as_manager() 
 	date_published = models.DateField(blank=True, null=True)
 	date_created = models.DateField(auto_now_add=True)
 	date_updated = models.DateField(auto_now=True)
-
-	# class Meta:
-	# 	ordering = ['-date_published']
 
 	def __str__(self):
 		return self.title

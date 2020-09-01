@@ -21,16 +21,17 @@ class PostListView(ListView):
 	paginate_by = 2
 
 	def get_queryset(self):
-		return Post.published.all()
+		return Post.objects.published()
 
 
 class UserPostListView(ListView):
 	paginate_by = 2
 
 	def get_queryset(self):
-		return Post.published.filter(author__username=self.kwargs.get('username'))
+		return Post.objects.published().filter(author__username=self.kwargs.get('username'))
 
 
+# change the queryset to only reflect published posts
 class PostDetailView(SingleObjectMixin, View):
 	model = Post
 	query_pk_and_slug = True
@@ -62,13 +63,12 @@ class PostCreateView(CreateView):
 	form_class = PostForm
 
 	def form_valid(self, form):
-		with transaction.atomic():			
-			form.instance.author = self.request.user
-			form.instance.publish()
-			return super().form_valid(form)
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
 
-class PostPublishView(View):
+class PostPublishView(UpdateView):
+			# form.instance.publish()
 	pass
 
 
