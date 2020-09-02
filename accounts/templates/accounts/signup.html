@@ -23,14 +23,14 @@
 			<div class="fm-col__form-container">
 				<form method="POST">
 					{% csrf_token %}
-          <div class="form-row">
+          <!-- <div class="form-row">
             {{ form.username.label_tag }}
             <div class="input-container">
               <i class="far fa-user"></i>
               {{ form.username }}
             </div>
             {{ form.username.errors }}
-          </div>
+          </div> -->
           <div class="form-row">
             {{ form.email.label_tag }}
             <div class="input-container">
@@ -38,6 +38,22 @@
               {{ form.email }}
             </div>
             {{ form.email.errors }}
+          </div>
+          <div class="form-row">
+            {{ form.first_name.label_tag }}
+            <div class="input-container">
+              <i class="far fa-user"></i>
+              {{ form.first_name }}
+            </div>
+            {{ form.first_name.errors }}
+          </div>
+          <div class="form-row">
+            {{ form.last_name.label_tag }}
+            <div class="input-container">
+              <i class="far fa-user"></i>
+              {{ form.last_name }}
+            </div>
+            {{ form.last_name.errors }}
           </div>
           <div class="form-row">
             {{ form.password1.label_tag }}
