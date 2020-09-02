@@ -92,7 +92,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class UserUpdateForm(UserChangeForm):
 	password = None
-	readonly_fields = ('username', 'date_joined')
+	readonly_fields = ('username', )#'date_joined')
 
 	def __init__(self, *args, **kwargs):
 		super(UserUpdateForm, self).__init__(*args, **kwargs)
@@ -101,11 +101,11 @@ class UserUpdateForm(UserChangeForm):
 			
 	class Meta:
 		model = get_user_model()
-		fields = ('username', 'email', 'first_name', 'last_name', 'date_joined', 'date_of_birth', 'profile_image')
+		fields = ('email', 'first_name', 'last_name') #'username', 'date_of_birth', 'profile_image' 'date_joined'
 		widgets = {
-			'username': forms.TextInput(attrs={
-				'class': 'read-only text-input-acc pfl-col__input-box'
-			}),
+			# 'username': forms.TextInput(attrs={
+			# 	'class': 'read-only text-input-acc pfl-col__input-box'
+			# }),
 			'email': forms.EmailInput(attrs={
 				'class': 'text-input-acc pfl-col__input-box'
 			}),
@@ -115,13 +115,13 @@ class UserUpdateForm(UserChangeForm):
 			'last_name': forms.TextInput(attrs={
 				'class': 'text-input-acc pfl-col__input-box'
 			}),
-			'date_joined': forms.DateInput(attrs={
-				'class': 'text-input-acc read-only pfl-col__input-box'
-			}),
-			'date_of_birth': forms.DateInput(attrs={
-				'type': 'date',
-				'class': 'text-input-acc pfl-col__input-box'
-			})
+			# 'date_joined': forms.DateInput(attrs={
+			# 	'class': 'text-input-acc read-only pfl-col__input-box'
+			# }),
+			# 'date_of_birth': forms.DateInput(attrs={
+			# 	'type': 'date',
+			# 	'class': 'text-input-acc pfl-col__input-box'
+			# })
 		}
 
 	def clean_profile_image(self):
