@@ -34,7 +34,7 @@ class User(PermissionsMixin, AbstractBaseUser):
 	objects = UserManager()
 
 	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = []
+	REQUIRED_FIELDS = ['first_name', 'last_name']
 
 	class Meta:
 		verbose_name = 'user'
@@ -49,6 +49,3 @@ class User(PermissionsMixin, AbstractBaseUser):
 
 	def email_user(self, subject, message, from_email=None, **kwargs):
 		send_mail(subject, message, from_email, [self.email], **kwargs)
-
-	# date_of_birth = models.DateField(blank=True, null=True)
-	# profile_image = models.ImageField(default='default_pp.png', upload_to='profile_pictures')

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserSignUpForm, UserUpdateForm
+from .forms import UserSignUpForm
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
@@ -30,15 +30,15 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 		return reverse("accounts:login")
 
 
-class UserProfileView(View):
+# class UserProfileView(View):
 
-	def get(self, request, *args, **kwargs):
-		form = UserUpdateForm(instance=request.user)
-		return render(request, 'accounts/profile.html', {'form': form})
+# 	def get(self, request, *args, **kwargs):
+# 		form = UserUpdateForm(instance=request.user)
+# 		return render(request, 'accounts/profile.html', {'form': form})
 
-	def post(self, request, *args, **kwargs):
-		form = UserUpdateForm(data=request.POST, files=request.FILES, instance=request.user)
-		if form.is_valid():
-			form.save()
-			messages.success(request, 'Your Profile has been Updated Successfully!')
-			return redirect('accounts:profile')
+# 	def post(self, request, *args, **kwargs):
+# 		form = UserUpdateForm(data=request.POST, files=request.FILES, instance=request.user)
+# 		if form.is_valid():
+# 			form.save()
+# 			messages.success(request, 'Your Profile has been Updated Successfully!')
+# 			return redirect('accounts:profile')
