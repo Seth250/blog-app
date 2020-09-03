@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, UsernameField
 from django.utils.translation import ugettext_lazy as _
 from PIL import Image
 
@@ -49,33 +49,17 @@ class UserSignUpForm(BaseModelForm, UserCreationForm):
 			'last_name': forms.TextInput(
 				attrs={'class': 'text-input-acc standard-input'}
 			)
-		}
-
-		# def clean_username(self):
-		# 	cleaned_data = super(UserSignUpForm, self).clean()
-		# 	username = cleaned_data.get("username")
-		# 	if len(username) < 4:
-		# 		self.add_error('username', 'Username cannot be less than 4 characters')
-
-		# 	elif self.model.objects.filter(username__iexact=username).exists():
-		# 		self.add_error('username', 'This Username already exists')
-
-		# 	return username 
+		} 
 
 
 class CustomAuthenticationForm(AuthenticationForm):
-	username = forms.CharField(
-		max_length = 25,
-		label_suffix="",
-		widget=forms.TextInput(
-			attrs={
-				'class': 'text-input-acc standard-input'
-			}
+	username = UsernameField(
+		widget=forms.EmailInput(
+			attrs={'class': 'text-input-acc standard-input'}
 		)
 	)
 
 	password = forms.CharField(
-        label_suffix="",
         strip=False,
         widget=forms.PasswordInput(
         	attrs={
@@ -84,6 +68,10 @@ class CustomAuthenticationForm(AuthenticationForm):
         	}
         ),
 	)
+
+	def __init__(self, request=None, *args, **kwargs):
+		kwargs.setdefault('label_suffix', '')
+		super(CustomAuthenticationForm, self).__init__(request, *args, **kwargs)
 
 
 class UserUpdateForm(UserChangeForm):
