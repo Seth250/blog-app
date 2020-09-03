@@ -14,10 +14,10 @@
   <div class="container-acc pfl-col">
     <div class="pfl-col__header">
       <div class="pfl-col__img-container">
-        <img src="{{ request.user.profile_image.url }}" alt="profile image" class="pfl-col__img" />
+        <img src="{{ request.user.profile.image.url }}" alt="profile image" class="pfl-col__img" />
       </div>
       <div class="pfl-col__user">
-        <p class="username">{{ request.user.username }}</p>
+        <p class="username">{{ request.user }}</p>
         <p class="email">{{ request.user.email }}</p>
       </div>
     </div>
@@ -45,7 +45,7 @@
       </div>
       <hr />
       <div class="form-row">
-        <span>Drafted Posts:</span> <a href="{% blog:user_drafted_posts %}">{{ request.user.posts.drafted.count }} Post(s)</a>
+        <span>Drafted Posts:</span> <a href="#">{{ request.user.posts.drafted.count }} Post(s)</a>
       </div>
       <div class="form-row">
         Published Posts: <a href="#">{{ request.user.posts.published.count }} Post(s)</a>
