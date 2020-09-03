@@ -28,12 +28,18 @@
       <hr />
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for field in form %}
+        {% for field in user_form %}
           <div class="form-row">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field.label_tag }}
             {{ field }}
           </div>
         {% endfor %}
+        {% for field in profile_form %}
+          <div class="form-row">
+            {{ field.label_tag }}
+            {{ field }}
+          </div>
+      {% endfor %}
         <div class="form-row">
           <button type="submit" class="submit-button">Update Profile</button>
         </div>

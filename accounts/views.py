@@ -12,7 +12,7 @@ class UserRedirectView(View):
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
-			return redirect('accounts:profile')
+			return redirect('userprofiles:profile')
 		else:
 			return redirect('accounts:login')
 

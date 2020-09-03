@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from userprofiles.models import Profile
 from django.utils.translation import ugettext_lazy as _
 from django.db import transaction
@@ -48,7 +48,7 @@ class UserSignUpForm(UserCreationForm):
 
 	def __init__(self, *args, **kwargs):
 		kwargs.setdefault('label_suffix', '')
-		super(UserSignUpForm, self).__init__(*args, **kwargs)
+		return super(UserSignUpForm, self).__init__(*args, **kwargs)
 
 	@transaction.atomic
 	def save(self, commit=True):

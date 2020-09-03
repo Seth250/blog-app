@@ -13,5 +13,5 @@ venv/
 
 .vscode/
 
-media/post_thumbnails/
-media/profile_pictures/
+media/post_thumbnails
+media/profile_pictures
