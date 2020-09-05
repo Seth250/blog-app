@@ -5,7 +5,7 @@
   &__header{
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 1em;
+    margin: 0.5em 0 1em 0;
     // border: 1px solid black;
   }
 
@@ -39,6 +39,7 @@
 
   &__info{
     overflow: hidden;
+    padding: 1em 0 0.5em 0;
   }
 
   &__info-heading{
@@ -57,12 +58,8 @@
     width: 100%;
 
     &:focus{
-      box-shadow: 0 0 0.35rem 0 rgba(19, 83, 134, 0.7);
+      box-shadow: $input-box-shadow;
     }
-  }
-
-  &__activity{
-    margin-top: 1.5em;
   }
 }
 

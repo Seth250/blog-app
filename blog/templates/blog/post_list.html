@@ -8,7 +8,7 @@
 	<div class="post-item">
 		<div class="post-item__author">
 			<div class="author-img-container">
-				<img src="{{ instance.author.profile_image.url }}" alt="{ instance.author }} image" class="author-img" />
+				<img src="{{ instance.author.profile.image.url }}" alt="{ instance.author }} image" class="author-img" />
 			</div>
 			<div class="author-info">
 				<h4><a href="{% url 'blog:user_posts' username=instance.author %}">{{ instance.author }}</a></h4>

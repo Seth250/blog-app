@@ -15,14 +15,20 @@ class UserProfileView(View):
 		}
 		return render(request, 'userprofiles/profile.html', context)
 
+
+class UserProfileEditView(View):
+	def get(self, request, *args, **kwargs):
+		user_form = UserUpdateForm(instance=request.user)
+		profile_form = ProfileUpdateForm(instance=request.user.profile)
+		context = {
+			'user_form': user_form,
+			'profile_form': profile_form
+		}
+		return render(request, 'userprofiles/profile_edit.html', context)
+
 	def post(self, request, *args, **kwargs):
 		user_form = UserUpdateForm(data=request.POST, instance=request.user)
 		profile_form = ProfileUpdateForm(data=request.POST, files=request.FILES, instance=request.user.profile)
-		# form = UserUpdateForm(data=request.POST, files=request.FILES, instance=request.user)
-		# if form.is_valid():
-		# 	form.save()
-		# 	messages.success(request, 'Your Profile has been Updated Successfully!')
-		# 	return redirect('userprofiles:profile')
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()

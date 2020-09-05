@@ -6,6 +6,7 @@ $container-color: #fff;
 $box-border-radius: 0.35rem;
 $alt-border-radius: 0.2rem;
 $box-height: 2.95rem;
+$input-box-shadow: 0 0 0.35rem 0 rgba(19, 83, 134, 0.7);
 
 @mixin default-flex-styles{
   display: flex;

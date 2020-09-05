@@ -5,9 +5,6 @@
   .fm-col{
     width: 36vw;
   }
-  .pfl-col{
-    width: 52vw;    
-  }
 }
 
 @media only screen and (max-width: 768px){
@@ -30,10 +27,6 @@
   .submit-button{
     font-size: inherit;
     letter-spacing: inherit;
-  }
-  .pfl-col{
-    font-size: 96%;
-    width: 70vw;
   }
 }
 
@@ -65,14 +58,6 @@
     &__form-container{
       padding: 0.5em 0;
     }
-  }
-  .pfl-col__header{
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .pfl-col__user{
-    align-items: center;
   }
 }
 
@@ -106,8 +91,5 @@
   }
   .fm-col{
     width: 20vw;
-  }
-  .pfl-col{
-    width: 32vw;
   }
 }
