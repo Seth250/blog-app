@@ -1,5 +1,7 @@
 {% extends "blog/base.html" %}
 
+{% load static %}
+
 {% block title %}{{ object.title }}{% endblock title %}
 
 {% block content %}
@@ -37,7 +39,14 @@
     {{ object.content | safe }}
   </div>
   <div>
-    <p>Likes: {{ object.get_num_likes }} || Dislikes: {{ object.get_num_dislikes }}</p>
+    <p>
+      <a href="{% url 'blog:post_like_toggle' slug=object.slug pk=object.pk %}">
+        <i class="fas fa-thumbs-up"></i>{{ object.get_num_likes }}
+      </a>
+      <a href="{% url 'blog:post_dislike_toggle' slug=object.slug pk=object.pk %}">
+        <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>{{ object.get_num_dislikes }}
+      </a>
+    </p>
   </div>
   <div>
     <form method="POST">
@@ -51,9 +60,20 @@
       <div>
         <h4>{{ comment.author }}</h4>
         <p>{{ comment.content }}</p>
-        <p>Likes: {{ comment.get_num_likes }} || Dislikes: {{ comment.get_num_dislikes }}</p>
+        <p>      
+          <a href="{% url 'blog:comment_like_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}">
+            <i class="fas fa-thumbs-up"></i>{{ comment.get_num_likes }}
+          </a>
+          <a href="{% url 'blog:comment_dislike_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}">
+            <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>{{ comment.get_num_dislikes }}
+          </a>
+        </p>
       </div>
     {% endfor %}
   </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+  <script src="{% static 'blog/js/main.js' %}"></script>
+{% endblock script %}
