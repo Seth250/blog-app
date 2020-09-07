@@ -29,7 +29,7 @@
       <hr />
       <div class="form-row">
         <span>Drafted Posts:</span>
-        <a href="#">{{ num_drafted }} Post{{ num_drafted|pluralize }}</a>
+        <a href="{% url 'userprofiles:drafted_posts' %}">{{ num_drafted }} Post{{ num_drafted|pluralize }}</a>
       </div>
       <div class="form-row">
         Published Posts: 
@@ -38,10 +38,10 @@
         </a>
       </div>
       <div class="form-row">
-        Liked Posts: <a href="#">{{ num_liked }} Post{{ num_liked|pluralize }}</a>
+        Liked Posts: <a href="{% url 'userprofiles:liked_posts' %}">{{ num_liked }} Post{{ num_liked|pluralize }}</a>
       </div>
       <div class="form-row">
-        Disliked Posts: <a href="#">{{ num_disliked }} Post{{ num_disliked|pluralize }}</a>
+        Disliked Posts: <a href="{% url 'userprofiles:disliked_posts' %}">{{ num_disliked }} Post{{ num_disliked|pluralize }}</a>
       </div>
     </div>
   </div>

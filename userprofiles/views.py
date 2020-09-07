@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import View, ListView
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 
@@ -34,3 +34,22 @@ class UserProfileEditView(View):
 			profile_form.save()
 			messages.success(request, 'Your Profile has been Updated Successfully!')
 			return redirect('userprofiles:profile')
+
+
+class UserDraftedPostsView(ListView):
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+
+class UserLikedPostsView(ListView):
+
+	def get_queryset(self):
+		return self.request.user.post_likes.all()
+
+
+class UserDislikedPostsView(ListView):
+
+	def get_queryset(self):
+		return self.request.user.post_dislikes.all()
+
