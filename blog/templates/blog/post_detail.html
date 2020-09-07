@@ -6,20 +6,30 @@
 <div class="post-detail">
   <div class="post-detail__title">
     <h1>{{ object.title }}</h1>
+    <a href="#"><i class="fas fa-tags"></i> {{ object.category }}</a> 
   </div>
   <div class="post-item__author">
     <div class="author-img-container">
-      <img src="{{ object.author.profile_image.url }}" alt="{{ object.author }}" class="author-img" />
+      <img src="{{ object.author.profile.image.url }}" alt="{{ object.author }}" class="author-img" />
     </div>
     <div class="author-info">
-      <h4><a href="{% url 'blog:user_posts' username=object.author %}">{{ object.author }}</a></h4>
-      <small>Published on <span>{{ object.date_created }}</span></small>
-      <small>
-        <i class="fas fa-tags"></i> 
-        <a href="#">{{ object.category }}</a>
-      </small>
+      <h4>
+        <a href="{% url 'blog:user_posts' user=object.author.url_name %}">{{ object.author }}</a>
+      </h4>
+      <small>Published on {{ object.date_published }}</small>
+      <small><i class="far fa-clock"></i> {{ object.read_time }}</small>
     </div>
   </div>
+  {% if request.user == object.author %}
+  <div>
+    <div>
+      <a href="{% url 'blog:post_update' pk=object.pk slug=object.slug %}">Update</a>
+    </div>
+    <div>
+      <a href="#">Delete</a>
+    </div>
+  </div>
+{% endif %}
   <div class="post-detail__thumbnail">
     <img src="{{ object.thumbnail.url }}" alt="{{ instance.title }} image" />
   </div>
@@ -27,7 +37,7 @@
     {{ object.content | safe }}
   </div>
   <div>
-    <p>Likes: {{ object.num_likes }} || Dislikes: {{ object.num_dislikes }}</p>
+    <p>Likes: {{ object.get_num_likes }} || Dislikes: {{ object.get_num_dislikes }}</p>
   </div>
   <div>
     <form method="POST">
@@ -41,7 +51,7 @@
       <div>
         <h4>{{ comment.author }}</h4>
         <p>{{ comment.content }}</p>
-        <p>Likes: {{ comment.num_likes }} || Dislikes: {{ comment.num_dislikes }}</p>
+        <p>Likes: {{ comment.get_num_likes }} || Dislikes: {{ comment.get_num_dislikes }}</p>
       </div>
     {% endfor %}
   </div>

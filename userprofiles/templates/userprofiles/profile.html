@@ -5,6 +5,12 @@
 {% block title %} Profile {% endblock title %}
 
 {% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message message-{{ message.tags }}">{{ message }}</div>
+      <div class="dummy-space"></div>
+    {% endfor %}
+  {% endif %}
   <div class="container-acc pfl-col">
     <div class="pfl-col__header">
       <div class="pfl-col__img-container">
@@ -22,13 +28,20 @@
       </div>
       <hr />
       <div class="form-row">
-        <span>Drafted Posts:</span> <a href="#">{{ request.user.posts.drafted.count }} Post(s)</a>
+        <span>Drafted Posts:</span>
+        <a href="#">{{ num_drafted }} Post{{ num_drafted|pluralize }}</a>
       </div>
       <div class="form-row">
-        Published Posts: <a href="#">{{ request.user.posts.published.count }} Post(s)</a>
+        Published Posts: 
+        <a href="{% url 'blog:user_posts' user=request.user.url_name %}">
+          {{ num_published }} Post{{ num_published|pluralize }}
+        </a>
       </div>
       <div class="form-row">
-        Liked Posts: <a href="#">{{ request.user.post_likes.count }} Post(s)</a>
+        Liked Posts: <a href="#">{{ num_liked }} Post{{ num_liked|pluralize }}</a>
+      </div>
+      <div class="form-row">
+        Disliked Posts: <a href="#">{{ num_disliked }} Post{{ num_disliked|pluralize }}</a>
       </div>
     </div>
   </div>

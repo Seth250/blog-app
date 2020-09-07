@@ -11,8 +11,9 @@
 				<img src="{{ instance.author.profile.image.url }}" alt="{ instance.author }} image" class="author-img" />
 			</div>
 			<div class="author-info">
-				<h4><a href="{% url 'blog:user_posts' username=instance.author %}">{{ instance.author }}</a></h4>
-				<small>{{ instance.date_created }}</small>
+				<h4><a href="{% url 'blog:user_posts' user=instance.author.url_name %}">{{ instance.author }}</a></h4>
+				<small>{{ instance.date_published }}</small>
+				<small><i class="far fa-clock"></i> {{ instance.read_time }}</small>
 			</div>
 		</div>
 		<div class="post-item__thumbnail">
@@ -22,9 +23,8 @@
 			<h2><a href="{% url 'blog:post_detail' slug=instance.slug pk=instance.pk %}">{{ instance.title }}</a></h2>
 		</div>
 		<div class="post-item__category">
-			<p>
-				<i class="fas fa-tags"></i> 
-				<a href="#">{{ instance.category }}</a>
+			<p> 
+				<a href="#"><i class="fas fa-tags"></i> {{ instance.category }}</a>
 			</p>
 		</div>
 		<div>

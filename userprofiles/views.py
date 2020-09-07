@@ -7,11 +7,11 @@ from django.contrib import messages
 class UserProfileView(View):
 
 	def get(self, request, *args, **kwargs):
-		user_form = UserUpdateForm(instance=request.user)
-		profile_form = ProfileUpdateForm(instance=request.user.profile)
 		context = {
-			'user_form': user_form,
-			'profile_form': profile_form
+			'num_drafted': request.user.posts.drafted().count(),
+			'num_published': request.user.posts.published().count(),
+			'num_liked': request.user.post_likes.count(),
+			'num_disliked': request.user.post_dislikes.count()
 		}
 		return render(request, 'userprofiles/profile.html', context)
 

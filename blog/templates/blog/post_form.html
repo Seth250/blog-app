@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Post Create/Update{% endblock title %}
+{% block title %}Post {% if action == 'create' %} Create {% else %} Update {% endif %}{% endblock title %}
 
 {% block content %}
   <div>
@@ -10,7 +10,7 @@
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">
-        {% if action == 'create' %} Draft Post {% else %} Update {% endif %}
+        {% if action == 'create' %} Draft this Post {% else %} Update Your Post {% endif %}
       </button>
     </form>
   </div>

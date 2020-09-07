@@ -3,7 +3,9 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.views.generic.detail import SingleObjectMixin
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
+from django.urls import reverse
 from django.views.generic import (
 	View,
 	ListView,
@@ -16,8 +18,17 @@ from django.views.generic import (
 # Create your views here.
 
 
+# class ObjectOwnerRequiredMixin:
+
+# 	def get_object(self):
+# 		obj = super().get_object() # uses the base class' get_object method
+# 		if obj.author != self.request.user:
+# 			raise PermissionDenied
+
+# 		return obj
+
+
 class PostListView(ListView):
-	# model = Post
 	paginate_by = 2
 
 	def get_queryset(self):
@@ -28,13 +39,14 @@ class UserPostListView(ListView):
 	paginate_by = 2
 
 	def get_queryset(self):
-		return Post.objects.published().filter(author__username=self.kwargs.get('username'))
+		return Post.objects.published().filter(author__url_name=self.kwargs.get('user'))
 
 
-# change the queryset to only reflect published posts
 class PostDetailView(SingleObjectMixin, View):
-	model = Post
 	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return Post.objects.published()
 
 	def get(self, request, *args, **kwargs):
 		obj = self.get_object()
@@ -62,23 +74,53 @@ class PostCreateView(CreateView):
 	model = Post
 	form_class = PostForm
 
+	def get_context_data(self, **kwargs):
+		kwargs['action'] = 'create'
+		return super(PostCreateView, self).get_context_data(**kwargs)
+
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
 
 
-class PostPublishView(UpdateView):
-			# form.instance.publish()
-	pass
+class PostPublishView(SingleObjectMixin, View):
+	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def post(self, request, *args, **kwargs):
+		obj = self.get_object()
+		obj.publish()
+		return redirect(obj.get_absolute_url())
 
 
 class PostUpdateView(UpdateView):
-	model = Post
+	# model = Post
+	query_pk_and_slug = True
 	form_class = PostForm
+
+	def get_queryset(self):
+		return self.request.user.posts.published()
+
+	def get_context_data(self, **kwargs):
+		kwargs['action'] = 'update'
+		return super(PostUpdateView, self).get_context_data(**kwargs)
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
+
+
+class PostDeleteView(DeleteView):
+	model = Post
+	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return self.request.user.posts.all()
+
+	def get_success_url(self):
+		return reverse('blog:post_list')
 
 
 class ActionManagerMixin(SingleObjectMixin):
@@ -103,7 +145,7 @@ class ObjectActionToggleView(ActionManagerMixin, View):
 		else:
 			main_obj_manager.add(request.user)
 
-		return redirect('blog:post_detail', pk=self.kwargs.get('pk'), slug=self.kwargs.get('slug'))
+		return redirect('blog:post_detail', pk=self.kwargs['pk'], slug=self.kwargs['slug'])
 
 
 class UserPostLikeToggleView(ObjectActionToggleView):

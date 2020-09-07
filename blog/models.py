@@ -5,6 +5,7 @@ from PIL import Image
 from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+import readtime
 
 # Create your models here.
 
@@ -45,7 +46,8 @@ class Post(models.Model):
 								related_name='posts', related_query_name='post')
 	title = models.CharField(max_length=120)
 	content = models.TextField()
-	slug = models.SlugField(default='', max_length=120, editable=False)
+	slug = models.SlugField(max_length=120, default='', editable=False)
+	read_time = models.CharField(max_length=25, default='', editable=False)
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=DRAFT)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', 
 								related_query_name='post', default=1)
@@ -62,6 +64,7 @@ class Post(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.title, allow_unicode=True)
+		self.read_time = readtime.of_text(self.content)
 		super().save(*args, **kwargs)
 
 		img = Image.open(self.thumbnail.path)
@@ -77,13 +80,13 @@ class Post(models.Model):
 		self.status = self.PUBLISHED
 		self.date_published = timezone.now()
 
-	def num_comments(self):
+	def get_num_comments(self):
 		return self.comments.count()
 
-	def num_likes(self):
+	def get_num_likes(self):
 		return self.likes.count()
 
-	def num_dislikes(self):
+	def get_num_dislikes(self):
 		return self.dislikes.count()
 
 
@@ -101,8 +104,8 @@ class Comment(models.Model):
 	class Meta:
 		ordering = ['-date_created']
 
-	def num_likes(self):
+	def get_num_likes(self):
 		return self.likes.count()
 
-	def num_dislikes(self):
+	def get_num_dislikes(self):
 		return self.dislikes.count()

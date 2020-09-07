@@ -7,10 +7,17 @@ verify_ssl = true
 
 [packages]
 asgiref = "==3.2.7"
-django = "==3.0.4"
-pillow = "==7.1.0"
+beautifulsoup4 = "==4.9.1"
+cssselect = "==1.1.0"
+lxml = "==4.5.2"
+markdown2 = "==2.3.9"
+pyquery = "==1.4.1"
 pytz = "==2020.1"
+soupsieve = "==2.0.1"
 sqlparse = "==0.3.1"
+Django = "==3.0.4"
+Pillow = "==7.1.0"
+readtime = "*"
 
 [requires]
 python_version = "3.7"

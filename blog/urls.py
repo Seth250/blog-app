@@ -5,6 +5,7 @@ from .views import (
 	PostDetailView,
 	PostCreateView,
 	PostUpdateView,
+	PostDeleteView,
 	UserPostLikeToggleView,
 	UserPostDislikeToggleView,
 	UserCommentLikeToggleView,
@@ -15,10 +16,11 @@ app_name = 'blog'
 
 urlpatterns = [
 	path('', PostListView.as_view(), name='post_list'),
-	path('<str:username>/posts/', UserPostListView.as_view(), name='user_posts'),
+	path('<str:user>/posts/', UserPostListView.as_view(), name='user_posts'),
 	path('<str:slug>-<int:pk>/', PostDetailView.as_view(), name='post_detail'),
 	path('create/', PostCreateView.as_view(), name='post_create'),
 	path('<str:slug>-<int:pk>/update/', PostUpdateView.as_view(), name='post_update'),
+	path('<str:slug>-<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
 	path('<str:slug>-<int:pk>/like-toggle/', UserPostLikeToggleView.as_view(), name='post_like_toggle'),
 	path('<str:slug>-<int:pk>/dislike-toggle/', UserPostDislikeToggleView.as_view(), name='post_dislike_toggle'),
 	path('<str:slug>-<int:pk>/comments/<int:comment_pk>/like-toggle/', UserCommentLikeToggleView.as_view(), 
