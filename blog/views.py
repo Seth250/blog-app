@@ -84,18 +84,6 @@ class PostCreateView(CreateView):
 		return super().form_valid(form)
 
 
-class PostPublishView(SingleObjectMixin, View):
-	query_pk_and_slug = True
-
-	def get_queryset(self):
-		return self.request.user.posts.drafted()
-
-	def post(self, request, *args, **kwargs):
-		obj = self.get_object()
-		obj.publish()
-		return redirect(obj.get_absolute_url())
-
-
 class PostUpdateView(UpdateView):
 	# model = Post
 	query_pk_and_slug = True

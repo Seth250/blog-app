@@ -1,0 +1,74 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Blog {% endblock title %}
+
+{% block content %}
+<div class="container-blog">
+	{% for instance in object_list %}
+	<div class="post-item">
+		<div class="post-item__author">
+			<div class="author-img-container">
+				<img src="{{ instance.author.profile.image.url }}" alt="{ instance.author }} image" class="author-img" />
+			</div>
+			<div class="author-info">
+				<h4><a href="{% url 'blog:user_posts' user=instance.author.url_name %}">{{ instance.author }}</a></h4>
+				<small>{{ instance.date_published }}</small>
+				<small><i class="far fa-clock"></i> {{ instance.read_time }}</small>
+			</div>
+		</div>
+		<div class="post-item__thumbnail">
+			<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
+		</div>
+		<div class="post-item__title">
+			<h2>
+        <a href="{% url 'userprofiles:draft_preview' slug=instance.slug pk=instance.pk %}">{{ instance.title }}</a>
+      </h2>
+		</div>
+		<div class="post-item__category">
+			<p> 
+				<a href="#"><i class="fas fa-tags"></i> {{ instance.category }}</a>
+			</p>
+		</div>
+		<div>
+			<p>{{ instance.content | truncatewords:20 | safe }}</p>
+		</div>
+	</div>
+	{% empty %}
+	<div>NOTHING TO DISPLAY!</div>
+	{% endfor %}
+</div>
+
+{% if is_paginated %}
+	<div class = "pagination">
+		{% if page_obj.has_previous %}
+			<a class="pagination-action" href="?page=1" title="First Page">
+				<i class="fas fa-angle-double-left fa-2x"></i>
+			</a>
+			<a class="pagination-action" href="?page={{ page_obj.previous_page_number }}" title="Previous Page">
+				<i class="fas fa-angle-left fa-2x"></i>
+			</a>
+		{% endif %}
+
+		{% for pg in page_obj.paginator.page_range %}
+			{% if page_obj.number == pg %}
+				<a class="pagination-number pagination-current">{{ pg }}</a>
+			{% elif pg > page_obj.number|add:'-3' and pg < page_obj.number|add:'3' %}
+				<a class="pagination-number" href="?page={{ pg }}">{{ pg }}</a>
+			{% endif %}
+		{% endfor %}
+
+		{% if page_obj.has_next %}
+			<a class="pagination-action" href="?page={{ page_obj.next_page_number }}" title="Next Page">
+				<i class="fas fa-angle-right fa-2x"></i>
+			</a>
+			<a class="pagination-action" href="?page={{ page_obj.paginator.num_pages }}" title="Last Page">
+				<i class="fas fa-angle-double-right fa-2x"></i>
+			</a>
+		{% endif %}
+	</div>
+
+	<div class="logs-length">
+		<p> {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} posts. </p>
+	</div>
+{% endif %}
+{% endblock content %}

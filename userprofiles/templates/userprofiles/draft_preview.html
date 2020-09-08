@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ object.title }}{% endblock title %}
+
+{% block content %}
+<div class="post-detail">
+  <div class="post-detail__title">
+    <h1>{{ object.title }}</h1>
+    <a href="#"><i class="fas fa-tags"></i> {{ object.category }}</a> 
+  </div>
+  <div>
+    <div>
+      <a href="{% url 'blog:post_update' pk=object.pk slug=object.slug %}">Update</a>
+    </div>
+    <div>
+      <a href="#">Delete</a>
+    </div>
+  </div>
+  <div class="post-detail__thumbnail">
+    <img src="{{ object.thumbnail.url }}" alt="{{ instance.title }} image" />
+  </div>
+  <div class="post-detail__content">
+    {{ object.content | safe }}
+  </div>
+</div>
+{% endblock content %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
+from django.views.generic.detail import SingleObjectMixin
 
 # Create your views here.
 class UserProfileView(View):
@@ -37,9 +38,29 @@ class UserProfileEditView(View):
 
 
 class UserDraftedPostsView(ListView):
+	template_name = 'userprofiles/drafts.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.drafted()
+
+
+class UserDraftPreviewView(DetailView):
+	template_name = 'userprofiles/preview.html'
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+
+class UserDraftPublishView(SingleObjectMixin, View):
+	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def post(self, request, *args, **kwargs):
+		obj = self.get_object()
+		obj.publish()
+		return redirect(obj.get_absolute_url())
 
 
 class UserLikedPostsView(ListView):

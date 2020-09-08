@@ -1,3 +1,4 @@
+
 function delegateClickEvent(event){
     if (event.target.matches('.like-toggler')){
         event.preventDefault();
