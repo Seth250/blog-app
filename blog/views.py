@@ -4,6 +4,7 @@ from .forms import PostForm, CommentForm
 from django.views.generic.detail import SingleObjectMixin
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.db import transaction
 from django.urls import reverse
 from django.views.generic import (
@@ -132,7 +133,22 @@ class ActionManagerMixin(SingleObjectMixin):
 
 class ObjectActionToggleView(ActionManagerMixin, View):
 
-	def get(self, request, *args, **kwargs):
+	# def get(self, request, *args, **kwargs):
+	# 	main_obj_manager, opp_obj_manager = self.get_object_action_managers()
+
+	# 	if request.user in main_obj_manager.all():
+	# 		main_obj_manager.remove(request.user)
+
+	# 	elif request.user in opp_obj_manager.all():
+	# 		opp_obj_manager.remove(request.user)
+	# 		main_obj_manager.add(request.user)
+
+	# 	else:
+	# 		main_obj_manager.add(request.user)
+
+	# 	return redirect('blog:post_detail', pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+
+	def post(self, request, *args, **kwargs):
 		main_obj_manager, opp_obj_manager = self.get_object_action_managers()
 
 		if request.user in main_obj_manager.all():
@@ -145,7 +161,7 @@ class ObjectActionToggleView(ActionManagerMixin, View):
 		else:
 			main_obj_manager.add(request.user)
 
-		return redirect('blog:post_detail', pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+		return JsonResponse({'status': 'ok'}, status=200)
 
 
 class UserPostLikeToggleView(ObjectActionToggleView):

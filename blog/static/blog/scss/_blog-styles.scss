@@ -87,6 +87,29 @@
 
     }
   }
+
+  .like-toggler,
+  .dislike-toggler{
+    display: inline-block;
+    // border: 1px solid red;
+    padding: 0.4em 0.5em 0.4em 0;
+
+    i{
+      color: grey;
+      pointer-events: none;
+    }
+
+    span{
+      color: black;
+      pointer-events: none;
+    }
+  }
+
+  .selected{
+    i{
+      color: #1132AE;
+    }
+  }
 }
 
 @import '_blog-responsive'

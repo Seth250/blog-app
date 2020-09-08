@@ -40,11 +40,15 @@
   </div>
   <div>
     <p>
-      <a href="{% url 'blog:post_like_toggle' slug=object.slug pk=object.pk %}">
-        <i class="fas fa-thumbs-up"></i>{{ object.get_num_likes }}
+      <a href="{% url 'blog:post_like_toggle' slug=object.slug pk=object.pk %}" 
+        class="like-toggler {% if request.user in object.likes.all %}selected{% endif %}">
+        <i class="fas fa-thumbs-up"></i>
+        <span>{{ object.get_num_likes }}</span>
       </a>
-      <a href="{% url 'blog:post_dislike_toggle' slug=object.slug pk=object.pk %}">
-        <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>{{ object.get_num_dislikes }}
+      <a href="{% url 'blog:post_dislike_toggle' slug=object.slug pk=object.pk %}" 
+        class="dislike-toggler {% if request.user in object.dislikes.all %}selected{% endif %}">
+        <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>
+        <span>{{ object.get_num_dislikes }}</span>
       </a>
     </p>
   </div>
@@ -61,11 +65,15 @@
         <h4>{{ comment.author }}</h4>
         <p>{{ comment.content }}</p>
         <p>      
-          <a href="{% url 'blog:comment_like_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}">
-            <i class="fas fa-thumbs-up"></i>{{ comment.get_num_likes }}
+          <a href="{% url 'blog:comment_like_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}" 
+            class="like-toggler {% if request.user in comment.likes.all %}selected{% endif %}">
+            <i class="fas fa-thumbs-up"></i>
+            <span>{{ comment.get_num_likes }}</span>
           </a>
-          <a href="{% url 'blog:comment_dislike_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}">
-            <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>{{ comment.get_num_dislikes }}
+          <a href="{% url 'blog:comment_dislike_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}" 
+            class="dislike-toggler {% if request.user in comment.dislikes.all %}selected{% endif %}">
+            <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>
+            <span>{{ comment.get_num_dislikes }}</span>
           </a>
         </p>
       </div>
