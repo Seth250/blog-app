@@ -29,9 +29,6 @@ class PostQuerySet(models.QuerySet):
 	def drafted(self):
 		return self.filter(status='dt').order_by('-date_updated')
 
-	# def get_queryset(self):
-	# 	return super(PublishedManager, self).get_queryset().filter(status='pd')
-
 
 class Post(models.Model):
 	DRAFT = 'dt'
@@ -55,9 +52,9 @@ class Post(models.Model):
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_dislikes', blank=True)
 	objects = PostQuerySet.as_manager() 
-	date_published = models.DateField(blank=True, null=True)
-	date_created = models.DateField(auto_now_add=True)
-	date_updated = models.DateField(auto_now=True)
+	date_published = models.DateTimeField(blank=True, null=True)
+	date_created = models.DateTimeField(auto_now_add=True)
+	date_updated = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
 		return self.title
@@ -79,6 +76,7 @@ class Post(models.Model):
 	def publish(self):
 		self.status = self.PUBLISHED
 		self.date_published = timezone.now()
+		self.save()
 
 	def get_num_comments(self):
 		return self.comments.count()

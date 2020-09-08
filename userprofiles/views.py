@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import (
+	View,
+	DetailView,
+	UpdateView,
+	DeleteView
+)
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
+from blog.forms import PostForm
+from blog.views import CustomListView
 from django.views.generic.detail import SingleObjectMixin
+from django.urls import reverse
 
 # Create your views here.
 class UserProfileView(View):
@@ -37,18 +45,41 @@ class UserProfileEditView(View):
 			return redirect('userprofiles:profile')
 
 
-class UserDraftedPostsView(ListView):
-	template_name = 'userprofiles/drafts.html'
+class UserDraftedPostsView(CustomListView):
+	template_name = 'userprofiles/draft_list.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.drafted()
 
 
 class UserDraftPreviewView(DetailView):
-	template_name = 'userprofiles/preview.html'
+	template_name = 'userprofiles/draft_preview.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.drafted()
+
+
+class UserDraftUpdateView(UpdateView):
+	form_class = PostForm
+	query_pk_and_slug = True
+	# template_name = 'userprofiles/draft_update.html'
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def get_success_url(self):
+		return reverse('userprofiles:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+
+
+class UserDraftDeleteView(DeleteView):
+	query_pk_and_slug = True
+	# template_name = 'userprofiles/draft_update.html'
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def get_success_url(self):
+		return reverse('userprofiles:drafted_posts')
 
 
 class UserDraftPublishView(SingleObjectMixin, View):
@@ -63,13 +94,13 @@ class UserDraftPublishView(SingleObjectMixin, View):
 		return redirect(obj.get_absolute_url())
 
 
-class UserLikedPostsView(ListView):
+class UserLikedPostsView(CustomListView):
 
 	def get_queryset(self):
 		return self.request.user.post_likes.all()
 
 
-class UserDislikedPostsView(ListView):
+class UserDislikedPostsView(CustomListView):
 
 	def get_queryset(self):
 		return self.request.user.post_dislikes.all()

@@ -18,17 +18,20 @@
       <h4>
         <a href="{% url 'blog:user_posts' user=object.author.url_name %}">{{ object.author }}</a>
       </h4>
-      <small>Published on {{ object.date_published }}</small>
+      <small>Published on {{ object.date_published.date }}</small>
       <small><i class="far fa-clock"></i> {{ object.read_time }}</small>
     </div>
   </div>
   {% if request.user == object.author %}
   <div>
     <div>
-      <a href="{% url 'blog:post_update' pk=object.pk slug=object.slug %}">Update</a>
+      <a href="{% url 'blog:post_update' slug=object.slug pk=object.pk %}">Update Post</a>
     </div>
     <div>
-      <a href="#">Delete</a>
+      <form method="POST" action="{% url 'blog:post_delete' slug=object.slug pk=object.pk %}">
+        {% csrf_token %}
+        <button type="submit">Delete Post</button>
+      </form>
     </div>
   </div>
   {% endif %}

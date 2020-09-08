@@ -18,26 +18,17 @@ from django.views.generic import (
 
 # Create your views here.
 
-
-# class ObjectOwnerRequiredMixin:
-
-# 	def get_object(self):
-# 		obj = super().get_object() # uses the base class' get_object method
-# 		if obj.author != self.request.user:
-# 			raise PermissionDenied
-
-# 		return obj
-
-
-class PostListView(ListView):
+class CustomListView(ListView):
 	paginate_by = 2
+
+
+class PostListView(CustomListView):
 
 	def get_queryset(self):
 		return Post.objects.published()
 
 
-class UserPostListView(ListView):
-	paginate_by = 2
+class UserPostListView(CustomListView):
 
 	def get_queryset(self):
 		return Post.objects.published().filter(author__url_name=self.kwargs.get('user'))
@@ -79,6 +70,9 @@ class PostCreateView(CreateView):
 		kwargs['action'] = 'create'
 		return super(PostCreateView, self).get_context_data(**kwargs)
 
+	def get_success_url(self):
+		return reverse('userprofiles:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
@@ -102,11 +96,10 @@ class PostUpdateView(UpdateView):
 
 
 class PostDeleteView(DeleteView):
-	model = Post
 	query_pk_and_slug = True
 
 	def get_queryset(self):
-		return self.request.user.posts.all()
+		return self.request.user.posts.published()
 
 	def get_success_url(self):
 		return reverse('blog:post_list')

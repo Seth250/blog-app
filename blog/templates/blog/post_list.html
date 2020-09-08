@@ -12,7 +12,7 @@
 			</div>
 			<div class="author-info">
 				<h4><a href="{% url 'blog:user_posts' user=instance.author.url_name %}">{{ instance.author }}</a></h4>
-				<small>{{ instance.date_published }}</small>
+				<small>{{ instance.date_published.date }}</small>
 				<small><i class="far fa-clock"></i> {{ instance.read_time }}</small>
 			</div>
 		</div>

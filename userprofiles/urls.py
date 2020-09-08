@@ -4,6 +4,8 @@ from .views import (
 	UserProfileEditView,
 	UserDraftedPostsView,
 	UserDraftPreviewView,
+	UserDraftUpdateView,
+	UserDraftDeleteView,
 	UserDraftPublishView,
 	UserLikedPostsView,
 	UserDislikedPostsView
@@ -17,6 +19,8 @@ urlpatterns = [
 	path('activity/drafts/', UserDraftedPostsView.as_view(), name='drafted_posts'),
 	path('activity/drafts/<str:slug>-<int:pk>/', UserDraftPreviewView.as_view(), name='draft_preview'),
 	path('activity/drafts/<str:slug>-<int:pk>/publish/', UserDraftPublishView.as_view(), name='draft_publish'),
+	path('activity/drafts/<str:slug>-<int:pk>/update/', UserDraftUpdateView.as_view(), name='draft_update'),
+	path('activity/drafts/<str:slug>-<int:pk>/delete/', UserDraftDeleteView.as_view(), name='draft_delete'),
 	path('activity/liked-posts/', UserLikedPostsView.as_view(), name='liked_posts'),
 	path('activity/disliked-posts/', UserDislikedPostsView.as_view(), name='disliked_posts')
 ]

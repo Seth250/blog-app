@@ -2,9 +2,12 @@
 
 {% load static %}
 
-{% block title %}{{ object.title }}{% endblock title %}
+{% block title %}{{ object.title }} Preview{% endblock title %}
 
 {% block content %}
+<div>
+  <h2>Draft Preview</h2>
+</div>
 <div class="post-detail">
   <div class="post-detail__title">
     <h1>{{ object.title }}</h1>
@@ -12,10 +15,19 @@
   </div>
   <div>
     <div>
-      <a href="{% url 'blog:post_update' pk=object.pk slug=object.slug %}">Update</a>
+      <form method="POST" action="{% url 'userprofiles:draft_publish' slug=object.slug pk=object.pk %}">
+        {% csrf_token %}
+        <button type="submit">Publish Draft</button>
+      </form>
     </div>
     <div>
-      <a href="#">Delete</a>
+      <a href="{% url 'userprofiles:draft_update' slug=object.slug pk=object.pk %}">Update Draft</a>
+    </div>
+    <div>
+      <form method="POST" action="{% url 'userprofiles:draft_delete' slug=object.slug pk=object.pk %}">
+        {% csrf_token %}
+        <button type="submit">Delete Draft</button>
+      </form>
     </div>
   </div>
   <div class="post-detail__thumbnail">
