@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 class User(PermissionsMixin, AbstractBaseUser):
 	first_name = models.CharField(_('first name'), max_length=30)
 	last_name = models.CharField(_('last name'), max_length=30)
-	url_name = models.CharField(_('url name'), default='ok', max_length=80, editable=False)
 	email = models.EmailField(
 		_('email address'), 
 		unique=True, 
@@ -43,11 +42,6 @@ class User(PermissionsMixin, AbstractBaseUser):
 
 	def __str__(self):
 		return self.full_name
-
-	def save(self, *args, **kwargs):
-		import secrets
-		self.url_name = f'{self.first_name}.{self.last_name}-{secrets.token_urlsafe(8)}'.lower()
-		super(User, self).save(*args, **kwargs)
 
 	@property
 	def full_name(self):

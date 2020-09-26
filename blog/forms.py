@@ -1,7 +1,15 @@
 from django import forms
 from .models import Post, Comment
 
-class PostForm(forms.ModelForm):
+
+class BaseModelForm(forms.ModelForm):
+
+	def __init__(self, *args, **kwargs):
+		kwargs.setdefault('label_suffix', '')
+		return super(BaseModelForm, self).__init__(*args, **kwargs)
+
+
+class PostForm(BaseModelForm):
 
     class Meta:
         model = Post
@@ -13,7 +21,7 @@ class PostForm(forms.ModelForm):
         }
 
 
-class CommentForm(forms.ModelForm):
+class CommentForm(BaseModelForm):
 
     class Meta:
         model = Comment

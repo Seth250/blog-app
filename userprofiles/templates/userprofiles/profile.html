@@ -6,10 +6,14 @@
 
 {% block content %}
   {% if messages %}
-    {% for message in messages %}
-      <div class="message message-{{ message.tags }}">{{ message }}</div>
-      <div class="dummy-space"></div>
-    {% endfor %}
+    <div class="message-container">
+      {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+          <p>{{ message }}</p>
+          <span class="close">&times;</span>
+        </div>
+      {% endfor %}
+    </div>
   {% endif %}
   <div class="container-acc pfl-col">
     <div class="pfl-col__header">
@@ -46,3 +50,7 @@
     </div>
   </div>
 {% endblock content %}
+
+{% block script %}
+  <script src="{% static 'js/main.js' %}"></script>
+{% endblock script %}

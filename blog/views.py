@@ -18,6 +18,7 @@ from django.views.generic import (
 
 # Create your views here.
 
+#consider checking multipleobjectmixin application in crozoff
 class CustomListView(ListView):
 	paginate_by = 2
 
@@ -25,13 +26,15 @@ class CustomListView(ListView):
 class PostListView(CustomListView):
 
 	def get_queryset(self):
-		return Post.objects.published()
+		# return Post.objects.published()
+		return Post.objects.select_related('author').published()
 
 
-class UserPostListView(CustomListView):
+# change url name to something else (I dont know what you should change it to)
+# class UserPostListView(CustomListView):
 
-	def get_queryset(self):
-		return Post.objects.published().filter(author__url_name=self.kwargs.get('user'))
+	# def get_queryset(self):
+	# 	return Post.objects.published().filter(author__url_name=self.kwargs.get('user'))
 
 
 class PostDetailView(SingleObjectMixin, View):
@@ -59,7 +62,8 @@ class PostDetailView(SingleObjectMixin, View):
 				instance.author = request.user
 				instance.save()
 
-		return redirect('blog:post_detail', pk=obj.pk, slug=obj.slug)
+		# return redirect('blog:post_detail', pk=obj.pk, slug=obj.slug)
+		return redirect(obj.get_absolute_url())
 
 
 class PostCreateView(CreateView):
@@ -146,15 +150,21 @@ class ObjectActionToggleView(ActionManagerMixin, View):
 
 
 class UserPostLikeToggleView(ObjectActionToggleView):
-	model = Post
+	# model = Post
 	query_pk_and_slug = True
 	action = 'like_toggle'
 
+	def get_queryset(self):
+		return Post.objects.published()
+
 
 class UserPostDislikeToggleView(ObjectActionToggleView):
-	model = Post
+	# model = Post
 	query_pk_and_slug = True
 	action = 'dislike_toggle'
+
+	def get_queryset(self):
+		return Post.objects.published()
 
 
 class UserCommentLikeToggleView(ObjectActionToggleView):

@@ -2,15 +2,12 @@
 
 {% load static %}
 
-{% block title %}{{ object.title }} Preview{% endblock title %}
+{% block title %}{{ object.title }} &mdash; Preview{% endblock title %}
 
 {% block content %}
-<div>
-  <h2>Draft Preview</h2>
-</div>
 <div class="post-detail">
   <div class="post-detail__title">
-    <h1>{{ object.title }}</h1>
+    <h1>{{ object.title }} (Draft Preview)</h1>
     <a href="#"><i class="fas fa-tags"></i> {{ object.category }}</a> 
   </div>
   <div>

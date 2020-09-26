@@ -8,6 +8,8 @@ from django.views.generic import View, CreateView
 
 # Create your views here.
 
+# maybe create another app called library and put your drafts and stuff there
+
 class UserRedirectView(View):
 
 	def get(self, request, *args, **kwargs):

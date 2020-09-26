@@ -42,7 +42,7 @@ class Post(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, 
 								related_name='posts', related_query_name='post')
 	title = models.CharField(max_length=120)
-	content = models.TextField()
+	content = models.TextField(blank=True, null=True) # because of tinymce validation errors, maybe try only blank
 	slug = models.SlugField(max_length=120, default='', editable=False)
 	read_time = models.CharField(max_length=25, default='', editable=False)
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=DRAFT)
@@ -52,7 +52,7 @@ class Post(models.Model):
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_dislikes', blank=True)
 	objects = PostQuerySet.as_manager() 
-	date_published = models.DateTimeField(blank=True, null=True)
+	date_published = models.DateTimeField(null=True, editable=False)
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField(auto_now=True)
 
@@ -93,7 +93,7 @@ class Comment(models.Model):
 							   related_name='comments', related_query_name='comment')
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', 
 							 related_query_name='comment')
-	content = models.TextField(_('Comment'))
+	content = models.TextField(_('Leave a Comment'))
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_dislikes', blank=True)
 	date_created = models.DateField(auto_now_add=True)

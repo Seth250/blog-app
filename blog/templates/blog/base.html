@@ -11,8 +11,6 @@
 					rel="stylesheet" />
 		<link href="{% static 'css/styles.css' %}" rel="stylesheet" />
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
-		{% block styles %}
-		{% endblock styles %}
 	</head>
 	<body>
 		<div class="page-wrapper">
@@ -21,6 +19,9 @@
 				<nav class="nav-bar">
 					<ul>
 						{% if user.is_authenticated %}
+							<li>
+								<a href="{% url 'blog:post_list' %}">Blog</a>
+							</li>
 							<li>
 								<a href="{% url 'userprofiles:profile' %}">Profile</a>
 							</li>

@@ -2,7 +2,7 @@ tinymce.init({
     height: 480,
     width: 960,
     theme: 'silver',
-    selector: 'textarea',
+    selector: '.form-content',
     plugins: [
         'emoticons template save link image media preview codesample',
         'advlist table code lists fullscreen insertdatetime nonbreaking textpattern',
