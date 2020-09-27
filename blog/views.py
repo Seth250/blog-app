@@ -26,8 +26,7 @@ class CustomListView(ListView):
 class PostListView(CustomListView):
 
 	def get_queryset(self):
-		# return Post.objects.published()
-		return Post.objects.select_related('author').published()
+		return Post.objects.select_related('author__profile', 'category').published()
 
 
 # change url name to something else (I dont know what you should change it to)

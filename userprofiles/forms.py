@@ -38,8 +38,14 @@ class ProfileUpdateForm(BaseModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ('date_of_birth', 'image')
+		fields = ('display_name', 'bio', 'date_of_birth', 'image')
 		widgets = {
+			'display_name': forms.TextInput(attrs={
+				'class': 'text-input-acc pfl-col__input-box'
+			}),
+			'bio': forms.Textarea(attrs={
+				'class': 'text-input-acc pfl-col__input-box'
+			}),
 			'date_of_birth': forms.DateInput(attrs={
 				'type': 'date',
 				'class': 'text-input-acc pfl-col__input-box'

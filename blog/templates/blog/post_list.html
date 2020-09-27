@@ -8,10 +8,10 @@
 		<div class="post-item">
 			<div class="post-item__author">
 				<div class="author-img-container">
-					<img src="{{ instance.author.profile.image.url }}" alt="{ instance.author }} image" class="author-img" />
+					<img src="{{ instance.author.profile.image.url }}" alt="{{ instance.author }} image" class="author-img" />
 				</div>
 				<div class="author-info">
-					<h4><a href="{% url 'blog:user_posts' user=None %}">{{ instance.author }}</a></h4>
+					<h4><a href="#">{{ instance.author }}</a></h4>
 					<small>{{ instance.date_published.date }}</small>
 					<small><i class="far fa-clock"></i> {{ instance.read_time }}</small>
 				</div>
@@ -24,7 +24,7 @@
 			</div>
 			<div class="post-item__category">
 				<p> 
-					<a href="#"><i class="fas fa-tags"></i> {{ instance.category }}</a>
+					<a href="#">{{ instance.category }}</a>
 				</p>
 			</div>
 			<div>
