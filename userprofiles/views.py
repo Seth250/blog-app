@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import (
 	View,
 	DetailView,
@@ -7,8 +7,11 @@ from django.views.generic import (
 )
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
+from .models import Profile
 from blog.forms import PostForm
-from blog.views import CustomListView
+from blog.views import CustomListView, PostListView
+from django.contrib.auth import get_user_model
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse
 
@@ -16,16 +19,39 @@ from django.urls import reverse
 class UserProfileView(View):
 
 	def get(self, request, *args, **kwargs):
+		user_obj = get_object_or_404(
+			get_user_model().objects.select_related('profile'), 
+			username__iexact=kwargs['username']
+		)
 		context = {
-			'num_drafted': request.user.posts.drafted().count(),
-			'num_published': request.user.posts.published().count(),
-			'num_liked': request.user.post_likes.count(),
-			'num_disliked': request.user.post_dislikes.count()
+			'user_obj': user_obj,
+			'num_drafted': user_obj.posts.drafted().count(),
+			'num_published': user_obj.posts.published().count(),
+			'num_liked': user_obj.post_likes.count(),
+			'num_disliked': user_obj.post_dislikes.count()
 		}
 		return render(request, 'userprofiles/profile.html', context)
 
 
+# class UserProfileView(DetailView):
+# 	model = get_user_model()
+# 	template_name = 'userprofiles/profile.html'
+# 	slug_url_kwarg = 'username'
+# 	slug_field = 'username__iexact'
+# 	# slug_field = 'display_name'
+
+# 	def get_context_data(self, **kwargs):
+# 		user = self.get_object()
+# 		kwargs['num_published'] = user.posts.published().count()
+# 		kwargs['num_drafted'] = user.posts.drafted().count()
+# 		kwargs['num_liked'] = user.post_likes.count()
+# 		kwargs['num_disliked'] = user.post_dislikes.count()
+# 		return super(UserProfileView, self).get_context_data(**kwargs)
+
+
+
 class UserProfileEditView(View):
+
 	def get(self, request, *args, **kwargs):
 		user_form = UserUpdateForm(instance=request.user)
 		profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -42,7 +68,15 @@ class UserProfileEditView(View):
 			user_form.save()
 			profile_form.save()
 			messages.success(request, 'Your Profile has been Updated Successfully!')
-			return redirect('userprofiles:profile')
+			return redirect('userprofiles:profile', username=request.user.username)
+
+		return render(request, 'userprofiles/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+class UserPublishedPostsView(PostListView):
+
+	def get_queryset(self):
+		return super().get_queryset().filter(author__username__iexact=self.kwargs['username'])
 
 
 class UserDraftedPostsView(CustomListView):

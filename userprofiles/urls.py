@@ -15,9 +15,9 @@ from .views import (
 app_name = 'userprofiles'
 
 urlpatterns = [
-	path('<str:user>/', UserProfileView.as_view(), name='profile'),
-	path('<str:user>/edit-profile/', UserProfileEditView.as_view(), name='profile_edit'),
-	path('<str:user>/posts/')
+	path('<str:username>/', UserProfileView.as_view(), name='profile'),
+	path('<str:username>/edit-profile/', UserProfileEditView.as_view(), name='profile_edit'),
+	path('<str:username>/posts/', UserPublishedPostsView.as_view(), name='published_posts'),
 	path('<str:user>/drafts/', UserDraftedPostsView.as_view(), name='drafted_posts'),
 	path('<str:user>/drafts/<str:slug>-<int:pk>/', UserDraftPreviewView.as_view(), name='draft_preview'),
 	path('<str:user>/drafts/<str:slug>-<int:pk>/publish/', UserDraftPublishView.as_view(), name='draft_publish'),

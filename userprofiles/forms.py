@@ -11,7 +11,7 @@ class UserUpdateForm(UserChangeForm):
 			
 	class Meta:
 		model = get_user_model()
-		fields = ('email', 'first_name', 'last_name', ) #'username',
+		fields = ('email', 'first_name', 'last_name', 'username')
 		widgets = {
 			'email': forms.EmailInput(attrs={
 				'class': 'read-only text-input-acc pfl-col__input-box'
@@ -20,6 +20,9 @@ class UserUpdateForm(UserChangeForm):
 				'class': 'text-input-acc pfl-col__input-box'
 			}),
 			'last_name': forms.TextInput(attrs={
+				'class': 'text-input-acc pfl-col__input-box'
+			}),
+			'username': forms.TextInput(attrs={
 				'class': 'text-input-acc pfl-col__input-box'
 			}),
 			# 'date_joined': forms.DateInput(attrs={
@@ -33,16 +36,21 @@ class UserUpdateForm(UserChangeForm):
 		for field in self.readonly_fields:
 			self.fields[field].disabled = True
 
+	def clean_username(self):
+		cleaned_data = super(UserUpdateForm, self).clean()
+		username = cleaned_data['username']
+		if get_user_model().objects.filter(username__iexact=username).exists() and self.instance.username != username:
+			self.add_error('username', 'This username has been already been taken')
+
+		return username
+
 
 class ProfileUpdateForm(BaseModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ('display_name', 'bio', 'date_of_birth', 'image')
+		fields = ('bio', 'date_of_birth', 'image')
 		widgets = {
-			'display_name': forms.TextInput(attrs={
-				'class': 'text-input-acc pfl-col__input-box'
-			}),
 			'bio': forms.Textarea(attrs={
 				'class': 'text-input-acc pfl-col__input-box'
 			}),

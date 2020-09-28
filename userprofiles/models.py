@@ -6,7 +6,6 @@ from PIL import Image
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    display_name = models.CharField(max_length=25, blank=True)#, unique=True)
     bio = models.TextField(max_length=500, blank=True)
     image = models.ImageField(default='default_pp.png', upload_to='profile_pictures')
     date_of_birth = models.DateField(blank=True, null=True)
@@ -15,10 +14,6 @@ class Profile(models.Model):
         return f"{self.user}'s Profile"
 
     def save(self, *args, **kwargs):
-        if not self.display_name:
-            import secrets
-            self.display_name = f'{self.user.first_name}{secrets.token_urlsafe(8).lower()}'
-
         super(Profile, self).save(*args, **kwargs)
 
         img = Image.open(self.image.path)
@@ -31,4 +26,3 @@ class Profile(models.Model):
             img.save(self.image.path, optimize=True)
 
 	# 	# return profile_image
-		

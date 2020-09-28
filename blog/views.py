@@ -18,7 +18,6 @@ from django.views.generic import (
 
 # Create your views here.
 
-#consider checking multipleobjectmixin application in crozoff
 class CustomListView(ListView):
 	paginate_by = 2
 
@@ -27,13 +26,6 @@ class PostListView(CustomListView):
 
 	def get_queryset(self):
 		return Post.objects.select_related('author__profile', 'category').published()
-
-
-# change url name to something else (I dont know what you should change it to)
-# class UserPostListView(CustomListView):
-
-	# def get_queryset(self):
-	# 	return Post.objects.published().filter(author__url_name=self.kwargs.get('user'))
 
 
 class PostDetailView(SingleObjectMixin, View):

@@ -23,7 +23,7 @@
 								<a href="{% url 'blog:post_list' %}">Blog</a>
 							</li>
 							<li>
-								<a href="{% url 'userprofiles:profile' %}">Profile</a>
+								<a href="{% url 'userprofiles:profile' username=request.user.username %}">Profile</a>
 							</li>
 							<li>
 								<a href="{% url 'accounts:logout' %}">Logout</a>

@@ -8,15 +8,13 @@ from django.views.generic import View, CreateView
 
 # Create your views here.
 
-# maybe create another app called library and put your drafts and stuff there
+# class UserRedirectView(View):
 
-class UserRedirectView(View):
-
-	def get(self, request, *args, **kwargs):
-		if request.user.is_authenticated:
-			return redirect('userprofiles:profile')
-		else:
-			return redirect('accounts:login')
+# 	def get(self, request, *args, **kwargs):
+# 		if request.user.is_authenticated:
+# 			return redirect('userprofiles:profile', user=request.user.profile.display_name)
+# 		else:
+# 			return redirect('accounts:login')
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):

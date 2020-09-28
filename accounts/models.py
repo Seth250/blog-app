@@ -16,6 +16,7 @@ class User(PermissionsMixin, AbstractBaseUser):
 		error_messages={
 			'unique': _('A user with that email already exists.')
 		})
+	username = models.CharField(_('username'), max_length=25, blank=True)
 	date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
 	is_active = models.BooleanField(
 		_('active'), 
@@ -42,6 +43,12 @@ class User(PermissionsMixin, AbstractBaseUser):
 
 	def __str__(self):
 		return self.full_name
+
+	def save(self, *args, **kwargs):
+		if not self.username:
+			self.username = f'{self.first_name}{self.pk}'
+			
+		return super(User, self).save(*args, **kwargs)
 
 	@property
 	def full_name(self):
