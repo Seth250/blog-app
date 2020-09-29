@@ -40,6 +40,17 @@
 				</nav>
 			</header>
 			<main role="main" class="main-content">
+				{% if messages %}
+					<div class="message-container">
+						{% for message in messages %}
+							<div class="message message-{{ message.tags }}">
+								<p>{{ message }}</p>
+								<span class="close">&times;</span>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+
 				{% block content %}
 				{% endblock content %}
 			</main>
@@ -48,6 +59,7 @@
 			</footer>
 		</div>
 		
+		<script src="{% static 'js/main.js' %}"></script>
 		{% block script %}
 		{% endblock script %}
 	</body>

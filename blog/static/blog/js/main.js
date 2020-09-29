@@ -39,9 +39,10 @@ function objectActionToggle(eventTarget, oppElem){
       }).catch((err) => console.log(err));
 }
 
-const initialize = () => {
+const main = () => {
+    console.log('ok');
     const postDetail = document.querySelector('.post-detail');
     postDetail.addEventListener('click', delegateClickEvent, false);
 }
 
-window.addEventListener('load', initialize, false);
+window.addEventListener('load', main, false);

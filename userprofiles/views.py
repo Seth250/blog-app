@@ -96,6 +96,7 @@ class UserDraftUpdateView(UpdateView):
 		return self.request.user.posts.drafted()
 
 	def get_success_url(self):
+		messages.info(self.request, 'Draft has been Updated!')
 		return reverse('userprofiles:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
 
 
@@ -119,6 +120,7 @@ class UserDraftPublishView(SingleObjectMixin, View):
 	def post(self, request, *args, **kwargs):
 		obj = self.get_object()
 		obj.publish()
+		messages.success(request, 'Post has been Published Successfully!')
 		return redirect(obj.get_absolute_url())
 
 

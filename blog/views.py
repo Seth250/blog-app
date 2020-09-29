@@ -4,6 +4,7 @@ from .forms import PostForm, CommentForm
 from django.views.generic.detail import SingleObjectMixin
 # from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.http import JsonResponse
 from django.db import transaction
 from django.urls import reverse
@@ -68,16 +69,16 @@ class PostCreateView(CreateView):
 	def get_success_url(self):
 		return reverse(
 			'userprofiles:draft_preview', 
-			kwargs={'username': self.request.user.username, 'slug': self.object.slug, 'pk': self.object.pk}
+			kwargs={'slug': self.object.slug, 'pk': self.object.pk}
 		)
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
+		messages.info(self.request, 'Draft has been Created!')
 		return super().form_valid(form)
 
 
 class PostUpdateView(UpdateView):
-	# model = Post
 	query_pk_and_slug = True
 	form_class = PostForm
 
@@ -90,6 +91,7 @@ class PostUpdateView(UpdateView):
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
+		messages.success(self.request, 'Your Post has been Successfully Updated!')
 		return super().form_valid(form)
 
 
