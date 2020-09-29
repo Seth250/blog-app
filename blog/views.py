@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
 from django.views.generic.detail import SingleObjectMixin
-from django.core.exceptions import PermissionDenied
+# from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.db import transaction
@@ -66,7 +66,10 @@ class PostCreateView(CreateView):
 		return super(PostCreateView, self).get_context_data(**kwargs)
 
 	def get_success_url(self):
-		return reverse('userprofiles:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+		return reverse(
+			'userprofiles:draft_preview', 
+			kwargs={'username': self.request.user.username, 'slug': self.object.slug, 'pk': self.object.pk}
+		)
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
@@ -140,7 +143,7 @@ class ObjectActionToggleView(ActionManagerMixin, View):
 		return JsonResponse({'status': 'ok'}, status=200)
 
 
-class UserPostLikeToggleView(ObjectActionToggleView):
+class PostLikeToggleView(ObjectActionToggleView):
 	# model = Post
 	query_pk_and_slug = True
 	action = 'like_toggle'
@@ -149,7 +152,7 @@ class UserPostLikeToggleView(ObjectActionToggleView):
 		return Post.objects.published()
 
 
-class UserPostDislikeToggleView(ObjectActionToggleView):
+class PostDislikeToggleView(ObjectActionToggleView):
 	# model = Post
 	query_pk_and_slug = True
 	action = 'dislike_toggle'
@@ -158,13 +161,20 @@ class UserPostDislikeToggleView(ObjectActionToggleView):
 		return Post.objects.published()
 
 
-class UserCommentLikeToggleView(ObjectActionToggleView):
+class CommentLikeToggleView(ObjectActionToggleView):
 	model = Comment
 	pk_url_kwarg = 'comment_pk'
 	action = 'like_toggle'
 
 
-class UserCommentDislikeToggleView(ObjectActionToggleView):
+class CommentDislikeToggleView(ObjectActionToggleView):
 	model = Comment
 	pk_url_kwarg = 'comment_pk'
 	action = 'dislike_toggle'
+
+
+class CategoryPostListView(PostListView):
+
+	def get_queryset(self):
+		category = get_object_or_404(Category, name=self.kwargs['category'])
+		return super(CategoryPostListView, self).get_queryset().filter(category=category)

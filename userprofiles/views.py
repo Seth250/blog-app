@@ -14,8 +14,18 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
+class OwnerRequiredMixin(SingleObjectMixin):
+
+	def dispatch(self, request, *args, **kwargs):
+		if self.get_object().author != request.user:
+			raise PermissionDenied
+
+		return super(OwnerRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
 class UserProfileView(View):
 
 	def get(self, request, *args, **kwargs):
@@ -31,23 +41,6 @@ class UserProfileView(View):
 			'num_disliked': user_obj.post_dislikes.count()
 		}
 		return render(request, 'userprofiles/profile.html', context)
-
-
-# class UserProfileView(DetailView):
-# 	model = get_user_model()
-# 	template_name = 'userprofiles/profile.html'
-# 	slug_url_kwarg = 'username'
-# 	slug_field = 'username__iexact'
-# 	# slug_field = 'display_name'
-
-# 	def get_context_data(self, **kwargs):
-# 		user = self.get_object()
-# 		kwargs['num_published'] = user.posts.published().count()
-# 		kwargs['num_drafted'] = user.posts.drafted().count()
-# 		kwargs['num_liked'] = user.post_likes.count()
-# 		kwargs['num_disliked'] = user.post_dislikes.count()
-# 		return super(UserProfileView, self).get_context_data(**kwargs)
-
 
 
 class UserProfileEditView(View):
@@ -76,14 +69,15 @@ class UserProfileEditView(View):
 class UserPublishedPostsView(PostListView):
 
 	def get_queryset(self):
-		return super().get_queryset().filter(author__username__iexact=self.kwargs['username'])
+		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
+		return super(UserPublishedPostsView, self).get_queryset().filter(author=user)
 
 
 class UserDraftedPostsView(CustomListView):
 	template_name = 'userprofiles/draft_list.html'
 
 	def get_queryset(self):
-		return self.request.user.posts.drafted()
+		return self.request.user.posts.select_related('category').drafted()
 
 
 class UserDraftPreviewView(DetailView):

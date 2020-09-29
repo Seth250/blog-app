@@ -25,7 +25,7 @@
         <p class="username">{{ user_obj }}</p>
         <p class="email">{{ user_obj.email }}</p>
         {% if request.user == user_obj %}
-          <a href="{% url 'userprofiles:profile_edit' username=request.user.username %}">Edit Profile</a>
+          <a href="{% url 'userprofiles:profile_edit' %}">Edit Profile</a>
         {% endif %}
       </div>
     </div>
@@ -35,21 +35,25 @@
       </div>
       <hr />
       <div class="form-row">
-        <span>Drafted Posts:</span>
-        <a href="#">{{ num_drafted }} Post{{ num_drafted|pluralize }}</a>
-      </div>
-      <div class="form-row">
         Published Posts: 
         <a href="{% url 'userprofiles:published_posts' username=user_obj.username %}">
           {{ num_published }} Post{{ num_published|pluralize }}
         </a>
       </div>
-      <div class="form-row">
-        Liked Posts: <a href="#">{{ num_liked }} Post{{ num_liked|pluralize }}</a>
-      </div>
-      <div class="form-row">
-        Disliked Posts: <a href="#">{{ num_disliked }} Post{{ num_disliked|pluralize }}</a>
-      </div>
+      {% if request.user == user_obj %}
+        <div class="form-row">
+          Drafted Posts:
+          <a href="{% url 'userprofiles:drafted_posts' %}">{{ num_drafted }} Post{{ num_drafted|pluralize }}</a>
+        </div>
+        <div class="form-row">
+          Liked Posts: 
+          <a href="{% url 'userprofiles:liked_posts' %}">{{ num_liked }} Post{{ num_liked|pluralize }}</a>
+        </div>
+        <div class="form-row">
+          Disliked Posts: 
+          <a href="{% url 'userprofiles:disliked_posts' %}">{{ num_disliked }} Post{{ num_disliked|pluralize }}</a>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}

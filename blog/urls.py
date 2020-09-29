@@ -6,10 +6,11 @@ from .views import (
 	PostCreateView,
 	PostUpdateView,
 	PostDeleteView,
-	UserPostLikeToggleView,
-	UserPostDislikeToggleView,
-	UserCommentLikeToggleView,
-	UserCommentDislikeToggleView
+	PostLikeToggleView,
+	PostDislikeToggleView,
+	CommentLikeToggleView,
+	CommentDislikeToggleView,
+	CategoryPostListView
 )
 
 app_name = 'blog'
@@ -21,10 +22,11 @@ urlpatterns = [
 	path('<str:slug>-<int:pk>/', PostDetailView.as_view(), name='post_detail'),
 	path('<str:slug>-<int:pk>/update/', PostUpdateView.as_view(), name='post_update'),
 	path('<str:slug>-<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
-	path('<str:slug>-<int:pk>/like-toggle/', UserPostLikeToggleView.as_view(), name='post_like_toggle'),
-	path('<str:slug>-<int:pk>/dislike-toggle/', UserPostDislikeToggleView.as_view(), name='post_dislike_toggle'),
-	path('<str:slug>-<int:pk>/comments/<int:comment_pk>/like-toggle/', UserCommentLikeToggleView.as_view(), 
+	path('<str:slug>-<int:pk>/like-toggle/', PostLikeToggleView.as_view(), name='post_like_toggle'),
+	path('<str:slug>-<int:pk>/dislike-toggle/', PostDislikeToggleView.as_view(), name='post_dislike_toggle'),
+	path('<str:slug>-<int:pk>/comments/<int:comment_pk>/like-toggle/', CommentLikeToggleView.as_view(), 
 		name='comment_like_toggle'),
-	path('<str:slug>-<int:pk>/comments/<int:comment_pk>/dislike-toggle/', UserCommentDislikeToggleView.as_view(), 
-		name='comment_dislike_toggle')
+	path('<str:slug>-<int:pk>/comments/<int:comment_pk>/dislike-toggle/', CommentDislikeToggleView.as_view(), 
+		name='comment_dislike_toggle'),
+	path('<str:category>/', CategoryPostListView.as_view(), name='category_posts')
 ]

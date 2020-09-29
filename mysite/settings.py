@@ -132,7 +132,7 @@ MEDIA_URL = '/media/'
 
 LOGIN_URL = 'accounts:login'
 
-# LOGIN_REDIRECT_URL = 'userprofiles:profile'
+LOGIN_REDIRECT_URL = 'userprofiles:profile_edit'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

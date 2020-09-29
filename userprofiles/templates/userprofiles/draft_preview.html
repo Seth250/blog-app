@@ -7,21 +7,29 @@
 {% block content %}
 <div class="post-detail">
   <div class="post-detail__title">
-    <h1>{{ object.title }} (Draft Preview)</h1>
-    <a href="#"><i class="fas fa-tags"></i> {{ object.category }}</a> 
+    <h1>{{ object.title }} &mdash; Draft Preview</h1>
+    <a href="#">{{ object.category }}</a> 
   </div>
   <div>
     <div>
-      <form method="POST" action="{% url 'userprofiles:draft_publish' slug=object.slug pk=object.pk %}">
+      <form 
+        method="POST" 
+        action="{% url 'userprofiles:draft_publish' slug=object.slug pk=object.pk %}"
+      >
         {% csrf_token %}
-        <button type="submit">Publish Draft</button>
+        <button type="submit">Publish Post</button>
       </form>
     </div>
     <div>
-      <a href="{% url 'userprofiles:draft_update' slug=object.slug pk=object.pk %}">Update Draft</a>
+      <a href="{% url 'userprofiles:draft_update' slug=object.slug pk=object.pk %}">
+        Update Draft
+      </a>
     </div>
     <div>
-      <form method="POST" action="{% url 'userprofiles:draft_delete' slug=object.slug pk=object.pk %}">
+      <form 
+        method="POST" 
+        action="{% url 'userprofiles:draft_delete' slug=object.slug pk=object.pk %}"
+      >
         {% csrf_token %}
         <button type="submit">Delete Draft</button>
       </form>
