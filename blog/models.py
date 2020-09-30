@@ -51,7 +51,7 @@ class Post(models.Model):
 	thumbnail = models.ImageField(default="default_tb.png", upload_to='post_thumbnails')
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_dislikes', blank=True)
-	objects = PostQuerySet.as_manager() 
+	objects = PostQuerySet.as_manager()
 	date_published = models.DateTimeField(null=True, editable=False)
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField(auto_now=True)
@@ -96,8 +96,8 @@ class Comment(models.Model):
 	content = models.TextField(_('Leave a Comment'))
 	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_likes', blank=True)
 	dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_dislikes', blank=True)
-	date_created = models.DateField(auto_now_add=True)
-	date_updated = models.DateField(auto_now=True)
+	date_created = models.DateTimeField(auto_now_add=True)
+	date_updated = models.DateTimeField(auto_now=True)
 
 	class Meta:
 		ordering = ['-date_created']

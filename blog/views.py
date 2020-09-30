@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Count
 from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
 from django.views.generic.detail import SingleObjectMixin
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db import transaction
@@ -18,15 +20,6 @@ from django.views.generic import (
 )
 
 # Create your views here.
-
-
-class OwnerRequiredMixin(SingleObjectMixin):
-
-	def dispatch(self, request, *args, **kwargs):
-		if self.get_object().author != request.user:
-			raise PermissionDenied
-
-		return super(OwnerRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class CustomListView(ListView):
@@ -77,10 +70,7 @@ class PostCreateView(CreateView):
 		return super(PostCreateView, self).get_context_data(**kwargs)
 
 	def get_success_url(self):
-		return reverse(
-			'userprofiles:draft_preview', 
-			kwargs={'slug': self.object.slug, 'pk': self.object.pk}
-		)
+		return reverse('blog:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
@@ -100,7 +90,7 @@ class PostUpdateView(UpdateView):
 		return super(PostUpdateView, self).get_context_data(**kwargs)
 
 	def form_valid(self, form):
-		form.instance.author = self.request.user
+		# form.instance.author = self.request.user
 		messages.success(self.request, 'Your Post has been Successfully Updated!')
 		return super().form_valid(form)
 
@@ -191,6 +181,7 @@ class CategoryPostListView(PostListView):
 		category = get_object_or_404(Category, name=self.kwargs['category'])
 		return super(CategoryPostListView, self).get_queryset().filter(category=category)
 
+
 class UserPublishedPostsView(PostListView):
 
 	def get_queryset(self):
@@ -198,45 +189,44 @@ class UserPublishedPostsView(PostListView):
 		return super(UserPublishedPostsView, self).get_queryset().filter(author=user)
 
 
-class UserDraftedPostsView(CustomListView):
-	template_name = 'userprofiles/draft_list.html'
+class DraftedPostsView(CustomListView):
+	template_name = 'blog/draft_list.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.select_related('category').drafted()
 
 
-class UserDraftPreviewView(DetailView):
-	template_name = 'userprofiles/draft_preview.html'
+class DraftPreviewView(DetailView):
+	template_name = 'blog/draft_preview.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.drafted()
 
 
-class UserDraftUpdateView(UpdateView):
+class DraftUpdateView(UpdateView):
 	form_class = PostForm
 	query_pk_and_slug = True
-	# template_name = 'userprofiles/draft_update.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.drafted()
 
 	def get_success_url(self):
 		messages.info(self.request, 'Draft has been Updated!')
-		return reverse('userprofiles:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+		return reverse('blog:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
 
 
-class UserDraftDeleteView(DeleteView):
+class DraftDeleteView(DeleteView):
 	query_pk_and_slug = True
-	# template_name = 'userprofiles/draft_update.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.drafted()
 
 	def get_success_url(self):
-		return reverse('userprofiles:drafted_posts')
+		messages.info(self.request, 'Draft has been Deleted!')
+		return reverse('blog:drafted_posts')
 
 
-class UserDraftPublishView(SingleObjectMixin, View):
+class DraftPublishView(SingleObjectMixin, View):
 	query_pk_and_slug = True
 
 	def get_queryset(self):
@@ -249,13 +239,13 @@ class UserDraftPublishView(SingleObjectMixin, View):
 		return redirect(obj.get_absolute_url())
 
 
-class UserLikedPostsView(CustomListView):
+class LikedPostsView(CustomListView):
 
 	def get_queryset(self):
-		return self.request.user.post_likes.all()
+		return self.request.user.post_likes.select_related('author__profile', 'category').all()
 
 
-class UserDislikedPostsView(CustomListView):
+class DislikedPostsView(CustomListView):
 
 	def get_queryset(self):
-		return self.request.user.post_dislikes.all()
+		return self.request.user.post_dislikes.select_related('author__profile', 'category').all()

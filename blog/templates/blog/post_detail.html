@@ -6,11 +6,10 @@
 
 {% block content %}
 <!-- dont forget to change dislike, remove the inline style style and change it in the sass -->
-<!-- remove drafts from profile and change it to blog -->
 <div class="post-detail">
   <div class="post-detail__title">
     <h1>{{ object.title }}</h1>
-    <a href="#"><i class="fas fa-tags"></i> {{ object.category }}</a> 
+    <a href="{% url 'blog:category_posts' category=object.category %}">{{ object.category }}</a> 
   </div>
   <div class="post-item__author">
     <div class="author-img-container">
@@ -18,7 +17,7 @@
     </div>
     <div class="author-info">
       <h4>
-        <a href="#">{{ object.author }}</a>
+        <a href="{% url 'userprofiles:profile' username=object.author.username %}">{{ object.author }}</a>
       </h4>
       <small>Published on {{ object.date_published.date }}</small>
       <small><i class="far fa-clock"></i> {{ object.read_time }}</small>

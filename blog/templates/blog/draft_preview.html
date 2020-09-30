@@ -12,24 +12,18 @@
   </div>
   <div>
     <div>
-      <form 
-        method="POST" 
-        action="{% url 'userprofiles:draft_publish' slug=object.slug pk=object.pk %}"
-      >
+      <form method="POST" action="{% url 'blog:draft_publish' slug=object.slug pk=object.pk %}">
         {% csrf_token %}
         <button type="submit">Publish Post</button>
       </form>
     </div>
     <div>
-      <a href="{% url 'userprofiles:draft_update' slug=object.slug pk=object.pk %}">
+      <a href="{% url 'blog:draft_update' slug=object.slug pk=object.pk %}">
         Update Draft
       </a>
     </div>
     <div>
-      <form 
-        method="POST" 
-        action="{% url 'userprofiles:draft_delete' slug=object.slug pk=object.pk %}"
-      >
+      <form method="POST" action="{% url 'blog:draft_delete' slug=object.slug pk=object.pk %}">
         {% csrf_token %}
         <button type="submit">Delete Draft</button>
       </form>
