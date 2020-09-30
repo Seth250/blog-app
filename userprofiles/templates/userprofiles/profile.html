@@ -43,6 +43,10 @@
           {{ num_published }} Post{{ num_published|pluralize }}
         </a>
       </div>
+      <div class="form-row">
+        Comments:
+        <a href="{% url 'blog:user_comments' %}">{{ num_comments }} Comment{{ num_comments|pluralize }}</a>
+      </div>
       {% if request.user == user_obj %}
         <div class="form-row">
           Drafted Posts:

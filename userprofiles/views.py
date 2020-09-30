@@ -18,7 +18,8 @@ class UserProfileView(View):
 			'num_drafted': user_obj.posts.drafted().count(),
 			'num_published': user_obj.posts.published().count(),
 			'num_liked': user_obj.post_likes.count(),
-			'num_disliked': user_obj.post_dislikes.count()
+			'num_disliked': user_obj.post_dislikes.count(),
+			'num_comments': user_obj.comments.count()
 		}
 		return render(request, 'userprofiles/profile.html', context)
 
