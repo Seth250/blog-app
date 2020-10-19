@@ -2,14 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count
 from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
+from django.conf import settings
 from django.views.generic.detail import SingleObjectMixin
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db import transaction
 from django.urls import reverse
+from django.db.models import Prefetch
+from urllib import parse
 from django.views.generic import (
 	View,
 	ListView,
@@ -36,7 +38,14 @@ class PostDetailView(SingleObjectMixin, View):
 	query_pk_and_slug = True
 
 	def get_queryset(self):
-		return Post.objects.published()
+		return Post.objects.select_related(
+			'author__profile', 'category'
+		).prefetch_related(
+			Prefetch('comments', queryset=Comment.objects.select_related('author').prefetch_related(
+				'likes', 'dislikes'
+				)
+			),
+		).published()
 
 	def get(self, request, *args, **kwargs):
 		obj = self.get_object()
@@ -129,19 +138,34 @@ class ObjectActionToggleView(ActionManagerMixin, View):
 	# 	return redirect('blog:post_detail', pk=self.kwargs['pk'], slug=self.kwargs['slug'])
 
 	def post(self, request, *args, **kwargs):
-		main_obj_manager, opp_obj_manager = self.get_object_action_managers()
+		if not request.user.is_authenticated:
+			# the reason we're using request.Meta... and not request.path or request.get_full_path() to get the
+			# next url (the url the user should be redirected to after logging in i.e the page they were on before 
+			# they were asked to login) is because they actually return the url for like/dislike toggle and GET 
+			# requests are not allowed on that url (only ajax POST is allowed) thereby resulting in a 405 error. 
+			redirect_to = parse.urlparse(request.META['HTTP_REFERER']).path
+			response = {'redirect_url': f"{reverse(settings.LOGIN_URL)}?next={redirect_to}"}
+			return JsonResponse(response, status=401)
 
-		if request.user in main_obj_manager.all():
-			main_obj_manager.remove(request.user)
+		if request.is_ajax():
+			main_obj_manager, opp_obj_manager = self.get_object_action_managers()
 
-		elif request.user in opp_obj_manager.all():
-			opp_obj_manager.remove(request.user)
-			main_obj_manager.add(request.user)
+			if request.user in main_obj_manager.all():
+				main_obj_manager.remove(request.user)
 
-		else:
-			main_obj_manager.add(request.user)
+			elif request.user in opp_obj_manager.all():
+				opp_obj_manager.remove(request.user)
+				main_obj_manager.add(request.user)
 
-		return JsonResponse({'status': 'ok'}, status=200)
+			else:
+				main_obj_manager.add(request.user)
+
+			response = {
+				'main_elem_count': main_obj_manager.count(),
+				'opp_elem_count': opp_obj_manager.count()
+			}
+
+			return JsonResponse(response, status=200)
 
 
 class PostLikeToggleView(ObjectActionToggleView):
@@ -179,79 +203,3 @@ class CategoryPostListView(PostListView):
 	def get_queryset(self):
 		category = get_object_or_404(Category, name=self.kwargs['category'])
 		return super(CategoryPostListView, self).get_queryset().filter(category=category)
-
-
-class UserPublishedPostsView(PostListView):
-
-	def get_queryset(self):
-		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
-		return super(UserPublishedPostsView, self).get_queryset().filter(author=user)
-
-
-class DraftedPostsView(CustomListView):
-	template_name = 'blog/draft_list.html'
-
-	def get_queryset(self):
-		return self.request.user.posts.select_related('category').drafted()
-
-
-class DraftPreviewView(DetailView):
-	template_name = 'blog/draft_preview.html'
-
-	def get_queryset(self):
-		return self.request.user.posts.drafted()
-
-
-class DraftUpdateView(UpdateView):
-	form_class = PostForm
-	query_pk_and_slug = True
-
-	def get_queryset(self):
-		return self.request.user.posts.drafted()
-
-	def get_success_url(self):
-		messages.info(self.request, 'Draft has been Updated!')
-		return reverse('blog:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
-
-
-class DraftDeleteView(DeleteView):
-	query_pk_and_slug = True
-
-	def get_queryset(self):
-		return self.request.user.posts.drafted()
-
-	def get_success_url(self):
-		messages.info(self.request, 'Draft has been Deleted!')
-		return reverse('blog:drafted_posts')
-
-
-class DraftPublishView(SingleObjectMixin, View):
-	query_pk_and_slug = True
-
-	def get_queryset(self):
-		return self.request.user.posts.drafted()
-
-	def post(self, request, *args, **kwargs):
-		obj = self.get_object()
-		obj.publish()
-		messages.success(request, 'Post has been Published Successfully!')
-		return redirect(obj.get_absolute_url())
-
-
-class LikedPostsView(CustomListView):
-
-	def get_queryset(self):
-		return self.request.user.post_likes.select_related('author__profile', 'category').all()
-
-
-class DislikedPostsView(CustomListView):
-
-	def get_queryset(self):
-		return self.request.user.post_dislikes.select_related('author__profile', 'category').all()
-
-
-class UserCommentListView(CustomListView):
-
-	def get_queryset(self):
-		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
-		return user.comments.all()

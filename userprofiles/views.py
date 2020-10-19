@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from blog.views import PostListView, CustomListView
+from blog.forms import PostForm
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import (
+	View, 
+	DetailView,
+	UpdateView, 
+	DeleteView
+)
 
 # Create your views here.
 
@@ -45,3 +53,79 @@ class UserProfileEditView(View):
 			return redirect('userprofiles:profile', username=request.user.username)
 
 		return render(request, 'userprofiles/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+class UserPublishedPostsView(PostListView):
+
+	def get_queryset(self):
+		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
+		return super(UserPublishedPostsView, self).get_queryset().filter(author=user)
+
+
+class UserDraftedPostsView(CustomListView):
+	template_name = 'blog/draft_list.html'
+
+	def get_queryset(self):
+		return self.request.user.posts.select_related('category').drafted()
+
+
+class UserDraftPreviewView(DetailView):
+	template_name = 'blog/draft_preview.html'
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+
+class UserDraftUpdateView(UpdateView):
+	form_class = PostForm
+	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def get_success_url(self):
+		messages.info(self.request, 'Draft has been Updated!')
+		return reverse('blog:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+
+
+class UserDraftDeleteView(DeleteView):
+	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def get_success_url(self):
+		messages.info(self.request, 'Draft has been Deleted!')
+		return reverse('blog:drafted_posts')
+
+
+class UserDraftPublishView(SingleObjectMixin, View):
+	query_pk_and_slug = True
+
+	def get_queryset(self):
+		return self.request.user.posts.drafted()
+
+	def post(self, request, *args, **kwargs):
+		obj = self.get_object()
+		obj.publish()
+		messages.success(request, 'Post has been Published Successfully!')
+		return redirect(obj.get_absolute_url())
+
+
+class UserLikedPostsView(CustomListView):
+
+	def get_queryset(self):
+		return self.request.user.post_likes.select_related('author__profile', 'category').all()
+
+
+class UserDislikedPostsView(CustomListView):
+
+	def get_queryset(self):
+		return self.request.user.post_dislikes.select_related('author__profile', 'category').all()
+
+
+class UserCommentListView(CustomListView):
+
+	def get_queryset(self):
+		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
+		return user.comments.all()
