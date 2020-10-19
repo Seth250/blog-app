@@ -18,7 +18,9 @@ sqlparse = "==0.3.1"
 Django = "==3.0.4"
 Pillow = "==7.1.0"
 readtime = "==1.1.1"
-django-debug-toolbar = "*"
+django-debug-toolbar = "==3.1.1"
+django-heroku = "==0.3.1"
+gunicorn = "==20.0.4"
 
 [requires]
 python_version = "3.7"
