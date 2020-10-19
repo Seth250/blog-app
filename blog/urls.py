@@ -17,7 +17,8 @@ from .views import (
 	DraftDeleteView,
 	DraftPublishView,
 	LikedPostsView,
-	DislikedPostsView
+	DislikedPostsView,
+	UserCommentListView
 )
 
 app_name = 'blog'
@@ -42,5 +43,6 @@ urlpatterns = [
 	path('drafts/<str:slug>-<int:pk>/publish/', DraftPublishView.as_view(), name='draft_publish'),
 	path('drafts/<str:slug>-<int:pk>/update/', DraftUpdateView.as_view(), name='draft_update'),
 	path('drafts/<str:slug>-<int:pk>/delete/', DraftDeleteView.as_view(), name='draft_delete'),
-	path('<str:username>/posts/', UserPublishedPostsView.as_view(), name='user_published_posts')
+	path('<str:username>/posts/', UserPublishedPostsView.as_view(), name='user_published_posts'),
+	path('<str:username>/comments/', UserCommentListView.as_view(), name='user_comments')
 ]

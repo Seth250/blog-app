@@ -63,7 +63,7 @@
       <button type="submit">Save Comment</button>
     </form>
   </div>
-  <div>
+  <div id="comments">
     {% for comment in object.comments.all %}
       <div>
         <h4>{{ comment.author }}</h4>

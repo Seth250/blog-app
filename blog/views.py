@@ -57,7 +57,6 @@ class PostDetailView(SingleObjectMixin, View):
 				instance.author = request.user
 				instance.save()
 
-		# return redirect('blog:post_detail', pk=obj.pk, slug=obj.slug)
 		return redirect(obj.get_absolute_url())
 
 
@@ -249,3 +248,10 @@ class DislikedPostsView(CustomListView):
 
 	def get_queryset(self):
 		return self.request.user.post_dislikes.select_related('author__profile', 'category').all()
+
+
+class UserCommentListView(CustomListView):
+
+	def get_queryset(self):
+		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
+		return user.comments.all()
