@@ -8,22 +8,22 @@
 <div class="post-detail">
   <div class="post-detail__title">
     <h1>{{ object.title }} (Draft Preview)</h1>
-    <a href="#">{{ object.category }}</a> 
+    <a href="{% url 'userprofiles:category_user_drafts' category=object.category %}">{{ object.category }}</a> 
   </div>
   <div>
     <div>
-      <form method="POST" action="{% url 'blog:draft_publish' slug=object.slug pk=object.pk %}">
+      <form method="POST" action="{% url 'userprofiles:user_draft_publish' slug=object.slug pk=object.pk %}">
         {% csrf_token %}
         <button type="submit">Publish Post</button>
       </form>
     </div>
     <div>
-      <a href="{% url 'blog:draft_update' slug=object.slug pk=object.pk %}">
+      <a href="{% url 'userprofiles:user_draft_update' slug=object.slug pk=object.pk %}">
         Update Draft
       </a>
     </div>
     <div>
-      <form method="POST" action="{% url 'blog:draft_delete' slug=object.slug pk=object.pk %}">
+      <form method="POST" action="{% url 'userprofiles:user_draft_delete' slug=object.slug pk=object.pk %}">
         {% csrf_token %}
         <button type="submit">Delete Draft</button>
       </form>
@@ -37,3 +37,7 @@
   </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+  <script src="{% static 'js/main.js' %}"></script>
+{% endblock script %}

@@ -25,7 +25,7 @@ from django.views.generic import (
 
 
 class CustomListView(ListView):
-	paginate_by = 2
+	paginate_by = 4
 
 
 class PostListView(CustomListView):
@@ -38,13 +38,12 @@ class PostDetailView(SingleObjectMixin, View):
 	query_pk_and_slug = True
 
 	def get_queryset(self):
-		return Post.objects.select_related(
-			'author__profile', 'category'
-		).prefetch_related(
-			Prefetch('comments', queryset=Comment.objects.select_related('author').prefetch_related(
-				'likes', 'dislikes'
-				)
-			),
+		comments = Prefetch(
+			'comments', 
+			queryset=Comment.objects.select_related('author').prefetch_related('likes', 'dislikes')
+		)
+		return Post.objects.select_related('author__profile', 'category').prefetch_related(
+			comments, 'likes', 'dislikes'
 		).published()
 
 	def get(self, request, *args, **kwargs):
@@ -78,7 +77,7 @@ class PostCreateView(CreateView):
 		return super(PostCreateView, self).get_context_data(**kwargs)
 
 	def get_success_url(self):
-		return reverse('blog:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+		return reverse('userprofiles:user_draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
@@ -122,27 +121,13 @@ class ActionManagerMixin(SingleObjectMixin):
 
 class ObjectActionToggleView(ActionManagerMixin, View):
 
-	# def get(self, request, *args, **kwargs):
-	# 	main_obj_manager, opp_obj_manager = self.get_object_action_managers()
-
-	# 	if request.user in main_obj_manager.all():
-	# 		main_obj_manager.remove(request.user)
-
-	# 	elif request.user in opp_obj_manager.all():
-	# 		opp_obj_manager.remove(request.user)
-	# 		main_obj_manager.add(request.user)
-
-	# 	else:
-	# 		main_obj_manager.add(request.user)
-
-	# 	return redirect('blog:post_detail', pk=self.kwargs['pk'], slug=self.kwargs['slug'])
-
 	def post(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
 			# the reason we're using request.Meta... and not request.path or request.get_full_path() to get the
 			# next url (the url the user should be redirected to after logging in i.e the page they were on before 
-			# they were asked to login) is because they actually return the url for like/dislike toggle and GET 
-			# requests are not allowed on that url (only ajax POST is allowed) thereby resulting in a 405 error. 
+			# they were asked to login) is because it returns the url for like/dislike toggle and GET requests 
+			# are not allowed on that url (only ajax POST is allowed), thereby resulting in a 405 error.
+			# so yeah, we'll like to avoid that 
 			redirect_to = parse.urlparse(request.META['HTTP_REFERER']).path
 			response = {'redirect_url': f"{reverse(settings.LOGIN_URL)}?next={redirect_to}"}
 			return JsonResponse(response, status=401)

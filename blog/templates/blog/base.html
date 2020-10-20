@@ -40,6 +40,8 @@
 				</nav>
 			</header>
 			<main role="main" class="main-content">
+				{% block messages %}
+				{% endblock messages %}
 				{% if messages %}
 					<div class="message-container">
 						{% for message in messages %}

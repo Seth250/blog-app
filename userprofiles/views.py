@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from blog.models import Comment, Category
 from blog.views import PostListView, CustomListView
 from blog.forms import PostForm
+from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import (
 	View, 
@@ -18,7 +20,7 @@ class UserProfileView(View):
 
 	def get(self, request, *args, **kwargs):
 		user_obj = get_object_or_404(
-			get_user_model().objects.select_related('profile'), 
+			get_user_model().objects.select_related('profile'),
 			username__iexact=kwargs['username']
 		)
 		context = {
@@ -63,17 +65,17 @@ class UserPublishedPostsView(PostListView):
 
 
 class UserDraftedPostsView(CustomListView):
-	template_name = 'blog/draft_list.html'
+	template_name = 'userprofiles/draft_list.html'
 
 	def get_queryset(self):
 		return self.request.user.posts.select_related('category').drafted()
 
 
 class UserDraftPreviewView(DetailView):
-	template_name = 'blog/draft_preview.html'
+	template_name = 'userprofiles/draft_preview.html'
 
 	def get_queryset(self):
-		return self.request.user.posts.drafted()
+		return self.request.user.posts.select_related('category').drafted()
 
 
 class UserDraftUpdateView(UpdateView):
@@ -85,7 +87,7 @@ class UserDraftUpdateView(UpdateView):
 
 	def get_success_url(self):
 		messages.info(self.request, 'Draft has been Updated!')
-		return reverse('blog:draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+		return reverse('userprofiles:user_draft_preview', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
 
 
 class UserDraftDeleteView(DeleteView):
@@ -96,7 +98,7 @@ class UserDraftDeleteView(DeleteView):
 
 	def get_success_url(self):
 		messages.info(self.request, 'Draft has been Deleted!')
-		return reverse('blog:drafted_posts')
+		return reverse('userprofiles:user_drafted_posts')
 
 
 class UserDraftPublishView(SingleObjectMixin, View):
@@ -110,6 +112,14 @@ class UserDraftPublishView(SingleObjectMixin, View):
 		obj.publish()
 		messages.success(request, 'Post has been Published Successfully!')
 		return redirect(obj.get_absolute_url())
+
+
+class CategoryUserDraftedPosts(CustomListView):
+	template_name = 'userprofiles/draft_list.html'
+
+	def get_queryset(self):
+		category = get_object_or_404(Category, name__iexact=self.kwargs['category'])
+		return self.request.user.posts.drafted().filter(category=category)
 
 
 class UserLikedPostsView(CustomListView):
@@ -127,5 +137,13 @@ class UserDislikedPostsView(CustomListView):
 class UserCommentListView(CustomListView):
 
 	def get_queryset(self):
-		user = get_object_or_404(get_user_model(), username__iexact=self.kwargs['username'])
-		return user.comments.all()
+		user = get_object_or_404(
+			get_user_model().objects.select_related('profile'), 
+			username__iexact=self.kwargs['username']
+		)
+		return user.comments.select_related('post').all()
+
+	def get_context_data(self, **kwargs):
+		kwargs['username'] = self.kwargs['username']
+		return super(UserCommentListView, self).get_context_data(**kwargs)
+		

@@ -4,7 +4,7 @@ from django.urls import reverse
 from PIL import Image
 from django.utils.text import slugify
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 import readtime
 
 # Create your models here.

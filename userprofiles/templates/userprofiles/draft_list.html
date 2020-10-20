@@ -11,14 +11,16 @@
 		</div>
 		<div class="post-item__title">
 			<h2>
-        <a href="{% url 'userprofiles:draft_preview' slug=instance.slug pk=instance.pk %}">
+        <a href="{% url 'userprofiles:user_draft_preview' slug=instance.slug pk=instance.pk %}">
 					{{ instance.title }}
 				</a>
       </h2>
 		</div>
 		<div class="post-item__category">
 			<p> 
-				<a href="#">{{ instance.category }}</a>
+				<a href="{% url 'userprofiles:category_user_drafts' category=instance.category %}">
+					{{ instance.category }}
+				</a>
 			</p>
 		</div>
 		<div>

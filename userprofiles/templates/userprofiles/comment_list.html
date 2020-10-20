@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Comments {% endblock title %}
+
+{% block content %}
+<div>
+  <p> {{ username }}'s Comments </p>
+</div>
+<div class="container-blog">
+	{% for instance in object_list %}
+		<article class="post-item">
+			<div class="post-item__author">
+				<div class="author-img-container">
+					<img src="{{ instance.author.profile.image.url }}" alt="{{ instance.author }} image" class="author-img" />
+				</div>
+				<div class="author-info">
+					<h4>
+						<a href="{% url 'userprofiles:profile' username=instance.author.username %}">{{ instance.author }}</a>
+					</h4>
+					<small>{{ instance.date_published.date }}</small>
+				</div>
+			</div>
+			<div>
+				<p>
+          <a href="{{ instance.post.get_absolute_url }}#comments">
+            {{ instance.content | truncatewords:20 }}
+          </a>
+        </p>
+			</div>
+		</article>
+	{% empty %}
+		<div>
+			<p>NOTHING TO DISPLAY!</p>
+		</div>
+	{% endfor %}
+</div>
+
+
+{% endblock content %}
