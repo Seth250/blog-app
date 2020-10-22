@@ -32,6 +32,7 @@ button{
   position: relative;
   min-height: 100vh;
   background: $secondary-color;
+  overflow: hidden;
 }
 
 .page-header{
@@ -39,11 +40,15 @@ button{
 	display: flex;
 	align-items: center;
   justify-content: space-around;
-  padding: 0.4em;
+  padding: 0.8em 0;
   background: $primary-background;
+  color: $secondary-color;
 
-  a{
-    color: $secondary-color;
+  h1{
+    a{
+      font-size: 90%;
+      color: inherit;
+    }
   }
 }
 
@@ -51,6 +56,10 @@ button{
 	// border: 1px solid red;
 	width: 40vw;
   text-align: center;
+
+  &__items{
+    border: 1px solid red;
+  }
   
   li{
     // border: 1px solid black;
@@ -58,6 +67,110 @@ button{
     list-style: none;
     padding: 0.5em;
     margin: 0 0.5em;
+
+    a{
+      color: inherit;
+    }
+  }
+
+  &__hamburger{
+    border: 2px solid red;
+  }
+}
+
+@media only screen and (max-width: 768px){
+  .page-header{
+    padding: 0.7em 0;
+
+    h1{
+      a{
+        font-size: 80%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .page-header{
+    position: relative;
+  }
+
+  .nav-bar{
+    // border: 1px solid green;
+    display: flex;
+    align-items: center;
+
+    &__items{
+      display: none;
+    }
+
+    &__hamburger{
+      position: absolute;
+      right: 5%;
+      // border: 1px solid black;
+
+      div{
+        // border: 1px solid blue;
+        height: 2px;
+        width: 1.8rem;
+        border-radius: 0.3rem;
+        background: $secondary-color;
+        transition: transform 0.3s ease-in;
+      }
+
+      .block-1,
+      .block-2{
+        margin-bottom: 6px;
+      }
+    }
+
+    li{
+      display: block;
+      margin: 2em 0;
+      animation: menu-enter 0.8s ease-in;
+    }
+  }
+
+  .responsive-menu{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    width: 50vw;
+    min-height: 100vh; 
+    // min-width: 50vw;
+    display: block;
+    // min-width: 50vw;
+    background: $primary-background;
+    animation: menu-enter 0.4s ease-in;
+
+    + .nav-bar__hamburger{
+
+      >  .block-1{
+        transform-origin: 22% 0%;
+        transform: rotate(45deg);
+      }
+
+      > .block-2{
+        transform: translateX(300%);
+      }
+
+      > .block-3{
+        transform-origin: 0% 0%;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  @keyframes menu-enter{
+    0%{
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100%{
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 }
 
@@ -130,6 +243,13 @@ button{
   @include default-flex-styles;
   background: $primary-background;
   color: $secondary-color;
+}
+
+@media only screen and (max-width: 600px){
+  .page-footer{
+    height: 3.85rem;
+    font-size: 95%;
+  }
 }
 
 .hide{
