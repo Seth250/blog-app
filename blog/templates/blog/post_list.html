@@ -33,7 +33,7 @@
 						<a href="{% url 'blog:category_posts' category=instance.category %}">{{ instance.category }}</a>
 					</p>
 				</div>
-				<div>
+				<div class="post-item__content">
 					<p>{{ instance.content | truncatewords:20 | safe }}</p>
 				</div>
 			</article>

@@ -7,7 +7,7 @@
 {% block content %}
 <div class="post-detail">
   <div class="post-detail__title">
-    <h1>{{ object.title }}</h1>
+    <h2>{{ object.title }}</h2>
     <a href="{% url 'blog:category_posts' category=object.category %}">{{ object.category }}</a> 
   </div>
   <div class="post-item__author">

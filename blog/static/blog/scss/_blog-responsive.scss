@@ -9,5 +9,12 @@
 
   .post-detail{
     width: 90vw;
+
+    &__thumbnail{
+
+      img{
+        width: 100%;
+      }
+    }
   }
 }
