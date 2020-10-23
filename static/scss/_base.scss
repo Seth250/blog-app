@@ -40,12 +40,14 @@ button{
 	display: flex;
 	align-items: center;
   justify-content: space-around;
-  padding: 0.8em 0;
+  padding: 0.75em 0;
   background: $primary-background;
   color: $secondary-color;
 
   h1{
     a{
+      display: block;
+      // border: 1px solid red;
       font-size: 90%;
       color: inherit;
     }
@@ -57,9 +59,9 @@ button{
 	width: 40vw;
   text-align: center;
 
-  &__items{
-    border: 1px solid red;
-  }
+  // &__items{
+  //   border: 1px solid red;
+  // }
   
   li{
     // border: 1px solid black;
@@ -73,18 +75,18 @@ button{
     }
   }
 
-  &__hamburger{
-    border: 2px solid red;
-  }
+  // &__hamburger{
+    // border: 2px solid red;
+  // }
 }
 
 @media only screen and (max-width: 768px){
   .page-header{
-    padding: 0.7em 0;
+    padding: 0.6em 0;
 
     h1{
       a{
-        font-size: 80%;
+        font-size: 78%;
       }
     }
   }
@@ -112,7 +114,7 @@ button{
       div{
         // border: 1px solid blue;
         height: 2px;
-        width: 1.8rem;
+        width: 1.7rem;
         border-radius: 0.3rem;
         background: $secondary-color;
         transition: transform 0.3s ease-in;
@@ -127,7 +129,7 @@ button{
     li{
       display: block;
       margin: 2em 0;
-      animation: menu-enter 0.8s ease-in;
+      animation: menu-enter 0.6s ease-in;
     }
   }
 
@@ -136,18 +138,17 @@ button{
     top: 100%;
     right: 0;
     z-index: 1;
-    width: 50vw;
+    width: 55vw;
     min-height: 100vh; 
-    // min-width: 50vw;
     display: block;
-    // min-width: 50vw;
     background: $primary-background;
-    animation: menu-enter 0.4s ease-in;
+    animation: menu-enter 0.3s ease-in;
+    box-shadow: -0.05rem 0 0.1rem 0 rgba(0, 0, 0, 0.7);
 
     + .nav-bar__hamburger{
 
       >  .block-1{
-        transform-origin: 22% 0%;
+        transform-origin: 15% 0%;
         transform: rotate(45deg);
       }
 
@@ -163,11 +164,11 @@ button{
   }
 
   @keyframes menu-enter{
-    0%{
+    from{
       transform: translateX(100%);
       opacity: 0;
     }
-    100%{
+    to{
       transform: translateX(0);
       opacity: 1;
     }
@@ -254,4 +255,9 @@ button{
 
 .hide{
   display: none;
+}
+
+.scroll-lock{
+  position: fixed;
+  width: 100%;
 }

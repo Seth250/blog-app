@@ -1,29 +1,36 @@
 @media only screen and (max-width: 1024px){
   .pfl-col{
-    width: 52vw;    
+    width: 35rem;
+    // width: 55vw;
   }
 }
 
 @media only screen and (max-width: 768px){
   .pfl-col{
     font-size: 96%;
-    width: 70vw;
+
+    // width: 70vw;
   }
 }
 
-@media only screen and (max-width: 720px){
-  .pfl-col__header{
-    flex-direction: column;
-    align-items: center;
-  }
+@media only screen and (max-width: 600px){
+  .pfl-col{
+    width: 90vw;
 
-  .pfl-col__user{
-    align-items: center;
+    &__header{
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__user{
+      align-items: center;
+    }
   }
 }
 
 @media only screen and (min-width: 1920px){
   .pfl-col{
-    width: 32vw;
+    font-size: 1.1rem;
+    width: 39rem;
   }
 }

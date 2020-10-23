@@ -19,17 +19,22 @@ from django.views.generic import (
 class UserProfileView(View):
 
 	def get(self, request, *args, **kwargs):
-		user_obj = get_object_or_404(
-			get_user_model().objects.select_related('profile'),
-			username__iexact=kwargs['username']
-		)
+		try:
+			username = self.kwargs['username']
+			user = get_object_or_404(
+				get_user_model(),
+				username__iexact=username
+			)
+		except KeyError:
+			user = request.user
+
 		context = {
-			'user_obj': user_obj,
-			'num_drafted': user_obj.posts.drafted().count(),
-			'num_published': user_obj.posts.published().count(),
-			'num_liked': user_obj.post_likes.count(),
-			'num_disliked': user_obj.post_dislikes.count(),
-			'num_comments': user_obj.comments.count()
+			'user_obj': user,
+			'num_drafted': user.posts.drafted().count(),
+			'num_published': user.posts.published().count(),
+			'num_liked': user.post_likes.count(),
+			'num_disliked': user.post_dislikes.count(),
+			'num_comments': user.comments.count()
 		}
 		return render(request, 'userprofiles/profile.html', context)
 
@@ -52,7 +57,7 @@ class UserProfileEditView(View):
 			user_form.save()
 			profile_form.save()
 			messages.success(request, 'Your Profile has been Updated Successfully!')
-			return redirect('userprofiles:profile', username=request.user.username)
+			return redirect('userprofiles:profile')
 
 		return render(request, 'userprofiles/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
 

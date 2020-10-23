@@ -29,3 +29,7 @@ class UserManager(BaseUserManager):
 			raise ValueError('Superuser must have is_superuser=True.')
 
 		return self._create_user(email, password, **extra_fields)
+
+	# overriding user manager get method so that we can optimize queries on user object
+	def get(self, *args, **kwargs):
+		return super().select_related('profile').get(*args, **kwargs)

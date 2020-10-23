@@ -1,6 +1,7 @@
 .pfl-col{
   flex-direction: column;
   width: 39vw;
+  overflow: hidden;
 
   &__header{
     display: flex;
@@ -10,7 +11,7 @@
   }
 
   &__img-container{
-    border: 1px solid lightgrey;
+    // border: 1px solid lightgrey;
     border-radius: 50%;
   }
 
@@ -25,6 +26,8 @@
     flex-direction: column;
     justify-content: center;
     line-height: 1.5;
+    word-break: break-all;
+    max-width: 60%;
 
     .username{
       font-weight: 500;
@@ -35,11 +38,24 @@
     .email{
       font-size: 110%;
     }
+
+    .edit-link{
+      border: 1px solid red;
+    }
+  }
+
+  &__bio{
+    border: 1px solid lightgrey;
+    padding: 0.5em 1em;
+    border-radius: $box-border-radius;
+    background: $secondary-color;
+    // text-align: center;
   }
 
   &__info{
-    overflow: hidden;
     padding: 1em 0 0.5em 0;
+    // word-wrap: break-word;
+    word-break: break-all;
   }
 
   &__info-heading{

@@ -2,6 +2,7 @@
 function toggleNavBar(){
     const navItems = document.querySelector('.nav-bar__items');
     navItems.classList.toggle('responsive-menu');
+    document.querySelector('.page-wrapper').classList.toggle('scroll-lock');
 }
 
 function initialize(){

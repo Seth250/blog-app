@@ -15,7 +15,7 @@
 	<body>
 		<div class="page-wrapper">
 			<header class="page-header">
-				<h1><a href="{% url 'blog:post_list' %}">XteBlog</a></h1>
+				<h1><a href="{% url 'blog:post_list' %}">Blog App</a></h1>
 				<nav class="nav-bar">
 					<ul class="nav-bar__items">
 						{% if user.is_authenticated %}
@@ -23,7 +23,7 @@
 								<a href="{% url 'blog:post_list' %}">Blog</a>
 							</li>
 							<li>
-								<a href="{% url 'userprofiles:profile' username=request.user.username %}">Profile</a>
+								<a href="{% url 'userprofiles:profile' %}">Profile</a>
 							</li>
 							<li>
 								<a href="{% url 'accounts:logout' %}">Logout</a>
