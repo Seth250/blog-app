@@ -37,7 +37,7 @@
   </div>
   {% endif %}
   <div class="post-detail__thumbnail">
-    <img src="{{ object.thumbnail.url }}" alt="{{ instance.title }} image" />
+    <img src="{{ object.thumbnail.url }}" alt="Image for {{ object.title }} Post" />
   </div>
   <div class="post-detail__content">
     {{ object.content | safe }}
@@ -56,6 +56,7 @@
       </a>
     </p>
   </div>
+
   <div>
     <form method="POST">
       {% csrf_token %}
@@ -63,7 +64,7 @@
       <button type="submit">Save Comment</button>
     </form>
   </div>
-  <div>
+  <div id="comments">
     {% for comment in object.comments.all %}
       <div>
         <h4>{{ comment.author }}</h4>
@@ -77,12 +78,13 @@
           <a href="{% url 'blog:comment_dislike_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}" 
             class="dislike-toggler {% if request.user in comment.dislikes.all %}selected{% endif %}">
             <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>
-            <span>{{ comment.get_num_dislikes }}</span>
+             <span>{{ comment.get_num_dislikes }}</span>
           </a>
         </p>
       </div>
     {% endfor %}
   </div>
+
 </div>
 {% endblock content %}
 

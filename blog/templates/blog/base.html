@@ -15,15 +15,15 @@
 	<body>
 		<div class="page-wrapper">
 			<header class="page-header">
-				<h1><a href="{% url 'blog:post_list' %}">Xoszlog</a></h1>
+				<h1><a href="{% url 'blog:post_list' %}">Blog App</a></h1>
 				<nav class="nav-bar">
-					<ul>
+					<ul class="nav-bar__items">
 						{% if user.is_authenticated %}
 							<li>
 								<a href="{% url 'blog:post_list' %}">Blog</a>
 							</li>
 							<li>
-								<a href="{% url 'userprofiles:profile' username=request.user.username %}">Profile</a>
+								<a href="{% url 'userprofiles:profile' %}">Profile</a>
 							</li>
 							<li>
 								<a href="{% url 'accounts:logout' %}">Logout</a>
@@ -37,9 +37,16 @@
 							</li>
 						{% endif %}
 					</ul>
+					<div class="nav-bar__hamburger">
+						<div class="block-1"></div>
+						<div class="block-2"></div>
+						<div class="block-3"></div>
+					</div>
 				</nav>
 			</header>
 			<main role="main" class="main-content">
+				{% block messages %}
+				{% endblock messages %}
 				{% if messages %}
 					<div class="message-container">
 						{% for message in messages %}

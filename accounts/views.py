@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.views.generic import View, CreateView
+from django.conf import settings
 
 # Create your views here.
 
@@ -24,4 +25,4 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 	success_message = 'Your Account has been succesfully Created, Login to Continue!'
 
 	def get_success_url(self):
-		return reverse("accounts:login")
+		return reverse(settings.LOGIN_URL)

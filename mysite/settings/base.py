@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# adding an extra os.path.dirname because the main settings file have moved one level deeper
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
     'userprofiles.apps.UserprofilesConfig',
@@ -132,7 +134,7 @@ MEDIA_URL = '/media/'
 
 LOGIN_URL = 'accounts:login'
 
-LOGIN_REDIRECT_URL = 'userprofiles:profile_edit'
+LOGIN_REDIRECT_URL = 'userprofiles:profile'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
