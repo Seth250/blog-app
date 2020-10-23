@@ -30,11 +30,11 @@
   }
 }
 
-@media only screen and (max-width: 720px){
+@media only screen and (max-width: 600px){
   .container-acc{
     flex-direction: column;
     width: 70vw;
-    padding: 1.25em 2%;
+    padding: 1.25em 1.5%;
   }
   .img-col{
     order: 2;

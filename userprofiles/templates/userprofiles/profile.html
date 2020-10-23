@@ -2,28 +2,25 @@
 
 {% load static %}
 
-{% block title %} Profile {% endblock title %}
+{% block title %} {{ user_obj.username}}({{ user_obj }}) {% endblock title %}
 
-<!-- Edit Username here to full name -->
 {% block content %}
-  <!-- {% if messages %}
-    <div class="message-container">
-      {% for message in messages %}
-        <div class="message message-{{ message.tags }}">
-          <p>{{ message }}</p>
-          <span class="close">&times;</span>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %} -->
   <div class="container-acc pfl-col">
     <div class="pfl-col__header">
       <div class="pfl-col__img-container">
-        <img src="{{ user_obj.profile.image.url }}" alt="profile image" class="pfl-col__img" />
+        <a 
+          {% if request.user == user_obj %} 
+            title="Change your profile Picture" href="{% url 'userprofiles:profile_edit' %}" 
+          {% else %}
+            title="View Image" href="{{ user_obj.profile.image.url }}"
+          {% endif %}
+        >
+          <img src="{{ user_obj.profile.image.url }}" alt="profile image" class="pfl-col__img" />
+        </a>
       </div>
       <div class="pfl-col__user">
-        <p class="username">{{ user_obj }}</p>
-        <p class="email">{{ user_obj.email }}</p>
+        <p class="fullname">{{ user_obj }}</p>
+        <p class="username">{{ user_obj.username }}</p>
         {% if request.user == user_obj %}
         <p>
           <a href="{% url 'userprofiles:profile_edit' %}" class="edit-link">Edit Profile</a>
@@ -38,35 +35,53 @@
     {% endif %}
     <div class="pfl-col__info">
       <div class="pfl-col__info-heading">
-        <p>Activity Information</p>
+        <p>Activity Summary</p>
       </div>
-      <hr />
-      <div class="form-row">
-        Published Posts: 
+      <!-- <hr /> -->
+      <!-- <div class="pfl-col__info-row">
+        <span>Published Posts</span> 
         <a href="{% url 'userprofiles:user_published_posts' username=user_obj.username %}">
           {{ num_published }} Post{{ num_published|pluralize }}
         </a>
       </div>
-      <div class="form-row">
-        Comments:
+      <div class="pfl-col__info-row">
+        <span>Comments:</span>
         <a href="{% url 'userprofiles:user_comments' username=user_obj.username %}">
           {{ num_comments }} Comment{{ num_comments|pluralize }}
         </a>
       </div>
       {% if request.user == user_obj %}
-        <div class="form-row">
-          Drafted Posts:
+        <div class="pfl-col__info-row">
+          <span>Drafted Posts:</span>
           <a href="{% url 'userprofiles:user_drafted_posts' %}">{{ num_drafted }} Post{{ num_drafted|pluralize }}</a>
         </div>
-        <div class="form-row">
-          Liked Posts: 
+        <div class="pfl-col__info-row">
+          <span>Liked Posts:</span> 
           <a href="{% url 'userprofiles:user_liked_posts' %}">{{ num_liked }} Post{{ num_liked|pluralize }}</a>
         </div>
-        <div class="form-row">
-          Disliked Posts: 
+        <div class="pfl-col__info-row">
+          <span>Disliked Posts:</span> 
           <a href="{% url 'userprofiles:user_disliked_posts' %}">{{ num_disliked }} Post{{ num_disliked|pluralize }}</a>
         </div>
-      {% endif %}
-    </div>
+      {% endif %} -->
+      <div> 
+        <a class="pfl-col__info-row" href="{% url 'userprofiles:user_published_posts' username=user_obj.username %}">
+          Published Posts ({{ num_published }} Post{{ num_published|pluralize }})
+        </a>
+        <a class="pfl-col__info-row" href="{% url 'userprofiles:user_comments' username=user_obj.username %}">
+          Comments ({{ num_comments }} Comment{{ num_comments|pluralize }})
+        </a>
+        {% if request.user == user_obj %}
+          <a class="pfl-col__info-row" href="{% url 'userprofiles:user_drafted_posts' %}">
+            Drafted Posts ({{ num_drafted }} Post{{ num_drafted|pluralize }})
+          </a>
+          <a class="pfl-col__info-row" href="{% url 'userprofiles:user_liked_posts' %}">
+            Liked Posts ({{ num_liked }} Post{{ num_liked|pluralize }})
+          </a> 
+          <a class="pfl-col__info-row" href="{% url 'userprofiles:user_disliked_posts' %}">
+            Disliked Posts ({{ num_disliked }} Post{{ num_disliked|pluralize }})
+          </a>
+        {% endif %}
+      </div>
   </div>
 {% endblock content %}

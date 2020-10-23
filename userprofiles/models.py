@@ -19,10 +19,6 @@ class Profile(models.Model):
         img = Image.open(self.image.path)
         if img.height > 150 or img.width > 150:
             output_size = (150, 150)
-            # extension = img.format.lower()
             img = img.resize(output_size, Image.LANCZOS)
-            # profile_image.file = type(profile_image.file)()
-            # img.save(profile_image.file, extension, optimize=True)
             img.save(self.image.path, optimize=True)
 
-	# 	# return profile_image

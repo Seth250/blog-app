@@ -76,7 +76,7 @@ button{
   }
 
   // &__hamburger{
-    // border: 2px solid red;
+  //   border: 2px solid red;
   // }
 }
 
@@ -260,4 +260,10 @@ button{
 .scroll-lock{
   position: fixed;
   width: 100%;
+}
+
+@media only screen and (min-width: 1920px){
+  .main-content{
+    font-size: 1.1rem;
+  }
 }
