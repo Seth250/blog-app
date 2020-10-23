@@ -40,7 +40,13 @@
     }
 
     .edit-link{
-      border: 1px solid red;
+      display: inline-block;
+      // border: 1px solid red;
+      margin-top: 0.4em;
+      padding: 0.25em 1.5em;
+      border-radius: 0.3rem;
+      color: $secondary-color;
+      background: grey;
     }
   }
 
@@ -49,7 +55,7 @@
     padding: 0.5em 1em;
     border-radius: $box-border-radius;
     background: $secondary-color;
-    // text-align: center;
+    text-align: center;
   }
 
   &__info{

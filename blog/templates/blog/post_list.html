@@ -3,46 +3,46 @@
 {% block title %} Blog {% endblock title %}
 
 {% block content %}
-<div>
-	<div>
-		<a href="{% url 'blog:post_create' %}">ADD POST+</a>
-	</div>
-</div>
 <div class="container-blog">
-	{% for instance in object_list %}
-		<article class="post-item">
-			<div class="post-item__author">
-				<div class="author-img-container">
-					<img src="{{ instance.author.profile.image.url }}" alt="{{ instance.author }} image" class="author-img" />
+	<div class="add-post">
+		<a href="{% url 'blog:post_create' %}" class="add-link">ADD POST+</a>
+	</div>
+	<section class="posts-container">
+		{% for instance in object_list %}
+			<article class="post-item">
+				<div class="post-item__author">
+					<div class="author-img-container">
+						<img src="{{ instance.author.profile.image.url }}" alt="{{ instance.author }} image" class="author-img" />
+					</div>
+					<div class="author-info">
+						<h4>
+							<a href="{% url 'userprofiles:user_profile' username=instance.author.username %}">{{ instance.author }}</a>
+						</h4>
+						<small>{{ instance.date_published.date }}</small>
+						<small><i class="far fa-clock"></i> {{ instance.read_time }}</small>
+					</div>
 				</div>
-				<div class="author-info">
-					<h4>
-						<a href="{% url 'userprofiles:profile' username=instance.author.username %}">{{ instance.author }}</a>
-					</h4>
-					<small>{{ instance.date_published.date }}</small>
-					<small><i class="far fa-clock"></i> {{ instance.read_time }}</small>
+				<div class="post-item__thumbnail">
+					<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
 				</div>
-			</div>
-			<div class="post-item__thumbnail">
-				<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
-			</div>
-			<div class="post-item__title">
-				<h2><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></h2>
-			</div>
-			<div class="post-item__category">
-				<p> 
-					<a href="{% url 'blog:category_posts' category=instance.category %}">{{ instance.category }}</a>
-				</p>
-			</div>
+				<div class="post-item__title">
+					<h2><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></h2>
+				</div>
+				<div class="post-item__category">
+					<p> 
+						<a href="{% url 'blog:category_posts' category=instance.category %}">{{ instance.category }}</a>
+					</p>
+				</div>
+				<div>
+					<p>{{ instance.content | truncatewords:20 | safe }}</p>
+				</div>
+			</article>
+		{% empty %}
 			<div>
-				<p>{{ instance.content | truncatewords:20 | safe }}</p>
+				<p>NOTHING TO DISPLAY!</p>
 			</div>
-		</article>
-	{% empty %}
-		<div>
-			<p>NOTHING TO DISPLAY!</p>
-		</div>
-	{% endfor %}
+		{% endfor %}
+	</section>
 </div>
 
 {% if is_paginated %}

@@ -5,7 +5,6 @@
 {% block title %}{{ object.title }}{% endblock title %}
 
 {% block content %}
-<!-- dont forget to change dislike, remove the inline style style and change it in the sass -->
 <div class="post-detail">
   <div class="post-detail__title">
     <h1>{{ object.title }}</h1>
@@ -17,7 +16,7 @@
     </div>
     <div class="author-info">
       <h4>
-        <a href="{% url 'userprofiles:profile' username=object.author.username %}">{{ object.author }}</a>
+        <a href="{% url 'userprofiles:user_profile' username=object.author.username %}">{{ object.author }}</a>
       </h4>
       <small>Published on {{ object.date_published.date }}</small>
       <small><i class="far fa-clock"></i> {{ object.read_time }}</small>
@@ -51,7 +50,7 @@
       </a>
       <a href="{% url 'blog:post_dislike_toggle' slug=object.slug pk=object.pk %}" 
         class="dislike-toggler {% if request.user in object.dislikes.all %}selected{% endif %}">
-        <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>
+        <i class="fas fa-thumbs-up"></i>
         <span>{{ object.get_num_dislikes }}</span>
       </a>
     </p>
@@ -77,8 +76,8 @@
           </a>
           <a href="{% url 'blog:comment_dislike_toggle' slug=object.slug pk=object.pk comment_pk=comment.pk %}" 
             class="dislike-toggler {% if request.user in comment.dislikes.all %}selected{% endif %}">
-            <i class="fas fa-thumbs-up" style="transform: rotate(180deg);"></i>
-             <span>{{ comment.get_num_dislikes }}</span>
+            <i class="fas fa-thumbs-up"></i>
+            <span>{{ comment.get_num_dislikes }}</span>
           </a>
         </p>
       </div>

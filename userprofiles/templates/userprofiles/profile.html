@@ -25,7 +25,9 @@
         <p class="username">{{ user_obj }}</p>
         <p class="email">{{ user_obj.email }}</p>
         {% if request.user == user_obj %}
+        <p>
           <a href="{% url 'userprofiles:profile_edit' %}" class="edit-link">Edit Profile</a>
+        </p>
         {% endif %}
       </div>
     </div>
