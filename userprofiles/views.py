@@ -8,7 +8,8 @@ from blog.forms import PostForm
 from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import (
-	View, 
+	View,
+	ListView,
 	DetailView,
 	UpdateView, 
 	DeleteView
@@ -139,7 +140,9 @@ class UserDislikedPostsView(CustomListView):
 		return self.request.user.post_dislikes.select_related('author__profile', 'category').all()
 
 
-class UserCommentListView(CustomListView):
+class UserCommentListView(ListView):
+	paginate_by = 6
+	template_name = 'userprofiles/comment_list.html'
 
 	def get_queryset(self):
 		user = get_object_or_404(

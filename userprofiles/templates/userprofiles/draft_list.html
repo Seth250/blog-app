@@ -4,32 +4,36 @@
 
 {% block content %}
 <div class="container-blog">
-	{% for instance in object_list %}
-	<article class="post-item">
-		<div class="post-item__thumbnail">
-			<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
-		</div>
-		<div class="post-item__title">
-			<h2>
-        <a href="{% url 'userprofiles:user_draft_preview' slug=instance.slug pk=instance.pk %}">
-					{{ instance.title }}
-				</a>
-      </h2>
-		</div>
-		<div class="post-item__category">
-			<p> 
-				<a href="{% url 'userprofiles:category_user_drafts' category=instance.category %}">
-					{{ instance.category }}
-				</a>
-			</p>
-		</div>
-		<div>
-			<p>{{ instance.content | truncatewords:20 | safe }}</p>
-		</div>
-	</article>
-	{% empty %}
-	<div>NOTHING TO DISPLAY!</div>
-	{% endfor %}
+	<section class="posts-container">
+		{% for instance in object_list %}
+			<article class="post-item">
+				<div class="post-item__thumbnail">
+					<img src="{{ instance.thumbnail.url }}" alt="{{ instance.title }} image" />
+				</div>
+				<div class="post-item__title">
+					<h2>
+						<a href="{% url 'userprofiles:user_draft_preview' slug=instance.slug pk=instance.pk %}">
+							{{ instance.title }}
+						</a>
+					</h2>
+				</div>
+				<div class="post-item__category">
+					<p> 
+						<a href="{% url 'userprofiles:category_user_drafts' category=instance.category %}">
+							{{ instance.category }}
+						</a>
+					</p>
+				</div>
+				<div>
+					<p>{{ instance.content | truncatewords:20 | safe }}</p>
+				</div>
+			</article>
+		{% empty %}
+			<div>
+				<p>NOTHING TO DISPLAY!</p>
+			</div>
+		{% endfor %}
+	</section>
 </div>
 
 {% if is_paginated %}

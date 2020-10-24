@@ -86,8 +86,8 @@
     &-row{
       display: block;
       // border: 1px solid lightgrey;
-      padding: 0.7em 1.5em;
-      margin-bottom: 0.6em;
+      padding: 0.75em 1.5em;
+      margin-bottom: 0.8em;
       border-radius: $box-border-radius;
       color: $secondary-color;
       // color: $primary-color;
@@ -95,7 +95,9 @@
       box-shadow: 0.05rem 0.05rem 0.2rem 0 rgba(0, 0, 0, 0.6);
 
       &:hover{
-        background: #562999;
+        // background: #562999;
+        color: $secondary-color;
+        background: $primary-background;
       }
     }
   }
