@@ -46,6 +46,7 @@ class User(PermissionsMixin, AbstractBaseUser):
 
 	def save(self, *args, **kwargs):
 		if not self.username:
+			# check this and fix the possibility of an integrity error
 			self.username = f'{self.first_name}{self.pk}'
 			
 		return super(User, self).save(*args, **kwargs)

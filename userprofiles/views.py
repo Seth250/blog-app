@@ -27,6 +27,9 @@ class UserProfileView(View):
 				username__iexact=username
 			)
 		except KeyError:
+			if not request.user.is_authenticated:
+				return redirect('blog:post_list')
+			
 			user = request.user
 
 		context = {

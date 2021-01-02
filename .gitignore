@@ -15,3 +15,5 @@ venv/
 
 media/post_thumbnails
 media/profile_pictures
+
+node_modules/
